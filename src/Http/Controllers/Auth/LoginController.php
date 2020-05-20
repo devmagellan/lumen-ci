@@ -1,6 +1,6 @@
 <?php
 
-namespace WGT\Http\Controllers;
+namespace WGT\Http\Controllers\Auth;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
@@ -8,16 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use WGT\Http\Controllers\Controller;
 
-class AuthController extends Controller
+class LoginController extends Controller
 {
-    /**
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:web', ['except' => ['login']]);
-    }
-
     /**
      * @param Request $request
      * @return JsonResponse

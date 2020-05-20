@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
         }
 
         if (App::environment('local')) {
-            return parent::render($request, $exception);
+            // return parent::render($request, $exception);
         }
 
         $code = $this->getCode($exception);
