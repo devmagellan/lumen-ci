@@ -1,18 +1,40 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+/** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Application Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| Here is where you can register all of the routes for an application.
+| It is a breeze. Simply tell Lumen the URIs it should respond to
+| and give it the Closure to call when that URI is requested.
 |
-*/
+ */
 
-Route::get('/', function () {
-    return view('welcome');
+$router->group(['prefix' => 'auth'], function () use ($router) {
+
+    $router->post('login', 'Auth\LoginController@login');
+    $router->post('register', 'Auth\RegisterController@register');
+
+    $router->group(['prefix' => 'password', 'as' => 'password'], function () use ($router) {
+
+        $router->post('/email', ['uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail', 'as' => 'email']);
+
+        $router->post('/reset', ['uses' => 'Auth\ResetPasswordController@reset', 'as' => 'update']);
+
+        $router->get('/reset/{token}', ['uses' => 'Auth\ResetPasswordController@showResetForm', 'as' => 'reset']);
+
+    });
+});
+
+$router->group(['middleware' => 'auth:web'], function () use ($router) {
+
+    $router->group(['prefix' => 'auth'], function () use ($router) {
+        $router->post('logout', 'Auth\LoginController@logout');
+        $router->post('refresh', 'Auth\LoginController@refresh');
+        $router->get('me', 'Auth\LoginController@me');
+    });
+
 });
