@@ -13,7 +13,7 @@ class CreateUsersProfessionalExperienceTable extends Migration
     {
         Schema::create('users_professional_experience', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->default(0)->unique();
             $table->string('current_company')->nullable();
             $table->string('job_title')->nullable();
             $table->string('time_period')->nullable();

@@ -13,7 +13,7 @@ class CreateUsersEducationBackgroundTable extends Migration
     {
         Schema::create('users_education_background', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->default(0)->unique();
             $table->string('school')->nullable();
             $table->string('dates_attended')->nullable();
             $table->string('field_of_study')->nullable();
