@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Providers;
+namespace WGT\Providers;
 
-use App\User;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use WGT\User;
 
 class AuthServiceProvider extends ServiceProvider
 {

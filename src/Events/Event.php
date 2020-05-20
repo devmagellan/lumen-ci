@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace WGT\Events;
 
 use Illuminate\Queue\SerializesModels;
 

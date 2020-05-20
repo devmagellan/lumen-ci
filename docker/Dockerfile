@@ -64,9 +64,8 @@ RUN apt install --no-install-recommends -y git ssh-client python-setuptools pyth
     && docker-php-ext-install sockets \
     #
     #
-    && apt install --no-install-recommends -y pkg-config libcurl4-openssl-dev libssl-dev \
-    && pecl install mongodb \
-    && docker-php-ext-enable mongodb \
+    && docker-php-ext-install mysqli pdo pdo_mysql \
+    && docker-php-ext-enable mysqli \
     #
     #
     && docker-php-ext-install pcntl \

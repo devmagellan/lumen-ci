@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace WGT\Events;
 
 class ExampleEvent extends Event
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace WGT\Listeners;
 
-use App\Events\ExampleEvent;
+use WGT\Events\ExampleEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -21,7 +21,7 @@ class ExampleListener
     /**
      * Handle the event.
      *
-     * @param  \App\Events\ExampleEvent  $event
+     * @param  \WGT\Events\ExampleEvent  $event
      * @return void
      */
     public function handle(ExampleEvent $event)

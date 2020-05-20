@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
+use WGT\User;
 use Faker\Generator as Faker;
 
 /*

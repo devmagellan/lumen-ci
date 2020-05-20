@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace WGT\Jobs;
 
 class ExampleJob extends Job
 {

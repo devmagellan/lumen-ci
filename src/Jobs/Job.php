@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace WGT\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
