@@ -18,7 +18,7 @@ class LoginController extends Controller
     {
         $credentials = $request->all(['email', 'password']);
         if (!$token = Auth::attempt($credentials)) {
-            throw new AuthenticationException('Unauthenticated');
+            throw new AuthenticationException(__('auth.unauthenticated'));
         }
 
         return self::successfulResponse(self::respondWithToken($token));

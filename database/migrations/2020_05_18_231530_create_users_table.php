@@ -28,6 +28,8 @@ class CreateUsersTable extends Migration
             $table->string('activation_code', 64)->nullable();
             $table->dateTime('activation_timestamp')->nullable();
             $table->boolean('invited')->nullable();
+            $table->string('locale', 8)->nullable();
+            $table->string('timezone', 32)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

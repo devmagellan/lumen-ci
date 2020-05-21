@@ -21,7 +21,23 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password',
+        'firm_id',
+        'email',
+        'password',
+        'key',
+        'first_name',
+        'last_name',
+        'phone_number',
+        'extension',
+        'mobile_number',
+        'summary',
+        'status',
+        'profile_image',
+        'activation_code',
+        'activation_timestamp',
+        'invited',
+        'locale',
+        'timezone',
     ];
 
     /**
@@ -29,6 +45,30 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'firm_id' => 'integer',
+        'email' => 'string',
+        'password' => 'string',
+        'key' => 'string',
+        'first_name' => 'string',
+        'last_name' => 'string',
+        'phone_number' => 'string',
+        'extension' => 'string',
+        'mobile_number' => 'string',
+        'summary' => 'string',
+        'status' => 'string',
+        'profile_image' => 'integer',
+        'activation_code' => 'string',
+        'activation_timestamp' => 'datetime',
+        'invited' => 'boolean',
+        'locale' => 'string',
+        'timezone' => 'string',
     ];
 
     /**
