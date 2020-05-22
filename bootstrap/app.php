@@ -101,6 +101,7 @@ $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
 $app->register(Illuminate\Notifications\NotificationServiceProvider::class);
+$app->register(Urameshibr\Providers\FormRequestServiceProvider::class);
 $app->register(WGT\Providers\DbLogProvider::class);
 
 /*

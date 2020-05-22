@@ -13,7 +13,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('firm_id')->default(0);
             $table->string('email', 64)->default('')->unique();
             $table->string('password', 64)->default('');
             $table->string('key', 32)->default('');
@@ -28,10 +27,9 @@ class CreateUsersTable extends Migration
             $table->string('activation_code', 64)->nullable();
             $table->dateTime('activation_timestamp')->nullable();
             $table->boolean('invited')->nullable();
-            $table->string('locale', 8)->nullable();
-            $table->string('timezone', 32)->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

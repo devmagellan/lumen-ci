@@ -37,4 +37,12 @@ $router->group(['middleware' => 'auth:web'], function () use ($router) {
         $router->get('me', 'Auth\LoginController@me');
     });
 
+    $router->group(['prefix' => 'firm'], function () use ($router) {
+        $router->get('/', 'FirmController@index');
+        $router->get('/{firmId}', 'FirmController@show');
+        $router->post('/', 'FirmController@store');
+        $router->put('/{firmId}', 'FirmController@update');
+        $router->delete('/{firmId}', 'FirmController@destroy');
+    });
+
 });

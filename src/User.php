@@ -9,9 +9,12 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use WGT\UserEducationBackground;
+use WGT\UserProfessionalExperience;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
 {
@@ -21,7 +24,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'firm_id',
         'email',
         'password',
         'key',
@@ -36,8 +38,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'activation_code',
         'activation_timestamp',
         'invited',
-        'locale',
-        'timezone',
     ];
 
     /**
@@ -52,7 +52,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $casts = [
         'id' => 'integer',
-        'firm_id' => 'integer',
         'email' => 'string',
         'password' => 'string',
         'key' => 'string',
@@ -67,9 +66,23 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'activation_code' => 'string',
         'activation_timestamp' => 'datetime',
         'invited' => 'boolean',
-        'locale' => 'string',
-        'timezone' => 'string',
     ];
+
+    /**
+     * @return HasOne
+     */
+    public function educationBackground(): HasOne
+    {
+        return $this->hasOne(UserEducationBackground::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function professionalExperience(): HasOne
+    {
+        return $this->hasOne(UserProfessionalExperience::class);
+    }
 
     /**
      * @return mixed
