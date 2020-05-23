@@ -4,10 +4,11 @@ namespace WGT\Http\Controllers\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Urameshibr\Requests\FormRequest;
 
-class StoreFirm extends FormRequest
+class UpdateUser extends FormRequest
 {
     /**
      * @return bool
@@ -22,14 +23,12 @@ class StoreFirm extends FormRequest
      */
     public function rules(Request $request): array
     {
+        $userId = Auth::user()->id ?? 0;
+
         return [
-            'name' => 'required|max:128',
-            'description' => 'required',
-            'website' => 'url|required|max:255',
-            'address' => 'array',
-            'address.country' => 'max:2',
-            'extra' => 'array',
-            'extra.currency' => 'max:3',
+            'email' => "sometimes|required|email|unique:users,email,{$userId}",
+            'first_name' => 'sometimes|required',
+            'last_name' => 'sometimes|required',
         ];
     }
 

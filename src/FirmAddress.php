@@ -3,9 +3,13 @@
 namespace WGT;
 
 use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 
-class FirmAddress extends Model
+class FirmAddress extends Model implements Transformable
 {
+    use TransformableTrait;
+
     /**
      * @var array
      */

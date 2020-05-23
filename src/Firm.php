@@ -4,11 +4,16 @@ namespace WGT;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 use WGT\FirmAddress;
 use WGT\FirmExtra;
 
-class Firm extends Model
+class Firm extends Model implements Transformable
 {
+    use SoftDeletes, TransformableTrait;
+
     /**
      * @var array
      */
@@ -51,4 +56,12 @@ class Firm extends Model
     {
         return $this->hasOne(FirmExtra::class);
     }
+
+    // /**
+    //  * @return BelongsToMany
+    //  */
+    // public function roles(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(User::class);
+    // }
 }

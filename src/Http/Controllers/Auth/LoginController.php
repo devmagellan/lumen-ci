@@ -27,14 +27,6 @@ class LoginController extends Controller
     /**
      * @return JsonResponse
      */
-    public function me(): JsonResponse
-    {
-        return self::successfulResponse(['me' => Auth::user()]);
-    }
-
-    /**
-     * @return JsonResponse
-     */
     public function logout(): JsonResponse
     {
         Auth::logout();

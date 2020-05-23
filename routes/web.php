@@ -34,7 +34,8 @@ $router->group(['middleware' => 'auth:web'], function () use ($router) {
     $router->group(['prefix' => 'auth'], function () use ($router) {
         $router->post('logout', 'Auth\LoginController@logout');
         $router->post('refresh', 'Auth\LoginController@refresh');
-        $router->get('me', 'Auth\LoginController@me');
+        $router->get('me', 'UserController@show');
+        $router->put('me', 'UserController@update');
     });
 
     $router->group(['prefix' => 'firm'], function () use ($router) {

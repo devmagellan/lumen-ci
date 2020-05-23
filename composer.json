@@ -10,6 +10,8 @@
         "illuminate/notifications": "^7.12",
         "laravel/lumen-framework": "^7.0",
         "laravel/ui": "^2.0",
+        "league/fractal": "^0.19.2",
+        "prettus/l5-repository": "^2.6",
         "tymon/jwt-auth": "^1.0",
         "urameshibr/lumen-form-request": "^1.5"
     },

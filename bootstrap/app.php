@@ -64,6 +64,7 @@ $app->configure('auth');
 $app->configure('database');
 $app->configure('jwt');
 $app->configure('mail');
+$app->configure('repository');
 $app->configure('services');
 
 /*
@@ -102,6 +103,7 @@ $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
 $app->register(Illuminate\Notifications\NotificationServiceProvider::class);
 $app->register(Urameshibr\Providers\FormRequestServiceProvider::class);
+$app->register(Prettus\Repository\Providers\LumenRepositoryServiceProvider::class);
 $app->register(WGT\Providers\DbLogProvider::class);
 
 /*

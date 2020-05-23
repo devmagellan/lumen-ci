@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Urameshibr\Requests\FormRequest;
 
-class StoreFirm extends FormRequest
+class UpdateFirm extends FormRequest
 {
     /**
      * @return bool
@@ -23,9 +23,9 @@ class StoreFirm extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'name' => 'required|max:128',
-            'description' => 'required',
-            'website' => 'url|required|max:255',
+            'name' => 'sometimes|required|max:128',
+            'description' => 'sometimes|required',
+            'website' => 'sometimes|url|required|max:255',
             'address' => 'array',
             'address.country' => 'max:2',
             'extra' => 'array',
