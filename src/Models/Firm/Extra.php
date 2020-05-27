@@ -1,12 +1,12 @@
 <?php
 
-namespace WGT;
+namespace WGT\Models\Firm;
 
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class FirmExtra extends Model implements Transformable
+class Extra extends Model implements Transformable
 {
     use TransformableTrait;
 

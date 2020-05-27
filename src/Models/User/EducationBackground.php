@@ -1,12 +1,12 @@
 <?php
 
-namespace WGT;
+namespace WGT\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class UserProfessionalExperience extends Model implements Transformable
+class EducationBackground extends Model implements Transformable
 {
     use TransformableTrait;
 
@@ -15,9 +15,11 @@ class UserProfessionalExperience extends Model implements Transformable
      */
     protected $fillable = [
         'user_id',
-        'current_company',
-        'job_title',
-        'time_period',
+        'school',
+        'dates_attended',
+        'field_of_study',
+        'grade',
+        'activities_societies',
         'description',
     ];
 
@@ -27,9 +29,12 @@ class UserProfessionalExperience extends Model implements Transformable
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
-        'current_company' => 'string',
-        'job_title' => 'string',
-        'time_period' => 'string',
+        'school' => 'string',
+        'dates_attended' => 'string',
+        'field_of_study' => 'string',
+        'grade' => 'string',
+        'activities_societies' => 'string',
         'description' => 'string',
     ];
+
 }

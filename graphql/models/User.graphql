@@ -1,0 +1,56 @@
+type Query @middleware(checks: ["auth"]) {
+    me: User @auth
+}
+
+type Mutation @middleware(checks: ["auth"]) {
+    refresh: AuthTokenType
+        @field(resolver: "Auth\\LoginMutator@refresh")
+
+    logout: Boolean
+        @field(resolver: "Auth\\LoginMutator@logout")
+
+    me: Boolean
+        @field(resolver: "Auth\\LoginMutator@logout")
+}
+
+extend type Mutation {
+    register(
+        first_name: String!
+        last_name: String!
+        email: String!,
+        password: String!
+        password_confirmation: String!
+    ): User!
+    @field(resolver: "Auth\\RegisterMutator@register")
+    @createUserValidation
+
+    login(email: String!, password: String!): AuthTokenType
+        @field(resolver: "Auth\\LoginMutator@login")
+
+    updateMe(
+        first_name: String!
+        last_name: String!
+        email: String!
+        phone_number: String
+        extension: String
+        mobile_number: String
+    ): User
+    @field(resolver: "UserMutator@update")
+    @updateUserValidation
+}
+
+type AuthTokenType {
+    access_token: String
+    token_type: String
+    expires_in: Int
+}
+
+type User {
+    id: ID!
+    name: String!
+    first_name: String!
+    last_name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}

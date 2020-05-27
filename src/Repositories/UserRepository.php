@@ -7,7 +7,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Presenter\ModelFractalPresenter;
 use Prettus\Repository\Traits\CacheableRepository;
-use WGT\User;
+use WGT\Models\User;
 
 class UserRepository extends BaseRepository implements CacheableInterface
 {

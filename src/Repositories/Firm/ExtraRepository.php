@@ -1,15 +1,15 @@
 <?php
 
-namespace WGT\Repositories;
+namespace WGT\Repositories\Firm;
 
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Presenter\ModelFractalPresenter;
 use Prettus\Repository\Traits\CacheableRepository;
-use WGT\FirmAddress;
+use WGT\Models\Firm\Extra;
 
-class FirmAddressRepository extends BaseRepository implements CacheableInterface
+class ExtraRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
@@ -26,7 +26,7 @@ class FirmAddressRepository extends BaseRepository implements CacheableInterface
      */
     public function model(): string
     {
-        return FirmAddress::class;
+        return Extra::class;
     }
 
     /**

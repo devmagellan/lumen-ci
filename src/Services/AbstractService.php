@@ -3,8 +3,9 @@
 namespace WGT\Services;
 
 use Prettus\Repository\Contracts\RepositoryInterface;
+use WGT\Services\ServiceInterface;
 
-abstract class AbstractService
+abstract class AbstractService implements ServiceInterface
 {
     /**
      * @var RepositoryInterface

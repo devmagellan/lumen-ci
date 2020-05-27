@@ -1,15 +1,15 @@
 <?php
 
-namespace WGT\Repositories;
+namespace WGT\Repositories\User;
 
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Presenter\ModelFractalPresenter;
 use Prettus\Repository\Traits\CacheableRepository;
-use WGT\UserProfessionalExperience;
+use WGT\Models\User\EducationBackground;
 
-class UserProfessionalExperienceRepository extends BaseRepository implements CacheableInterface
+class EducationBackgroundRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
@@ -26,7 +26,7 @@ class UserProfessionalExperienceRepository extends BaseRepository implements Cac
      */
     public function model(): string
     {
-        return UserProfessionalExperience::class;
+        return EducationBackground::class;
     }
 
     /**
