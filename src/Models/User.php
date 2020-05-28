@@ -1,6 +1,6 @@
 <?php
 
-namespace WGT;
+namespace WGT\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -9,19 +9,26 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use WGT\Notifications\ResetPassword;
+use WGT\UserEducationBackground;
+use WGT\UserProfessionalExperience;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
+class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject, Transformable
 {
-    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, Notifiable, SoftDeletes, TransformableTrait;
 
     /**
      * @var array
      */
     protected $fillable = [
-        'firm_id',
         'email',
         'password',
         'key',
@@ -36,8 +43,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'activation_code',
         'activation_timestamp',
         'invited',
-        'locale',
-        'timezone',
     ];
 
     /**
@@ -52,7 +57,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $casts = [
         'id' => 'integer',
-        'firm_id' => 'integer',
         'email' => 'string',
         'password' => 'string',
         'key' => 'string',
@@ -67,9 +71,23 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'activation_code' => 'string',
         'activation_timestamp' => 'datetime',
         'invited' => 'boolean',
-        'locale' => 'string',
-        'timezone' => 'string',
     ];
+
+    /**
+     * @return HasOne
+     */
+    public function educationBackground(): HasOne
+    {
+        return $this->hasOne(UserEducationBackground::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function professionalExperience(): HasOne
+    {
+        return $this->hasOne(UserProfessionalExperience::class);
+    }
 
     /**
      * @return mixed
@@ -85,5 +103,31 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * @param string
+     * @return void
+     */
+    public function setPasswordAttribute($password): void
+    {
+        $this->attributes['password'] = Hash::make($password ?? '');
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
+    /**
+     * @param string $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPassword($token));
     }
 }

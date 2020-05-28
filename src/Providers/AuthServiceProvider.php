@@ -3,7 +3,7 @@
 namespace WGT\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use WGT\User;
+use WGT\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {

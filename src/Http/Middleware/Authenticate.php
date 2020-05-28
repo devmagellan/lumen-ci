@@ -42,7 +42,7 @@ class Authenticate
         }
 
         Config::set('app.timezone', $this->auth->user()->timezone ?? 'UTC');
-        Config::set('app.locale', $this->auth->user()->locale ?? 'en');
+        Config::set('app.locale', $this->auth->user()->locale ?? 'en-US');
 
         return $next($request);
     }

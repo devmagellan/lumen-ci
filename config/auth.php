@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => WGT\User::class,
+            'model' => WGT\Models\User::class,
         ],
 
         // 'users' => [

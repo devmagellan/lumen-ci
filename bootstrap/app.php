@@ -63,7 +63,9 @@ $app->configure('app');
 $app->configure('auth');
 $app->configure('database');
 $app->configure('jwt');
+$app->configure('lighthouse');
 $app->configure('mail');
+$app->configure('repository');
 $app->configure('services');
 
 /*
@@ -101,6 +103,9 @@ $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
 $app->register(Illuminate\Notifications\NotificationServiceProvider::class);
+$app->register(Urameshibr\Providers\FormRequestServiceProvider::class);
+$app->register(Prettus\Repository\Providers\LumenRepositoryServiceProvider::class);
+$app->register(Nuwave\Lighthouse\LighthouseServiceProvider::class);
 $app->register(WGT\Providers\DbLogProvider::class);
 
 /*
@@ -120,11 +125,5 @@ $app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
 $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 $app->alias('mail.manager', Illuminate\Mail\MailManager::class);
 $app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
-
-$app->router->group([
-    'namespace' => 'WGT\Http\Controllers',
-], function ($router) {
-    require __DIR__ . '/../routes/web.php';
-});
 
 return $app;
