@@ -37,12 +37,31 @@ extend type Mutation {
     ): User
     @field(resolver: "UserMutator@update")
     @updateUserValidation
+
+    forgotPassword(
+        # first_name: String!
+        # last_name: String!
+        email: String!
+    ): MessageResponse
+    @field(resolver: "Auth\\ForgotPasswordMutator@forgotPassword")
+
+    reset(
+        token: String!
+        email: String!
+        password: String!
+        password_confirmation: String!
+    ): MessageResponse
+    @field(resolver: "Auth\\ResetPasswordMutator@reset")
 }
 
 type AuthTokenType {
     access_token: String
     token_type: String
     expires_in: Int
+}
+
+type MessageResponse {
+    message: String
 }
 
 type User {

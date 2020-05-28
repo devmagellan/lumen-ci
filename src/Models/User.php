@@ -17,6 +17,7 @@ use Laravel\Lumen\Auth\Authorizable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use WGT\Notifications\ResetPassword;
 use WGT\UserEducationBackground;
 use WGT\UserProfessionalExperience;
 
@@ -119,5 +120,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    /**
+     * @param string $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPassword($token));
     }
 }
