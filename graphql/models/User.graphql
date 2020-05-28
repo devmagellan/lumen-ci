@@ -38,11 +38,7 @@ extend type Mutation {
     @field(resolver: "UserMutator@update")
     @updateUserValidation
 
-    forgotPassword(
-        # first_name: String!
-        # last_name: String!
-        email: String!
-    ): MessageResponse
+    forgotPassword(email: String!): MessageResponse
     @field(resolver: "Auth\\ForgotPasswordMutator@forgotPassword")
 
     reset(
@@ -52,6 +48,7 @@ extend type Mutation {
         password_confirmation: String!
     ): MessageResponse
     @field(resolver: "Auth\\ResetPasswordMutator@reset")
+    @resetPasswordValidation
 }
 
 type AuthTokenType {
