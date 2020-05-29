@@ -12,7 +12,7 @@ class ResetPasswordValidationDirective extends ValidationDirective
     public function rules(): array
     {
         return [
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'max:12', 'confirmed'],
         ];
     }
 
