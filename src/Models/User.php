@@ -9,7 +9,6 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -18,8 +17,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use WGT\Notifications\ResetPassword;
-use WGT\UserEducationBackground;
-use WGT\UserProfessionalExperience;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject, Transformable
 {
@@ -29,65 +26,61 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'email',
-        'password',
-        'key',
         'first_name',
+        'middle_name',
         'last_name',
-        'phone_number',
-        'extension',
-        'mobile_number',
-        'summary',
-        'status',
-        'profile_image',
-        'activation_code',
-        'activation_timestamp',
-        'invited',
+        'gender',
+        'birthdate',
+        'email',
+        'business_email',
+        'phone',
+        'mobile',
+        'business_phone',
+        'business_phone_extension',
+        'business_mobile',
+        'toll_free_business_number',
+        'address',
+        'city',
+        'state',
+        'country',
+        'zip_code',
+        'password',
+        'secret_phrase',
+        'fingerprint_code',
     ];
 
     /**
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'secret_phrase', 'fingerprint_code',
     ];
 
     /**
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'email' => 'string',
-        'password' => 'string',
-        'key' => 'string',
         'first_name' => 'string',
+        'middle_name' => 'string',
         'last_name' => 'string',
-        'phone_number' => 'string',
-        'extension' => 'string',
-        'mobile_number' => 'string',
-        'summary' => 'string',
-        'status' => 'string',
-        'profile_image' => 'integer',
-        'activation_code' => 'string',
-        'activation_timestamp' => 'datetime',
-        'invited' => 'boolean',
+        'gender' => 'string',
+        'birthdate' => 'date:Y-m-d',
+        'email' => 'string',
+        'business_email' => 'string',
+        'phone' => 'string',
+        'mobile' => 'string',
+        'business_phone' => 'string',
+        'business_phone_extension' => 'string',
+        'business_mobile' => 'string',
+        'toll_free_business_number' => 'string',
+        'address' => 'string',
+        'city' => 'string',
+        'state' => 'string',
+        'country' => 'string',
+        'zip_code' => 'string',
+        'secret_phrase' => 'string',
+        'fingerprint_code' => 'string',
     ];
-
-    /**
-     * @return HasOne
-     */
-    public function educationBackground(): HasOne
-    {
-        return $this->hasOne(UserEducationBackground::class);
-    }
-
-    /**
-     * @return HasOne
-     */
-    public function professionalExperience(): HasOne
-    {
-        return $this->hasOne(UserProfessionalExperience::class);
-    }
 
     /**
      * @return mixed
@@ -117,9 +110,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * @return string
      */
-    public function getNameAttribute()
+    public function getFullNameAttribute()
     {
-        return "{$this->first_name} {$this->last_name}";
+        return "{$this->first_name} {$this->middle_name} {$this->last_name}";
     }
 
     /**
