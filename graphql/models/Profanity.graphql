@@ -1,0 +1,10 @@
+type Profanity {
+    id: ID
+    word: String!
+    user: User! @belongsTo
+}
+
+extend type Query {
+    profanity(id: ID! @eq): Profanity @find
+    profanities: [Profanity!]! @paginate(defaultCount: 10)
+}
