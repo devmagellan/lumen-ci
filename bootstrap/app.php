@@ -108,6 +108,7 @@ $app->register(Prettus\Repository\Providers\LumenRepositoryServiceProvider::clas
 $app->register(Nuwave\Lighthouse\LighthouseServiceProvider::class);
 $app->register(Nuwave\Lighthouse\SoftDeletes\SoftDeletesServiceProvider::class);
 $app->register(WGT\Providers\DbLogProvider::class);
+$app->register(Laravel\Tinker\TinkerServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

@@ -9,6 +9,7 @@
         "illuminate/mail": "^7.12",
         "illuminate/notifications": "^7.12",
         "laravel/lumen-framework": "^7.0",
+        "laravel/tinker": "^2.4",
         "laravel/ui": "^2.0",
         "league/fractal": "^0.19.2",
         "nuwave/lighthouse": "^4.13",
