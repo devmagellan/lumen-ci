@@ -4,7 +4,7 @@ namespace WGT\GraphQL\Queries;
 
 use WGT\Services\FirmService;
 
-class Firm extends AbstractQuery
+class FirmQuery extends AbstractQuery
 {
     /**
      * @var FirmService

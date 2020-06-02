@@ -36,6 +36,6 @@ class FirmMutator
      */
     public function update($root, array $firm): array
     {
-        return $this->service->update($firm, $firm['id'])['data'] ?? [];
+        return $this->service->update($firm['firm'], $firm['id'])['data'] ?? [];
     }
 }
