@@ -2,9 +2,9 @@
 
 namespace WGT\Services;
 
-use WGT\Repositories\FirmAddressRepository;
-use WGT\Repositories\FirmExtraRepository;
 use WGT\Repositories\FirmRepository;
+use WGT\Repositories\Firm\AddressRepository as FirmAddressRepository;
+use WGT\Repositories\Firm\ExtraRepository as FirmExtraRepository;
 use WGT\Services\AbstractService;
 
 class FirmService extends AbstractService

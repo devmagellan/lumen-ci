@@ -5,6 +5,7 @@ namespace WGT\Http\Middleware;
 use Closure;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
 class Authenticate
@@ -41,8 +42,9 @@ class Authenticate
             throw new AuthenticationException(__('auth.unauthenticated'));
         }
 
+        App::setLocale($this->auth->user()->locale ?? 'en-US');
         Config::set('app.timezone', $this->auth->user()->timezone ?? 'UTC');
-        Config::set('app.locale', $this->auth->user()->locale ?? 'en-US');
+        date_default_timezone_set($this->auth->user()->timezone ?? 'UTC');
 
         return $next($request);
     }

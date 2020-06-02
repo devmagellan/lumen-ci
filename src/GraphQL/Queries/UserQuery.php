@@ -12,7 +12,7 @@ class UserQuery extends AbstractQuery
     protected $service;
 
     /**
-     * @return void
+     * @param UserService $service
      */
     public function __construct(UserService $service)
     {
@@ -22,16 +22,16 @@ class UserQuery extends AbstractQuery
     /**
      * @return array
      */
-    public function all()
-    {
-        return $this->service->all()['data'] ?? [];
-    }
+    // public function all()
+    // {
+    //     return $this->service->all()['data'] ?? [];
+    // }
 
     /**
      * @return array
      */
-    public function find($root, array $args)
-    {
-        return $this->service->find($args['id'])['data'] ?? [];
-    }
+    // public function find($root, array $args)
+    // {
+    //     return $this->service->find($args['id'])['data'] ?? [];
+    // }
 }

@@ -53,10 +53,6 @@ type AuthTokenType {
     expires_in: Int
 }
 
-type MessageResponse {
-    message: String
-}
-
 type User {
     id: ID!
     first_name: String!
