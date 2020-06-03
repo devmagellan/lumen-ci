@@ -27,7 +27,7 @@
             "database/factories"
         ],
         "psr-4": {
-            "WGT\\": "src/"
+            "WGT\\": "app/"
         }
     },
     "autoload-dev": {
