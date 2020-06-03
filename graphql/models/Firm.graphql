@@ -20,6 +20,9 @@ extend type Mutation @middleware(checks: ["auth"]) {
     updateFirm(id: Int!, firm: UpdateFirmInput!): Firm!
         @field(resolver: "FirmMutator@update")
         @updateFirmValidation
+
+    deleteFirm(id: Int!): MessageResponse!
+        @field(resolver: "FirmMutator@delete")
 }
 
 type Firm {

@@ -38,4 +38,16 @@ class FirmMutator
     {
         return $this->service->update($firm['firm'], $firm['id'])['data'] ?? [];
     }
+
+    /**
+     * @param null $root
+     * @param array $firm
+     * @return array
+     */
+    public function delete($root, array $firm): array
+    {
+        $this->service->delete($firm['id']);
+
+        return ['message' => trans('messages.deleted', ['entity' => 'Firm'])];
+    }
 }
