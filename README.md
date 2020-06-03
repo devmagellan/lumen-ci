@@ -1,5 +1,13 @@
 # WGTCRM Backend
 
+## Patterns used
+
+ * [GraphQL pattern](https://graphql.org) (package: [nuwave/lighthouse](https://lighthouse-php.com/))
+
+ * [Service layer pattern](https://en.wikipedia.org/wiki/Service_layer_pattern)
+ 
+ * [Repository pattern](https://bosnadev.com/2015/03/07/using-repository-pattern-in-laravel-5) (package: [prettus/l5-repository](https://github.com/andersao/l5-repository))
+ 
 ## Local Dev installation
 
 ### 1. Download Project
