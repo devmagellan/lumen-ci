@@ -13,8 +13,6 @@ In order to contribute to this project:
 2. Once you have finished, create a **Pull Request** to merge your changes into 
 remote's develop branch 
 
-Do not forget to add your name at the end of this file.
-
 Recommendations
 ---------------
 
