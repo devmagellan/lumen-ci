@@ -5,7 +5,6 @@ type Profanity {
 }
 
 extend type Query @middleware(checks: ["auth"]) {
-    # profanities: [Profanity!]! @paginate(defaultCount: 10) @softDeletes
     profanity(id: ID! @eq): Profanity @find
     profanities(
         id: String @where(operator: "LIKE")

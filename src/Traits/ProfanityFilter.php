@@ -7,6 +7,7 @@ use Auth;
 use Log;
 
 use WGT\Models\Profanity;
+use WGT\Models\Profanity\ProfanityLog;
 
 trait ProfanityFilter
 {
@@ -46,10 +47,11 @@ trait ProfanityFilter
 
         $fillable = isset($model->ignoreProfanity) && !empty($model->ignoreProfanity)
             ? array_diff($model->fillable, $model->ignoreProfanity)
-            : $fillable;
+            : $model->fillable;
 
         $tableName = $model->getTable();
         $tableId = isset($model->id) ? $model->id : null;
+        $firmId = isset($model->firm_id) ? $model->firm_id : null;
 
         $badwords = Profanity::pluck('word')->toArray();
 
@@ -58,12 +60,13 @@ trait ProfanityFilter
 
             if (!empty($filteredValue)) {
                 self::createLog([
+                    'firm_id' => $firmId,
                     'table_name' => $tableName,
                     'table_field' => $field,
                     'table_id' => $tableId,
                     'original_content' => $model->{$field},
                     'updated_content' => $filteredValue['field'],
-                    'wordReplaced' => $filteredValue['badwords'],
+                    'replaced_words' => $filteredValue['badWordsUsed'],
                     'method' => $method
                 ]);
 
@@ -93,7 +96,7 @@ trait ProfanityFilter
         }
 
         return (!empty($wordUsed))
-            ? ['field' => $fieldValue, 'badwords' => implode(',', $badwords)]
+            ? ['field' => $fieldValue, 'badWordsUsed' => implode(',', $wordUsed)]
             : [];
     }
 
@@ -111,22 +114,9 @@ trait ProfanityFilter
 
     protected static function createLog($data)
     {
-        $data['userId'] = isset(Auth::user()->id) ? Auth::user()->id : null;
-        $data['className'] = static::class;
-
-        Log::info('Data: '. json_encode($data));
-            /*
-            id
-            user_id
-            original_content
-            updated_content
-            replaced_words
-            class_name
-            table_name
-            table_field
-            table_id
-            method
-            created_at
-            */
+        $profanityLog = new ProfanityLog($data);
+        $profanityLog->user_id = isset(Auth::user()->id) ? Auth::user()->id : null;
+        $profanityLog->class_name = static::class;
+        $profanityLog->save();
     }
 }
