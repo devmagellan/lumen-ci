@@ -33,6 +33,17 @@ class ResetPasswordMutator
 
     /**
      * @param Request $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        return $request->only(
+            'email', 'password', 'password_confirmation', 'token', 'secret_phrase'
+        );
+    }
+
+    /**
+     * @param Request $request
      * @param string $response
      * @return array
      */
