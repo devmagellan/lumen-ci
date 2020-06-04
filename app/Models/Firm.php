@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-use WGT\FirmAddress;
-use WGT\FirmExtra;
+use WGT\Models\Firm\Address;
+use WGT\Models\Firm\Extra;
 
 class Firm extends Model implements Transformable
 {
@@ -46,7 +46,7 @@ class Firm extends Model implements Transformable
      */
     public function address(): HasOne
     {
-        return $this->hasOne(FirmAddress::class);
+        return $this->hasOne(Address::class);
     }
 
     /**
@@ -54,14 +54,14 @@ class Firm extends Model implements Transformable
      */
     public function extra(): HasOne
     {
-        return $this->hasOne(FirmExtra::class);
+        return $this->hasOne(Extra::class);
     }
 
-    // /**
-    //  * @return BelongsToMany
-    //  */
-    // public function roles(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(User::class);
-    // }
+    /**
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
