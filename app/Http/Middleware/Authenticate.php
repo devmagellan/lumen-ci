@@ -55,7 +55,7 @@ class Authenticate
      */
     private function loadAuthedUserTimezone(User $authUser): void
     {
-        if ($authUser->timezone) {
+        if (empty($authUser->timezone)) {
             return;
         }
 
@@ -69,7 +69,7 @@ class Authenticate
      */
     private function loadAuthedUserLocale(User $authUser): void
     {
-        if ($authUser->locale) {
+        if (empty($authUser->locale)) {
             return;
         }
 

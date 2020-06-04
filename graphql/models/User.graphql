@@ -3,13 +3,10 @@ extend type Query @middleware(checks: ["auth"]) {
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
-    refresh: AuthTokenType
+    refreshToken: AuthTokenType
         @field(resolver: "Auth\\LoginMutator@refresh")
 
     logout: Boolean
-        @field(resolver: "Auth\\LoginMutator@logout")
-
-    me: Boolean
         @field(resolver: "Auth\\LoginMutator@logout")
 }
 
@@ -36,7 +33,7 @@ extend type Mutation {
     forgotPassword(email: String!): MessageResponse!
         @field(resolver: "Auth\\ForgotPasswordMutator@forgotPassword")
 
-    reset(
+    resetPassword(
         token: String!
         email: String!
         secret_phrase: String!
