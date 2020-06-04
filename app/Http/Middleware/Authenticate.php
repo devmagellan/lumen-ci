@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use WGT\Models\User;
 
 class Authenticate
 {
@@ -42,10 +43,36 @@ class Authenticate
             throw new AuthenticationException(__('auth.unauthenticated'));
         }
 
-        App::setLocale($this->auth->user()->locale ?? 'en-US');
-        Config::set('app.timezone', $this->auth->user()->timezone ?? 'UTC');
-        date_default_timezone_set($this->auth->user()->timezone ?? 'UTC');
+        $this->loadAuthedUserLocale($this->auth->user());
+        $this->loadAuthedUserTimezone($this->auth->user());
 
         return $next($request);
+    }
+
+    /**
+     * @param User $authUser
+     * @return void
+     */
+    private function loadAuthedUserTimezone(User $authUser): void
+    {
+        if ($authUser->timezone) {
+            return;
+        }
+
+        Config::set('app.timezone', $authUser->timezone);
+        date_default_timezone_set($authUser->timezone);
+    }
+
+    /**
+     * @param User $authUser
+     * @return void
+     */
+    private function loadAuthedUserLocale(User $authUser): void
+    {
+        if ($authUser->locale) {
+            return;
+        }
+
+        App::setLocale($authUser->locale);
     }
 }
