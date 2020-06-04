@@ -4,3 +4,5 @@ Homestead.json
 Homestead.yaml
 .env
 .phpunit.result.cache
+_lighthouse_ide_helper.php
+schema-directives.graphql
