@@ -11,4 +11,8 @@ type Query {
   hello: String!
 }
 
+type MessageResponse {
+    message: String
+}
+
 #import models/*.graphql

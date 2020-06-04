@@ -16,8 +16,8 @@ class CreateFirmsTable extends Migration
         Schema::create('firms', function (Blueprint $table) {
             $table->id();
             $table->string('name', 128);
-            $table->text('description');
-            $table->string('website', 255)->default('');
+            $table->text('description')->nullable();
+            $table->string('website', 255)->nullable();
             $table->decimal('discount', 9, 2)->nullable();
             $table->enum('type', ['retailer', 'wholesaler', 'association', 'administration', 'customer', 'roughseller', 'miner', 'manufacturer', 'farm', 'laboratory', 'enhancer'])->default('customer');
             $table->string('supplier', 256)->nullable();

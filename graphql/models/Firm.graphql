@@ -1,0 +1,47 @@
+extend type Query @middleware(checks: ["auth"]) {
+    firms: [Firm]!
+        @field(resolver: "FirmQuery@all")
+
+    firm(id: Int): Firm!
+        @field(resolver: "FirmQuery@find")
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createFirm(
+        name: String!
+        description: String
+        website: String
+        discount: Float
+        type: String
+    ): Firm!
+        @field(resolver: "FirmMutator@create")
+        @createFirmValidation
+
+    updateFirm(id: Int!, firm: UpdateFirmInput!): Firm!
+        @field(resolver: "FirmMutator@update")
+        @updateFirmValidation
+
+    deleteFirm(id: Int!): MessageResponse!
+        @field(resolver: "FirmMutator@delete")
+}
+
+type Firm {
+    id: ID!
+    name: String!
+    description: String
+    website: String
+    discount: Float
+    type: String!
+    supplier: String
+    status: String!
+}
+
+input UpdateFirmInput {
+    name: String
+    description: String
+    website: String
+    discount: Float
+    type: String
+    supplier: String
+    status: String
+}

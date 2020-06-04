@@ -2,19 +2,19 @@
 
 namespace WGT\GraphQL\Queries;
 
-use WGT\Services\UserService;
+use WGT\Services\FirmService;
 
-class UserQuery extends AbstractQuery
+class FirmQuery extends AbstractQuery
 {
     /**
-     * @var UserService
+     * @var FirmService
      */
     protected $service;
 
     /**
-     * @return void
+     * @param FirmService $service
      */
-    public function __construct(UserService $service)
+    public function __construct(FirmService $service)
     {
         $this->service = $service;
     }
