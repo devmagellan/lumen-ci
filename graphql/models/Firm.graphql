@@ -27,6 +27,12 @@ extend type Mutation @middleware(checks: ["auth"]) {
 
     deleteFirm(id: Int!): MessageResponse!
         @field(resolver: "FirmMutator@delete")
+
+    attachEmployee(firmId: Int!, userId: Int!, position: String!): MessageResponse!
+        @field(resolver: "FirmMutator@attachEmployee")
+
+    detachEmployee(firmId: Int!, userId: Int!): MessageResponse!
+        @field(resolver: "FirmMutator@detachEmployee")
 }
 
 type Firm {

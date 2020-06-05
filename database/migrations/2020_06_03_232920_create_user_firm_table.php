@@ -15,7 +15,7 @@ class CreateUserFirmTable extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('firm_id');
-            $table->unsignedInteger('position');
+            $table->string('position', 128);
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace WGT\GraphQL\Mutations;
 
+use Illuminate\Support\Arr;
 use WGT\Services\FirmService;
 
 class FirmMutator
@@ -49,5 +50,29 @@ class FirmMutator
         $this->service->delete($firm['id']);
 
         return ['message' => trans('messages.deleted', ['entity' => 'Firm'])];
+    }
+
+    /**
+     * @param null $root
+     * @param array $data
+     * @return array
+     */
+    public function attachEmployee($root, array $data): array
+    {
+        $this->service->attachEmployee($data['firmId'], $data['userId'], Arr::only($data, 'position'));
+
+        return ['message' => trans('messages.firm.employee_attached')];
+    }
+
+    /**
+     * @param null $root
+     * @param array $data
+     * @return array
+     */
+    public function detachEmployee(int $firmId, int $data): array
+    {
+        $this->service->detachEmployee($data['firmId'], $data['userId']);
+
+        return ['message' => trans('messages.firm.employee_detached')];
     }
 }

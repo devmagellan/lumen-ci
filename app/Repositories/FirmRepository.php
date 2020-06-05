@@ -3,7 +3,6 @@
 namespace WGT\Repositories;
 
 use Prettus\Repository\Events\RepositoryEntityCreated;
-use Prettus\Repository\Events\RepositoryEntityUpdated;
 use WGT\Models\Firm;
 use WGT\Repositories\AbstractRepository;
 
@@ -45,5 +44,30 @@ class FirmRepository extends AbstractRepository
         event(new RepositoryEntityCreated($this, $firm));
 
         return $this->parserResult($firm);
+    }
+
+    /**
+     * @param int $firmId
+     * @param int $userId
+     * @param array $data
+     * @return bool
+     */
+    public function attachEmployee(int $firmId, int $userId, array $data): bool
+    {
+        $this->model->find($firmId)->users()->attach($userId, $data);
+
+        return true;
+    }
+
+    /**
+     * @param int $firmId
+     * @param int $userId
+     * @return bool
+     */
+    public function detachEmployee(int $firmId, int $userId): bool
+    {
+        $firm = $this->model->find($firmId)->users()->detach($userId);
+
+        return true;
     }
 }
