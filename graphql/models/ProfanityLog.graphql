@@ -1,15 +1,15 @@
 type ProfanityLog {
-    user_id: ID
-    firm_id: ID
-    original_content: String!
-    updated_content: String!
-    replaced_words: String!
-    class_name: String!
-    method: String!
-    table_name: String!
-    table_field: String!
-    table_id: String!
-    created_at: String!
+    user: User
+    firm: Firm
+    original_content: String
+    updated_content: String
+    replaced_words: String
+    class_name: String
+    method: String
+    table_name: String
+    table_field: String
+    table_id: String
+    created_at: String
 }
 
 extend type Query @middleware(checks: ["auth"]) {

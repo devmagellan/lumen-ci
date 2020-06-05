@@ -3,6 +3,10 @@
 namespace WGT\Models\Profanity;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use WGT\Models\Firm;
+use WGT\Models\User;
 
 class ProfanityLog extends Model
 {
@@ -20,4 +24,14 @@ class ProfanityLog extends Model
     ];
 
     public $timestamps = false;
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function firm(): BelongsTo
+    {
+        return $this->belongsTo(Firm::class);
+    }
 }

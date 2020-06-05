@@ -5,17 +5,9 @@ namespace WGT\GraphQL\Mutations\Profanity;
 use Illuminate\Support\Arr;
 
 use WGT\Models\Profanity\ProfanityIgnore;
-use WGT\Services\ProfanityIgnoreService;
 
 class ProfanityIgnoreMutator
 {
-    private $service;
-
-    public function __construct(ProfanityIgnoreService $service)
-    {
-        $this->service = $service;
-    }
-
     public function create($root, array $args)
     {
         $request = Arr::only(

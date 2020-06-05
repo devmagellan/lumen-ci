@@ -7,10 +7,8 @@ type ProfanityIgnore {
 }
 
 extend type Query @middleware(checks: ["auth"]) {
-    # profanityIgnore(id: ID! @eq): ProfanityIgnore
-    #     @find(model: "WGT\\Models\\Profanity\\ProfanityIgnore")
-    profanityIgnore(id: Int): ProfanityIgnore
-        @field(resolver: "ProfanityIgnoreQuery@find")
+    profanityIgnore(id: ID! @eq): ProfanityIgnore
+        @find(model: "WGT\\Models\\Profanity\\ProfanityIgnore")
     profanityIgnores: [ProfanityIgnore!]!
         @paginate(defaultCount: 10, model: "WGT\\Models\\Profanity\\ProfanityIgnore")
 }

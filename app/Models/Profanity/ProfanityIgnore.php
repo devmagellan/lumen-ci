@@ -4,20 +4,13 @@ namespace WGT\Models\Profanity;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
-
-use Prettus\Repository\Contracts\Presentable;
-use Prettus\Repository\Traits\PresentableTrait;
 
 use WGT\Models\Firm;
 use WGT\Models\Profanity;
 use WGT\Models\User;
 
-class ProfanityIgnore extends Model implements Presentable
+class ProfanityIgnore extends Model
 {
-    use PresentableTrait;
-
     protected $fillable = [
         'profanity_id',
         'user_ignored_id',
@@ -30,17 +23,17 @@ class ProfanityIgnore extends Model implements Presentable
         return $this->belongsTo(Profanity::class);
     }
 
-    public function userIgnored()
+    public function userIgnored(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function firmIgnored()
+    public function firmIgnored(): BelongsTo
     {
         return $this->belongsTo(Firm::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

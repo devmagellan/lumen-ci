@@ -3,11 +3,11 @@
 namespace WGT\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Auth;
-use Log;
-
+use Illuminate\Support\Collection;
 use WGT\Models\Profanity;
 use WGT\Models\Profanity\ProfanityLog;
+
+use Auth;
 
 trait ProfanityFilter
 {
@@ -39,7 +39,7 @@ trait ProfanityFilter
         });
     }
 
-    protected static function checkProfanity(Model $model, $method)
+    protected static function checkProfanity(Model $model, string $method)
     {
         if (!isset($model->fillable) || empty($model->fillable)) {
             return true;
@@ -51,15 +51,24 @@ trait ProfanityFilter
 
         $tableName = $model->getTable();
         $tableId = isset($model->id) ? $model->id : null;
+        $userId = isset(Auth::user()->id) ? Auth::user()->id : null;
+
+        # Please, update the firmId variable as soon as the company's user implementation is ready
         $firmId = isset($model->firm_id) ? $model->firm_id : null;
 
-        $badwords = Profanity::pluck('word')->toArray();
+        $badwords = Profanity::getProfanitiesIgnored([
+            'userId' => $userId,
+            'firmId' => $firmId
+            ])->toArray();
+
+        $badwords = collect($badwords)->pluck('word')->all();
 
         foreach($fillable as $field) {
             $filteredValue = self::filterProfanity($model->{$field}, $badwords);
 
             if (!empty($filteredValue)) {
                 self::createLog([
+                    'user_id' => $userId,
                     'firm_id' => $firmId,
                     'table_name' => $tableName,
                     'table_field' => $field,
@@ -80,7 +89,10 @@ trait ProfanityFilter
         }
     }
 
-    protected static function filterProfanity($fieldValue, $badwords)
+    protected static function filterProfanity(
+        ?string $fieldValue,
+        array $badwords
+    ): array
     {
         if (empty($fieldValue) || !is_string($fieldValue)) {
             return [];
@@ -102,20 +114,20 @@ trait ProfanityFilter
 
     protected static function updateModelWithProfanity(
         Model $entity,
-        $field,
-        $fieldValue,
-        $id
-    ) {
+        string $field,
+        string $fieldValue,
+        int $id
+    ): void
+    {
         $entity::unsetEventDispatcher();
         $model = $entity::find($id);
         $model->{$field} = $fieldValue;
         $model->save();
     }
 
-    protected static function createLog($data)
+    protected static function createLog(array $data): void
     {
         $profanityLog = new ProfanityLog($data);
-        $profanityLog->user_id = isset(Auth::user()->id) ? Auth::user()->id : null;
         $profanityLog->class_name = static::class;
         $profanityLog->save();
     }
