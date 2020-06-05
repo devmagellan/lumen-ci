@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-use WGT\Models\Firm\Address as FirmAddress;
-use WGT\Models\Firm\Extra as FirmExtra;
+use WGT\Models\Firm\FirmAddress;
+use WGT\Models\Firm\FirmExtra;
 
 class Firm extends Model implements Transformable
 {
