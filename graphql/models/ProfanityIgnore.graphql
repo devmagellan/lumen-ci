@@ -1,0 +1,38 @@
+type ProfanityIgnore {
+    id: ID
+    profanity: Profanity! @belongsTo
+    userIgnored: User @belongsTo
+    firmIgnored: Firm @belongsTo
+    user: User @belongsTo
+}
+
+extend type Query @middleware(checks: ["auth"]) {
+    # profanityIgnore(id: ID! @eq): ProfanityIgnore
+    #     @find(model: "WGT\\Models\\Profanity\\ProfanityIgnore")
+    profanityIgnore(id: Int): ProfanityIgnore
+        @field(resolver: "ProfanityIgnoreQuery@find")
+    profanityIgnores: [ProfanityIgnore!]!
+        @paginate(defaultCount: 10, model: "WGT\\Models\\Profanity\\ProfanityIgnore")
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createProfanityIgnore(
+        profanity_id: ID
+        user_ignored_id: ID
+        firm_ignored_id: ID
+    ): ProfanityIgnore
+        @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@create")
+        @profanityIgnoreCreateValidation
+
+    updateProfanityIgnore(
+        id: ID!,
+        profanity_id: ID
+        user_ignored_id: ID
+        firm_ignored_id: ID
+    ): ProfanityIgnore
+        @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@update")
+        @profanityIgnoreUpdateValidation
+
+    deleteProfanityIgnore(id: ID!): ProfanityIgnore
+        @delete(model: "WGT\\Models\\Profanity\\ProfanityIgnore")
+}

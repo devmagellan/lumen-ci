@@ -28,6 +28,6 @@ class CreateProfanitiesLogsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('profanities_log');
+        Schema::dropIfExists('profanity_logs');
     }
 }

@@ -8,5 +8,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call('UserSeeder');
         $this->call('ProfanitySeeder');
+        $this->call('ProfanityIgnoreSeeder');
     }
 }
