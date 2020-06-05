@@ -6,6 +6,9 @@ use Nuwave\Lighthouse\Schema\Directives\ValidationDirective;
 
 class ProfanityIgnoreUpdateValidationDirective extends ValidationDirective
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -16,6 +19,9 @@ class ProfanityIgnoreUpdateValidationDirective extends ValidationDirective
         ];
     }
 
+    /**
+     * @return array
+     */
     public function messages(): array
     {
         return [];

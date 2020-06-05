@@ -11,6 +11,9 @@ use Auth;
 
 trait ProfanityFilter
 {
+    /**
+     * @return void
+     */
     public static function bootProfanityFilter()
     {
         self::observerCreated();
@@ -18,31 +21,45 @@ trait ProfanityFilter
         self::observerUpdated();
     }
 
+    /**
+     * @return void
+     */
     protected static function observerCreated()
     {
         static::created(function (Model $model) {
-            self::checkProfanity($model, 'create');
+            self::checkReplaceProfanity($model, 'create');
         });
     }
 
+    /**
+     * @return void
+     */
     protected static function observerSaved()
     {
         static::saved(function (Model $model) {
-            self::checkProfanity($model, 'save');
+            self::checkReplaceProfanity($model, 'save');
         });
     }
 
+    /**
+     * @return void
+     */
     protected static function observerUpdated()
     {
         static::updated(function (Model $model) {
-            self::checkProfanity($model, 'update');
+            self::checkReplaceProfanity($model, 'update');
         });
     }
 
-    protected static function checkProfanity(Model $model, string $method)
+    /**
+     * @param Modal $model
+     * @param string $method
+     * @return void
+     */
+    protected static function checkReplaceProfanity(Model $model, string $method): void
     {
         if (!isset($model->fillable) || empty($model->fillable)) {
-            return true;
+            return;
         }
 
         $fillable = isset($model->ignoreProfanity) && !empty($model->ignoreProfanity)
@@ -59,7 +76,7 @@ trait ProfanityFilter
         $badwords = Profanity::getProfanitiesIgnored([
             'userId' => $userId,
             'firmId' => $firmId
-            ])->toArray();
+            ])->get()->toArray();
 
         $badwords = collect($badwords)->pluck('word')->all();
 
@@ -89,6 +106,11 @@ trait ProfanityFilter
         }
     }
 
+    /**
+     * @param string|null $fieldValue
+     * @param string $badwords
+     * @return array
+     */
     protected static function filterProfanity(
         ?string $fieldValue,
         array $badwords
@@ -112,6 +134,13 @@ trait ProfanityFilter
             : [];
     }
 
+    /**
+     * @param Modal $entity
+     * @param string $field
+     * @param string $fieldValue
+     * @param int $id
+     * @return void
+     */
     protected static function updateModelWithProfanity(
         Model $entity,
         string $field,
@@ -125,6 +154,10 @@ trait ProfanityFilter
         $model->save();
     }
 
+    /**
+     * @param array $data
+     * @return void
+     */
     protected static function createLog(array $data): void
     {
         $profanityLog = new ProfanityLog($data);

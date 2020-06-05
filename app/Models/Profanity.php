@@ -18,17 +18,27 @@ class Profanity extends Model
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return HasMany
+     */
     public function profanityIgnores(): HasMany
     {
         return $this->hasMany(ProfanityIgnore::class);
     }
 
-    public static function getProfanitiesIgnored(array $data)
+    /**
+     * @param array $data
+     * @return Builder
+     */
+    public static function getProfanitiesIgnored(array $data): Builder
     {
         return Profanity::whereDoesntHave(
             'profanityIgnores',
@@ -53,7 +63,6 @@ class Profanity extends Model
                         ]);
                     });
                 });
-            })
-            ->get();
+            });
     }
 }

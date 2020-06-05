@@ -15,7 +15,7 @@ abstract class AbstractRepository extends BaseRepository implements CacheableInt
     /**
      * @return string
      */
-    abstract public function model();
+    abstract public function model(): string;
 
     /**
      * @return void

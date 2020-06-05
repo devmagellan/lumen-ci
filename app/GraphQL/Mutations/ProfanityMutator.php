@@ -2,13 +2,19 @@
 
 namespace WGT\GraphQL\Mutations;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 use WGT\Models\Profanity;
 
 class ProfanityMutator
 {
-    public function create($root, array $args)
+    /**
+     * @param null $root
+     * @param array $args
+     * @return Model
+     */
+    public function create($root, array $args): Model
     {
         $request = Arr::only($args, ['word']);
         $userId = auth()->user()->id;
@@ -20,7 +26,12 @@ class ProfanityMutator
         return $profanity;
     }
 
-    public function update($root, array $args)
+    /**
+     * @param null $root
+     * @param array $args
+     * @return Model
+     */
+    public function update($root, array $args): Model
     {
         $request = Arr::only($args, ['id', 'word']);
         $userId = auth()->user()->id;

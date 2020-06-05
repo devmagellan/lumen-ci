@@ -25,11 +25,17 @@ class ProfanityLog extends Model
 
     public $timestamps = false;
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function firm(): BelongsTo
     {
         return $this->belongsTo(Firm::class);

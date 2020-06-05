@@ -18,21 +18,33 @@ class ProfanityIgnore extends Model
         'user_id',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function profanity(): BelongsTo
     {
         return $this->belongsTo(Profanity::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function userIgnored(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function firmIgnored(): BelongsTo
     {
         return $this->belongsTo(Firm::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
