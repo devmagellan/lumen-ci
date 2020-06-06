@@ -2,21 +2,11 @@
 
 namespace WGT\Repositories;
 
-use Prettus\Repository\Events\RepositoryEntityCreated;
 use WGT\Models\Firm;
 use WGT\Repositories\AbstractRepository;
 
 class FirmRepository extends AbstractRepository
 {
-    /**
-     * @var array
-     */
-    protected $fieldSearchable = [
-        'name' => 'like',
-        'description' => 'like',
-        'website' => 'like',
-    ];
-
     /**
      * @return string
      */
@@ -27,9 +17,9 @@ class FirmRepository extends AbstractRepository
 
     /**
      * @param array $data
-     * @return array
+     * @return Firm
      */
-    public function create(array $data): array
+    public function create(array $data): Firm
     {
         $firm = $this->model->create($data);
 
@@ -41,9 +31,7 @@ class FirmRepository extends AbstractRepository
             $firm->extra()->create($data['extra']);
         }
 
-        event(new RepositoryEntityCreated($this, $firm));
-
-        return $this->parserResult($firm);
+        return $firm;
     }
 
     /**
@@ -54,7 +42,7 @@ class FirmRepository extends AbstractRepository
      */
     public function attachEmployee(int $firmId, int $userId, array $data): bool
     {
-        $this->model->find($firmId)->users()->attach($userId, $data);
+        $this->model->find($firmId)->employees()->attach($userId, $data);
 
         return true;
     }
@@ -66,7 +54,7 @@ class FirmRepository extends AbstractRepository
      */
     public function detachEmployee(int $firmId, int $userId): bool
     {
-        $firm = $this->model->find($firmId)->users()->detach($userId);
+        $firm = $this->model->find($firmId)->employees()->detach($userId);
 
         return true;
     }

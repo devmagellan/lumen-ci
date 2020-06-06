@@ -3,6 +3,7 @@
 namespace WGT\GraphQL\Mutations;
 
 use Illuminate\Support\Arr;
+use WGT\Models\Firm;
 use WGT\Services\FirmService;
 
 class FirmMutator
@@ -23,21 +24,21 @@ class FirmMutator
     /**
      * @param null $root
      * @param array $firm
-     * @return array
+     * @return Firm
      */
-    public function create($root, array $firm): array
+    public function create($root, array $firm): Firm
     {
-        return $this->service->create($firm)['data'] ?? [];
+        return $this->service->create($firm);
     }
 
     /**
      * @param null $root
      * @param array $firm
-     * @return array
+     * @return Firm
      */
-    public function update($root, array $firm): array
+    public function update($root, array $firm): Firm
     {
-        return $this->service->update($firm['firm'], $firm['id'])['data'] ?? [];
+        return $this->service->update($firm['firm'], $firm['id']);
     }
 
     /**

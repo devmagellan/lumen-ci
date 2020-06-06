@@ -25,12 +25,12 @@ class RegisterMutator
     /**
      * @param null $root
      * @param array $user
-     * @return array
+     * @return User
      */
-    public function register($root, array $user): array
+    public function register($root, array $user): User
     {
-        event(new Registered($user = $this->service->create($user)['data'] ?? []));
-        Auth::guard()->login(new User($user));
+        event(new Registered($user = $this->service->create($user)));
+        Auth::guard()->login($user);
 
         return $user;
     }
