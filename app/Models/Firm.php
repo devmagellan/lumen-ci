@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
 use WGT\Models\Firm\FirmAddress;
 use WGT\Models\Firm\FirmExtra;
 
-class Firm extends Model implements Transformable
+class Firm extends Model
 {
-    use SoftDeletes, TransformableTrait;
+    use SoftDeletes;
 
     /**
      * @var array
@@ -61,8 +59,8 @@ class Firm extends Model implements Transformable
     /**
      * @return BelongsToMany
      */
-    public function users(): BelongsToMany
+    public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_firm');
+        return $this->belongsToMany(User::class)->as('work')->withPivot('position');
     }
 }

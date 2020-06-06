@@ -2,7 +2,7 @@ extend type Query @middleware(checks: ["auth"]) {
     firms: [Firm]!
         @field(resolver: "FirmQuery@all")
 
-    firm(id: Int): Firm!
+    firm(id: ID): Firm!
         @field(resolver: "FirmQuery@find")
 }
 
@@ -21,17 +21,17 @@ extend type Mutation @middleware(checks: ["auth"]) {
         @field(resolver: "FirmMutator@create")
         @createFirmValidation
 
-    updateFirm(id: Int!, firm: UpdateFirmInput!): Firm!
+    updateFirm(id: ID!, firm: UpdateFirmInput!): Firm!
         @field(resolver: "FirmMutator@update")
         @updateFirmValidation
 
-    deleteFirm(id: Int!): MessageResponse!
+    deleteFirm(id: ID!): MessageResponse!
         @field(resolver: "FirmMutator@delete")
 
-    attachEmployee(firmId: Int!, userId: Int!, position: String!): MessageResponse!
+    attachEmployee(firmId: ID!, userId: ID!, position: String!): MessageResponse!
         @field(resolver: "FirmMutator@attachEmployee")
 
-    detachEmployee(firmId: Int!, userId: Int!): MessageResponse!
+    detachEmployee(firmId: ID!, userId: ID!): MessageResponse!
         @field(resolver: "FirmMutator@detachEmployee")
 }
 
@@ -44,6 +44,34 @@ type Firm {
     type: String!
     supplier: String
     status: String!
+    employees: [Employee]!
+}
+
+type Position {
+  position: String!
+}
+
+type Employee {
+    id: ID!
+    first_name: String!
+    middle_name: String
+    last_name: String!
+    gender: String
+    birthdate: Date
+    email: String!
+    business_email: String
+    phone: String
+    mobile: String
+    business_phone: String
+    business_phone_extension: String
+    business_mobile: String
+    toll_free_business_number: String
+    address: String
+    city: String
+    state: String
+    country: String
+    zip_code: String
+    work: Position!
 }
 
 input UpdateFirmInput {

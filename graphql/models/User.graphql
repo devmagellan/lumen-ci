@@ -72,6 +72,23 @@ type User {
     zip_code: String
     secret_phrase: String
     fingerprint_code: String
+    employments: [Employment]!
+}
+
+type Position {
+  position: String!
+}
+
+type Employment {
+    id: ID!
+    name: String!
+    description: String
+    website: String
+    discount: Float
+    type: String!
+    supplier: String
+    status: String!
+    work: Position!
 }
 
 input UpdateUserInput {

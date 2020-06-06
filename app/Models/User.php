@@ -130,8 +130,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * @return BelongsToMany
      */
-    public function firms()
+    public function employments()
     {
-        return $this->belongsToMany(Firm::class);
+        return $this->belongsToMany(Firm::class)->as('work')->withPivot('position');
     }
 }

@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserFirmTable extends Migration
+class CreateFirmUserTable extends Migration
 {
     /**
      * @return void
      */
     public function up()
     {
-        Schema::create('user_firm', function (Blueprint $table) {
+        Schema::create('firm_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('firm_id');
@@ -25,6 +25,6 @@ class CreateUserFirmTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_firm');
+        Schema::dropIfExists('firm_user');
     }
 }
