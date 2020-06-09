@@ -16,7 +16,7 @@ class CreateFirmAddressesTable extends Migration
         Schema::create('firm_addresses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('firm_id')->default(0);
-            $table->string('address', 255)->default('');
+            $table->string('address', 255);
             $table->string('fax', 16)->nullable();
             $table->string('phone', 16)->nullable();
             $table->string('postal_code', 16)->nullable();

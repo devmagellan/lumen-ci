@@ -3,6 +3,7 @@
 namespace WGT\GraphQL\Mutations;
 
 use Illuminate\Support\Facades\Auth;
+use WGT\Models\User;
 use WGT\Services\UserService;
 
 class UserMutator
@@ -23,10 +24,10 @@ class UserMutator
     /**
      * @param null $root
      * @param array $user
-     * @return array
+     * @return User
      */
-    public function update($root, array $user): array
+    public function update($root, array $user): User
     {
-        return $this->service->update($user, Auth::user()->id)['data'] ?? [];
+        return $this->service->update($user, Auth::user()->id);
     }
 }
