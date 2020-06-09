@@ -61,6 +61,6 @@ class Firm extends Model
      */
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->as('work')->withPivot('position');
+        return $this->belongsToMany(User::class)->as('work')->withPivot(['id', 'position']);
     }
 }

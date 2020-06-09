@@ -70,9 +70,9 @@ class FirmMutator
      * @param array $data
      * @return array
      */
-    public function detachEmployee(int $firmId, int $data): array
+    public function detachEmployee($root, array $data): array
     {
-        $this->service->detachEmployee($data['firmId'], $data['userId']);
+        $this->service->detachEmployees($data['firmId'], $data['userId'], $data['position']);
 
         return ['message' => trans('messages.firm.employee_detached')];
     }

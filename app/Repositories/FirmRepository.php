@@ -50,12 +50,12 @@ class FirmRepository extends AbstractRepository
     /**
      * @param int $firmId
      * @param int $userId
+     * @param string $position
      * @return bool
      */
-    public function detachEmployee(int $firmId, int $userId): bool
+    public function detachEmployees(int $firmId, int $userId, string $position): bool
     {
-        $firm = $this->model->find($firmId)->employees()->detach($userId);
-
-        return true;
+        return $this->model->find($firmId)->employees()
+            ->wherePivot('position', $position)->detach($userId);
     }
 }

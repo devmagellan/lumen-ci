@@ -132,6 +132,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function employments()
     {
-        return $this->belongsToMany(Firm::class)->as('work')->withPivot('position');
+        return $this->belongsToMany(Firm::class)->as('work')->withPivot(['id', 'position']);
     }
 }

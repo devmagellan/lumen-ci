@@ -32,7 +32,11 @@ extend type Mutation @middleware(checks: ["auth"]) {
         @field(resolver: "FirmMutator@attachEmployee")
         @attachEmployeeValidation
 
-    detachEmployee(firmId: ID!, userId: ID!): MessageResponse!
+    detachEmployee(
+        firmId: ID! @rules(apply: ["required", "numeric"]),
+        userId: ID! @rules(apply: ["required", "numeric"]),
+        position: String! @rules(apply: ["required", "string"])
+    ): MessageResponse!
         @field(resolver: "FirmMutator@detachEmployee")
 }
 
