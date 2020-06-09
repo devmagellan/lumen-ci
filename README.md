@@ -58,7 +58,28 @@ composer update
 php artisan migrate
 ```
 
-### 7. Usage
+6.1. Refresh the database and run all database seeds
+
+```
+php artisan migrate:refresh --seed
+```
+
+### 7. Preloading data (optional)
+
+7.1. Executing All Seeders
+
+```
+php artisan db:seed
+```
+
+7.2. Executing Individual Seeder
+
+```
+php artisan db:seed --class=UsersSeeder
+php artisan db:seed --class=ProfanitySeeder
+```
+
+### 8. Usage
 
 Open your GraphQL client and run the following query:
 
@@ -75,4 +96,12 @@ The response will be:
         "hello": "it is working!"
     }
 }
+```
+
+### Extra commands
+
+#### Regenerate Composer's autoloader:
+
+```
+composer dump-autoload
 ```
