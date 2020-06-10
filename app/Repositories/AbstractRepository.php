@@ -2,10 +2,9 @@
 
 namespace WGT\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\CacheableInterface;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Presenter\ModelFractalPresenter;
 use Prettus\Repository\Traits\CacheableRepository;
 
 abstract class AbstractRepository extends BaseRepository implements CacheableInterface
@@ -16,20 +15,4 @@ abstract class AbstractRepository extends BaseRepository implements CacheableInt
      * @return string
      */
     abstract public function model(): string;
-
-    /**
-     * @return void
-     */
-    public function boot(): void
-    {
-        $this->pushCriteria(app(RequestCriteria::class));
-    }
-
-    /**
-     * @return string
-     */
-    public function presenter(): string
-    {
-        return ModelFractalPresenter::class;
-    }
 }

@@ -19,15 +19,15 @@ class CreateFirmExtrasTable extends Migration
             $table->string('locale', 8)->default('en-US');
             $table->string('timezone', 64)->default('America/Los_Angeles');
             $table->char('currency', 3)->default('USD');
-            $table->string('contact_name', 64);
-            $table->string('email', 255);
+            $table->string('contact_name', 64)->nullable();
+            $table->string('email', 255)->nullable();
             $table->integer('logo')->nullable();
             $table->integer('header_logo')->nullable();
             $table->integer('mobile_header_logo')->nullable();
-            $table->string('headline', 256);
+            $table->string('headline', 256)->nullable();
             $table->decimal('discount_fee', 9, 2)->nullable();
             $table->decimal('as_discount_fee', 9, 2)->nullable();
-            $table->integer('default_association');
+            $table->integer('default_association')->nullable();
             $table->timestamps();
         });
     }

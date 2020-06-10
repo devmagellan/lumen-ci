@@ -106,7 +106,9 @@ $app->register(Illuminate\Notifications\NotificationServiceProvider::class);
 $app->register(Urameshibr\Providers\FormRequestServiceProvider::class);
 $app->register(Prettus\Repository\Providers\LumenRepositoryServiceProvider::class);
 $app->register(Nuwave\Lighthouse\LighthouseServiceProvider::class);
+$app->register(Nuwave\Lighthouse\SoftDeletes\SoftDeletesServiceProvider::class);
 $app->register(WGT\Providers\DbLogProvider::class);
+$app->register(Laravel\Tinker\TinkerServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

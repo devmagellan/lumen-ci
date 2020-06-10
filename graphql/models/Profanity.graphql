@@ -1,0 +1,30 @@
+type Profanity {
+    id: ID
+    word: String!
+    user: User! @belongsTo
+}
+
+extend type Query @middleware(checks: ["auth"]) {
+    profanity(id: ID! @eq): Profanity @find
+    profanities(
+        id: String @where(operator: "LIKE")
+        word: String @where(operator: "LIKE")
+        trashed: Trashed @trashed
+    ): [Profanity!]! @paginate(defaultCount: 10)
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createProfanity(
+        word: String @rules(apply: ["required", "unique:profanities", "min:2", "max:255"])
+    ): Profanity
+        @field(resolver: "ProfanityMutator@create")
+
+    updateProfanity(
+        id: ID!,
+        word: String
+    ): Profanity
+        @field(resolver: "ProfanityMutator@update")
+        @updateProfanityValidation
+
+    deleteProfanity(id: ID!): Profanity @delete
+}
