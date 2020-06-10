@@ -14,8 +14,7 @@
         "league/fractal": "^0.19.2",
         "nuwave/lighthouse": "^4.13",
         "prettus/l5-repository": "^2.6",
-        "tymon/jwt-auth": "^1.0",
-        "urameshibr/lumen-form-request": "^1.5"
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",
