@@ -1,4 +1,4 @@
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @middleware(checks: ["auth", "permission:show firms"]) {
     firms: [Firm]!
         @field(resolver: "FirmQuery@all")
 

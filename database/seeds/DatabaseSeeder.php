@@ -10,5 +10,6 @@ class DatabaseSeeder extends Seeder
         $this->call('FirmSeeder');
         $this->call('ProfanitySeeder');
         $this->call('ProfanityIgnoreSeeder');
+        $this->call('PermissionsSeeder');
     }
 }
