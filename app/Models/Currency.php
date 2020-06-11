@@ -16,9 +16,9 @@ use WGT\Models\User;
  *
  * @package namespace WGT\Models;
  */
-class Currency extends Model implements Transformable
+class Currency extends Model
 {
-    use TransformableTrait, SoftDeletes;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

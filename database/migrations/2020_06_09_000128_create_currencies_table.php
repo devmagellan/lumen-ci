@@ -18,8 +18,8 @@ class CreateCurrenciesTable extends Migration
 		Schema::create('currencies', function(Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code');
-            $table->string('alpha_3_code', 3);
+            $table->string('code', 3);
+            $table->string('alpha_3_code', 3)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('country_id');

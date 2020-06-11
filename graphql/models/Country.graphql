@@ -1,0 +1,4 @@
+type Country {
+    id: ID!
+    name: String!
+}

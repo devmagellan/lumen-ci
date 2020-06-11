@@ -2,14 +2,16 @@
 
 namespace WGT\Repositories;
 
-use Prettus\Repository\Contracts\RepositoryInterface;
+use WGT\Repositories\AbstractRepository;
+use WGT\Models\Currency;
 
-/**
- * Interface CurrencyRepository.
- *
- * @package namespace WGT\Repositories;
- */
-interface CurrencyRepository extends RepositoryInterface
+class CurrencyRepository extends AbstractRepository
 {
-    //
+    /**
+     * @return string
+     */
+    public function model(): string
+    {
+        return Currency::class;
+    }
 }
