@@ -1,0 +1,48 @@
+extend type Query @middleware(checks: ["auth"]) {
+    roles: [Role]!
+        @field(resolver: "RoleQuery@all")
+        @middleware(checks: ["permission:list roles"])
+
+    role(id: ID): Role!
+        @field(resolver: "RoleQuery@find")
+        @middleware(checks: ["permission:show roles"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createRole(name: String!): Role!
+        @field(resolver: "RoleMutator@create")
+        @middleware(checks: ["permission:create roles"])
+
+    updateRole(id: ID!, role: UpdateRoleInput!): Role!
+        @field(resolver: "RoleMutator@update")
+        @middleware(checks: ["permission:update roles"])
+
+    deleteRole(id: ID!): MessageResponse!
+        @field(resolver: "RoleMutator@delete")
+        @middleware(checks: ["permission:delete roles"])
+
+    givePermission(role_id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "RoleMutator@givePermission")
+        @attachPermissionValidation
+
+    revokePermission(role_id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "RoleMutator@revokePermission")
+
+    # attachUser(role_id: ID!, user_id: ID!): MessageResponse!
+    #     @field(resolver: "RoleMutator@attachUser")
+    #     @attachUserValidation
+
+    # detachUser(role_id: ID!, user_id: ID!): MessageResponse!
+    #     @field(resolver: "RoleMutator@detachUser")
+}
+
+type Role {
+    id: ID!
+    name: String!
+    permissions: [Permission]!
+    users: [User]!
+}
+
+input UpdateRoleInput {
+    name: String
+}

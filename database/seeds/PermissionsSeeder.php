@@ -14,15 +14,15 @@ class PermissionsSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $permissions = config('permission.permissions');
+        Role::firstOrCreate(['name' => 'super-admin']);
 
-        foreach ($permissions as $scope => $permissionsByScope) {
-            foreach ($permissionsByScope as $action => $permission) {
+        foreach (config('permission.permissions') as $scope => $permissions) {
+            foreach ($permissions as $action => $permission) {
                 Permission::firstOrCreate(['name' => $permission]);
             }
         }
 
-        $role = Role::firstOrCreate(['name' => 'super-admin']);
-        $role->givePermissionTo($role->getAllPermissions());
+        // $role = Role::firstOrCreate(['name' => 'super-admin']);
+        // $role->givePermissionTo($role->getAllPermissions());
     }
 }

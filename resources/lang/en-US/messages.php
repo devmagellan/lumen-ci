@@ -3,9 +3,7 @@
 return [
 
     'deleted' => ':Entity successfully deleted.',
+    'attached' => ':Entity successfully attached.',
+    'detached' => ':Entity successfully detached.',
 
-    'firm' => [
-        'employee_attached' => 'Employee successfully attached.',
-        'employee_detached' => 'Employee successfully detached.',
-    ],
 ];

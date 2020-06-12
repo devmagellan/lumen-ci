@@ -143,9 +143,25 @@ return [
 
     'permissions' => [
 
+        'roles' => [
+            'list' => 'list roles',
+            'view' => 'view roles',
+            'create' => 'create roles',
+            'update' => 'update roles',
+            'delete' => 'delete roles',
+        ],
+
+        'permissions' => [
+            'list' => 'list permissions',
+            'view' => 'view permissions',
+            'create' => 'create permissions',
+            'update' => 'update permissions',
+            'delete' => 'delete permissions',
+        ],
+
         'firms' => [
             'list' => 'list firms',
-            'show' => 'show firms',
+            'view' => 'view firms',
             'create' => 'create firms',
             'update' => 'update firms',
             'delete' => 'delete firms',
