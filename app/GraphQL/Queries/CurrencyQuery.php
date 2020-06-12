@@ -30,7 +30,7 @@ class CurrencyQuery extends AbstractQuery
      * @param ResolveInfo $resolveInfo
      * @return Collection
      */
-    public function all($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public function all($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Collection
     {
         return $this->service->all();
     }
@@ -40,7 +40,7 @@ class CurrencyQuery extends AbstractQuery
      * @param array $args
      * @param GraphQLContext $context
      * @param ResolveInfo $resolveInfo
-     * @return Firm
+     * @return Currency
      */
     public function find($root, array $args): Currency
     {
