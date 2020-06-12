@@ -42,6 +42,20 @@ extend type Mutation {
     ): MessageResponse
         @field(resolver: "Auth\\ResetPasswordMutator@reset")
         @resetPasswordValidation
+
+    assignRoleToUser(id: ID!, role_id: ID!): MessageResponse!
+        @field(resolver: "UserMutator@assignRole")
+        @assignRoleValidation
+
+    removeRoleToUser(id: ID!, role_id: ID!): MessageResponse!
+        @field(resolver: "UserMutator@removeRole")
+
+    givePermissionToUser(id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "UserMutator@givePermission")
+        @givePermissionValidation
+
+    revokePermissionToUser(id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "UserMutator@revokePermission")
 }
 
 type AuthTokenType {

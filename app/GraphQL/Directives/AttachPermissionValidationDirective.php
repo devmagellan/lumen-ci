@@ -13,9 +13,9 @@ class AttachPermissionValidationDirective extends ValidationDirective
     public function rules(): array
     {
         return [
-            'role_id' => ['required', 'numeric'],
+            'id' => ['required', 'numeric'],
             'permission_id' => ['required', Rule::unique('role_has_permissions')->where(function ($query) {
-                return $query->where('role_id', $this->args()['role_id'] ?? 0);
+                return $query->where('role_id', $this->args()['id'] ?? 0);
             })],
         ];
     }

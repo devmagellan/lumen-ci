@@ -28,11 +28,11 @@ extend type Mutation @middleware(checks: ["auth"]) {
     deleteFirm(id: ID!): MessageResponse!
         @field(resolver: "FirmMutator@delete")
 
-    attachEmployee(firm_id: ID!, user_id: ID!, position: String!): MessageResponse!
+    attachEmployeeToFirm(id: ID!, user_id: ID!, position: String!): MessageResponse!
         @field(resolver: "FirmMutator@attachEmployee")
         @attachEmployeeValidation
 
-    detachEmployee(firm_id: ID!, user_id: ID!, position: String!): MessageResponse!
+    detachEmployeeToFirm(id: ID!, user_id: ID!, position: String!): MessageResponse!
         @field(resolver: "FirmMutator@detachEmployee")
 }
 

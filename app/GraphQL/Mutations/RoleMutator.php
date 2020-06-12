@@ -62,7 +62,7 @@ class RoleMutator
      */
     public function givePermission($root, array $data): array
     {
-        $this->service->givePermission($data['role_id'], $data['permission_id']);
+        $this->service->givePermission($data['id'], $data['permission_id']);
 
         return ['message' => trans('messages.attached', ['entity' => 'Role'])];
     }
@@ -74,7 +74,7 @@ class RoleMutator
      */
     public function revokePermission($root, array $data): array
     {
-        $this->service->revokePermission($data['role_id'], $data['permission_id']);
+        $this->service->revokePermission($data['id'], $data['permission_id']);
 
         return ['message' => trans('messages.detached', ['entity' => 'Role'])];
     }

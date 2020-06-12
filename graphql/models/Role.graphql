@@ -21,19 +21,12 @@ extend type Mutation @middleware(checks: ["auth"]) {
         @field(resolver: "RoleMutator@delete")
         @middleware(checks: ["permission:delete roles"])
 
-    givePermission(role_id: ID!, permission_id: ID!): MessageResponse!
+    givePermissionToRole(id: ID!, permission_id: ID!): MessageResponse!
         @field(resolver: "RoleMutator@givePermission")
         @attachPermissionValidation
 
-    revokePermission(role_id: ID!, permission_id: ID!): MessageResponse!
+    revokePermissionToRole(id: ID!, permission_id: ID!): MessageResponse!
         @field(resolver: "RoleMutator@revokePermission")
-
-    # attachUser(role_id: ID!, user_id: ID!): MessageResponse!
-    #     @field(resolver: "RoleMutator@attachUser")
-    #     @attachUserValidation
-
-    # detachUser(role_id: ID!, user_id: ID!): MessageResponse!
-    #     @field(resolver: "RoleMutator@detachUser")
 }
 
 type Role {
