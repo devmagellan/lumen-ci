@@ -10,5 +10,8 @@ class DatabaseSeeder extends Seeder
         $this->call('FirmSeeder');
         $this->call('ProfanitySeeder');
         $this->call('ProfanityIgnoreSeeder');
+        $this->call('CountrySeeder');
+        $this->call('CurrencySeeder');
+        $this->call('CurrencyUserSeeder');
     }
 }

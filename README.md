@@ -103,7 +103,7 @@ The response will be:
 #### Regenerate Composer's autoloader:
 
 ```
-composer dump-autoload
+composer -o dump-autoload
 ```
 
 ### Library Reference
@@ -149,5 +149,3 @@ But if you prefer to ignore some fields, you can add `$ignoreProfanity` property
  */
 protected $profanityFields = ['comments'];
 ```
-
-
