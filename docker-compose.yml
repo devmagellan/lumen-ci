@@ -25,6 +25,7 @@ services:
     restart: always
     working_dir: /var/www/wgtcrm
     volumes:
+      - "./docker/php:/usr/local/etc/php:ro"
       - ".:/var/www/wgtcrm"
     networks:
       - wgtcrm

@@ -4,13 +4,17 @@ MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN groupadd -g 1000 docker \
-    && useradd -m -u 1000 -g docker docker -G sudo \
-    && apt update -yqq \
+RUN apt update -yqq \
     && apt full-upgrade -y \
     && pecl channel-update pecl.php.net
 
-RUN apt install --no-install-recommends -y git ssh-client python-setuptools python-pip \
+RUN apt install --no-install-recommends -y sudo \
+    && groupadd -g 1000 docker \
+    && useradd -m -u 1000 -g docker docker -G sudo \
+    && echo 'docker:docker' | chpasswd \
+    #
+    #
+    && apt install --no-install-recommends -y git ssh-client python-setuptools python-pip \
     && pip install supervisor \
     && mkdir /etc/supervisor \
     && echo_supervisord_conf > /etc/supervisor/supervisord.conf \
@@ -130,5 +134,7 @@ RUN apt autoremove -y \
     && ssh-keyscan gitlab.com >> /home/docker/.ssh/known_hosts \
     && ssh-keyscan bitbucket.org >> /home/docker/.ssh/known_hosts \
     && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
+
+COPY supervisor/local /etc/supervisor/conf.d
 
 USER docker
