@@ -4,42 +4,57 @@ namespace WGT\GraphQL\Mutations;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-
 use WGT\Models\Profanity;
+use WGT\Services\ProfanityService;
 
 class ProfanityMutator
 {
     /**
-     * @param null $root
-     * @param array $args
-     * @return Model
+     * @var ProfanityService $service
      */
-    public function create($root, array $args): Model
+    private $service;
+
+    /**
+     * @param ProfanityService $service
+     */
+    public function __construct(ProfanityService $service)
     {
-        $request = Arr::only($args, ['word']);
-        $userId = auth()->user()->id;
-
-        $profanity = new Profanity($request);
-        $profanity->user_id = $userId;
-        $profanity->save();
-
-        return $profanity;
+        $this->service = $service;
     }
 
     /**
      * @param null $root
      * @param array $args
-     * @return Model
+     * @return Profanity
      */
-    public function update($root, array $args): Model
+    public function create($root, array $args): Profanity
+    {
+        $request = Arr::only($args, ['word']);
+        $request['user_id'] = auth()->user()->id;
+        return $this->service->create($request);
+    }
+
+    /**
+     * @param null $root
+     * @param array $args
+     * @return Profanity
+     */
+    public function update($root, array $args): Profanity
     {
         $request = Arr::only($args, ['id', 'word']);
-        $userId = auth()->user()->id;
+        $request['user_id'] = auth()->user()->id;
+        return $this->service->update($request, $request['id']);
+    }
 
-        $profanity = Profanity::find($request['id']);
-        $profanity->user_id = $userId;
-        $profanity->word = $request['word'];
-        $profanity->save();
-        return $profanity;
+    /**
+     * @param null $root
+     * @param array $currency
+     * @return array
+     */
+    public function delete($root, array $args): array
+    {
+        $this->service->delete($args['id']);
+
+        return ['message' => trans('messages.deleted', ['entity' => 'Profanity'])];
     }
 }

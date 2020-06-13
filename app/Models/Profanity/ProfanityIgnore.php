@@ -15,6 +15,7 @@ class ProfanityIgnore extends Model
         'profanity_id',
         'user_ignored_id',
         'firm_ignored_id',
+        'network_ignored_id',
         'user_id',
     ];
 
