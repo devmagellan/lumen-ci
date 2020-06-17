@@ -1,9 +1,11 @@
-extend type Query @middleware(checks: ["auth", "permission:show firms"]) {
+extend type Query @middleware(checks: ["auth"]) {
     firms: [Firm]!
         @field(resolver: "FirmQuery@all")
+        @middleware(checks: ["permission:list-firms"])
 
     firm(id: ID): Firm!
         @field(resolver: "FirmQuery@find")
+        @middleware(checks: ["permission:view-firms"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
@@ -19,21 +21,26 @@ extend type Mutation @middleware(checks: ["auth"]) {
         extra: FirmExtraInput
     ): Firm!
         @field(resolver: "FirmMutator@create")
+        @middleware(checks: ["permission:create-firms"])
         @createFirmValidation
 
     updateFirm(id: ID!, firm: UpdateFirmInput!): Firm!
         @field(resolver: "FirmMutator@update")
+        @middleware(checks: ["permission:update-firms"])
         @updateFirmValidation
 
     deleteFirm(id: ID!): MessageResponse!
         @field(resolver: "FirmMutator@delete")
+        @middleware(checks: ["permission:delete-firms"])
 
     attachEmployeeToFirm(id: ID!, user_id: ID!, position: String!): MessageResponse!
         @field(resolver: "FirmMutator@attachEmployee")
+        @middleware(checks: ["permission:attach-employee-to-firms"])
         @attachEmployeeValidation
 
     detachEmployeeToFirm(id: ID!, user_id: ID!, position: String!): MessageResponse!
         @field(resolver: "FirmMutator@detachEmployee")
+        @middleware(checks: ["permission:detach-employee-to-firms"])
 }
 
 type Firm {

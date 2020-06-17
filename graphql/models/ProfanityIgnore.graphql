@@ -9,8 +9,11 @@ type ProfanityIgnore {
 extend type Query @middleware(checks: ["auth"]) {
     profanityIgnore(id: ID! @eq): ProfanityIgnore
         @find(model: "WGT\\Models\\Profanity\\ProfanityIgnore")
+        @middleware(checks: ["permission:view-ignore-profanities"])
+
     profanityIgnores: [ProfanityIgnore!]!
         @paginate(defaultCount: 10, model: "WGT\\Models\\Profanity\\ProfanityIgnore")
+        @middleware(checks: ["permission:list-ignore-profanities"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
@@ -20,6 +23,7 @@ extend type Mutation @middleware(checks: ["auth"]) {
         firm_ignored_id: ID
     ): ProfanityIgnore
         @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@create")
+        @middleware(checks: ["permission:create-ignore-profanities"])
         @profanityIgnoreCreateValidation
 
     updateProfanityIgnore(
@@ -29,8 +33,10 @@ extend type Mutation @middleware(checks: ["auth"]) {
         firm_ignored_id: ID
     ): ProfanityIgnore
         @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@update")
+        @middleware(checks: ["permission:update-ignore-profanities"])
         @profanityIgnoreUpdateValidation
 
     deleteProfanityIgnore(id: ID!): ProfanityIgnore
         @delete(model: "WGT\\Models\\Profanity\\ProfanityIgnore")
+        @middleware(checks: ["permission:delete-ignore-profanities"])
 }

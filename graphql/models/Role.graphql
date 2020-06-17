@@ -1,32 +1,34 @@
 extend type Query @middleware(checks: ["auth"]) {
     roles: [Role]!
         @field(resolver: "RoleQuery@all")
-        @middleware(checks: ["permission:list roles"])
+        @middleware(checks: ["permission:list-roles"])
 
     role(id: ID): Role!
         @field(resolver: "RoleQuery@find")
-        @middleware(checks: ["permission:show roles"])
+        @middleware(checks: ["permission:show-roles"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
     createRole(name: String!): Role!
         @field(resolver: "RoleMutator@create")
-        @middleware(checks: ["permission:create roles"])
+        @middleware(checks: ["permission:create-roles"])
 
     updateRole(id: ID!, role: UpdateRoleInput!): Role!
         @field(resolver: "RoleMutator@update")
-        @middleware(checks: ["permission:update roles"])
+        @middleware(checks: ["permission:update-roles"])
 
     deleteRole(id: ID!): MessageResponse!
         @field(resolver: "RoleMutator@delete")
-        @middleware(checks: ["permission:delete roles"])
+        @middleware(checks: ["permission:delete-roles"])
 
     givePermissionToRole(id: ID!, permission_id: ID!): MessageResponse!
         @field(resolver: "RoleMutator@givePermission")
+        @middleware(checks: ["permission:give-permission-to-roles"])
         @attachPermissionValidation
 
     revokePermissionToRole(id: ID!, permission_id: ID!): MessageResponse!
         @field(resolver: "RoleMutator@revokePermission")
+        @middleware(checks: ["permission:revoke-permission-to-roles"])
 }
 
 type Role {

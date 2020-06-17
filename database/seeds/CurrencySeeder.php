@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
 use WGT\Models\Country;
 use WGT\Models\Currency;
 
@@ -48,15 +47,15 @@ class CurrencySeeder extends Seeder
             ['code' => 'PHP', 'alpha_3_code' => 'PHL', 'name' => 'Philippine peso', 'user_id' => $user_id],
             ['code' => 'SGD', 'alpha_3_code' => 'SGP', 'name' => 'Singapore dollar', 'user_id' => $user_id],
             ['code' => 'THB', 'alpha_3_code' => 'THA', 'name' => 'Thai baht', 'user_id' => $user_id],
-            ['code' => 'ZAR', 'alpha_3_code' => 'ZAF', 'name' => 'South African rand', 'user_id' => $user_id]
+            ['code' => 'ZAR', 'alpha_3_code' => 'ZAF', 'name' => 'South African rand', 'user_id' => $user_id],
         ];
 
-        foreach($currencies as $currency) {
+        foreach ($currencies as $currency) {
             $country = Country::where('alpha_3_code', $currency['alpha_3_code'])
                 ->select('id')
                 ->first();
             $currency['country_id'] = $country->id;
-            Currency::create($currency);
+            Currency::firstOrCreate(['code' => $currency['code']], $currency);
         }
     }
 }

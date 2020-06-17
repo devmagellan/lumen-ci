@@ -13,6 +13,7 @@ extend type Query @middleware(checks: ["auth"]) {
         date: DateTime @rules(apply: ["nullable", "date"])
     ): ExchangeRate!
         @field(resolver: "ExchangeRateQuery@convert")
+        @middleware(checks: ["permission:converter-currencies"])
 
     currencyConverterViaUser(
         conversionType: String
@@ -20,5 +21,6 @@ extend type Query @middleware(checks: ["auth"]) {
         currency: String
     ): ExchangeRate!
         @field(resolver: "ExchangeRateQuery@convertViaUser")
+        @middleware(checks: ["permission:converter-via-user-currencies"])
         @currencyConverterViaUserValidation
 }

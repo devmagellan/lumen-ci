@@ -15,4 +15,5 @@ type ProfanityLog {
 extend type Query @middleware(checks: ["auth"]) {
     profanityLogs: [ProfanityLog!]!
         @paginate(defaultCount: 10, model: "WGT\\Models\\Profanity\\ProfanityLog")
+        @middleware(checks: ["permission:list-log-profanities"])
 }

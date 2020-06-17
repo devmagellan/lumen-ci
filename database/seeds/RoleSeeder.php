@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\PermissionRegistrar;
+use WGT\Models\User;
 
 class RoleSeeder extends Seeder
 {
@@ -11,8 +12,21 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
 
-        Role::firstOrCreate(['name' => 'super-admin']);
+        $adminRole->syncPermissions(
+            Arr::except(config('permission.permissions'), ['roles', 'permissions'])
+        );
+
+        $adminUser = User::where('email', 'admin@worldgemtrade.com')->first();
+        if (!empty($adminUser)) {
+            $adminUser->assignRole($superAdminRole->id);
+        }
+
+        $devUser = User::where('email', 'dev@worldgemtrade.com')->first();
+        if (!empty($devUser)) {
+            $devUser->assignRole($adminRole->id);
+        }
     }
 }
