@@ -101,6 +101,8 @@ type User {
     secret_phrase: String
     fingerprint_code: String
     employments: [Employment]!
+    roles: [Role]!
+    permissions: [Permission]!
 }
 
 type Position {

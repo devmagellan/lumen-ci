@@ -13,9 +13,9 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
-        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $ownerAdminRole = Role::firstOrCreate(['name' => 'owner-admin']);
 
-        $adminRole->syncPermissions(
+        $ownerAdminRole->syncPermissions(
             Arr::except(config('permission.permissions'), ['roles', 'permissions'])
         );
 
@@ -26,7 +26,7 @@ class RoleSeeder extends Seeder
 
         $devUser = User::where('email', 'dev@worldgemtrade.com')->first();
         if (!empty($devUser)) {
-            $devUser->assignRole($adminRole->id);
+            $devUser->assignRole($ownerAdminRole->id);
         }
     }
 }

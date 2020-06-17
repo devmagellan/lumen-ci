@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        if (App::environment('local')) {
+        if (!App::environment('production')) {
             User::firstOrCreate(
                 ['email' => 'dev@worldgemtrade.com'],
                 [
