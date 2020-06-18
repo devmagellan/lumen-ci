@@ -10,8 +10,11 @@ type ProfanityIgnore {
 extend type Query @middleware(checks: ["auth"]) {
     profanityIgnores: [ProfanityIgnore]!
         @field(resolver: "ProfanityIgnoreQuery@all")
+        @middleware(checks: ["permission:list-ignore-profanities"])
+
     profanityIgnore(id: ID): ProfanityIgnore!
         @field(resolver: "ProfanityIgnoreQuery@find")
+        @middleware(checks: ["permission:view-ignore-profanities"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
@@ -22,6 +25,7 @@ extend type Mutation @middleware(checks: ["auth"]) {
         network_ignored_id: String
     ): ProfanityIgnore
         @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@create")
+        @middleware(checks: ["permission:create-ignore-profanities"])
         @profanityIgnoreCreateValidation
 
     updateProfanityIgnore(
@@ -32,8 +36,10 @@ extend type Mutation @middleware(checks: ["auth"]) {
         network_ignored_id: String
     ): ProfanityIgnore
         @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@update")
+        @middleware(checks: ["permission:update-ignore-profanities"])
         @profanityIgnoreUpdateValidation
 
     deleteProfanityIgnore(id: ID!): MessageResponse!
         @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@delete")
+        @middleware(checks: ["permission:delete-ignore-profanities"])
 }

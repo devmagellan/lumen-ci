@@ -65,6 +65,7 @@ $app->configure('database');
 $app->configure('jwt');
 $app->configure('lighthouse');
 $app->configure('mail');
+$app->configure('permission');
 $app->configure('repository');
 $app->configure('services');
 
@@ -85,6 +86,8 @@ $app->configure('services');
 
 $app->routeMiddleware([
     'auth' => WGT\Http\Middleware\Authenticate::class,
+    'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
+    'role' => Spatie\Permission\Middlewares\RoleMiddleware::class,
 ]);
 
 /*
@@ -108,6 +111,7 @@ $app->register(Nuwave\Lighthouse\LighthouseServiceProvider::class);
 $app->register(Nuwave\Lighthouse\SoftDeletes\SoftDeletesServiceProvider::class);
 $app->register(WGT\Providers\DbLogProvider::class);
 $app->register(Laravel\Tinker\TinkerServiceProvider::class);
+$app->register(Spatie\Permission\PermissionServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

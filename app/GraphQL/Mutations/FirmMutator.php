@@ -28,6 +28,8 @@ class FirmMutator
      */
     public function create($root, array $firm): Firm
     {
+        $firm = Arr::except($firm, 'directive');
+
         return $this->service->create($firm);
     }
 
@@ -60,9 +62,9 @@ class FirmMutator
      */
     public function attachEmployee($root, array $data): array
     {
-        $this->service->attachEmployee($data['firmId'], $data['userId'], Arr::only($data, 'position'));
+        $this->service->attachEmployee($data['id'], $data['user_id'], Arr::only($data, 'position'));
 
-        return ['message' => trans('messages.firm.employee_attached')];
+        return ['message' => trans('messages.attached', ['entity' => 'Firm'])];
     }
 
     /**
@@ -72,8 +74,8 @@ class FirmMutator
      */
     public function detachEmployee($root, array $data): array
     {
-        $this->service->detachEmployees($data['firmId'], $data['userId'], $data['position']);
+        $this->service->detachEmployees($data['id'], $data['user_id'], $data['position']);
 
-        return ['message' => trans('messages.firm.employee_detached')];
+        return ['message' => trans('messages.detached', ['entity' => 'Firm'])];
     }
 }

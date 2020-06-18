@@ -1,0 +1,32 @@
+extend type Query @middleware(checks: ["auth"]) {
+    permissions: [Permission]!
+        @field(resolver: "PermissionQuery@all")
+        @middleware(checks: ["permission:list-permissions"])
+
+    permission(id: ID): Permission!
+        @field(resolver: "PermissionQuery@find")
+        @middleware(checks: ["permission:view-permissions"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createPermission(name: String!): Permission!
+        @field(resolver: "PermissionMutator@create")
+        @middleware(checks: ["permission:create-permissions"])
+
+    updatePermission(id: ID!, permission: UpdatePermissionInput): Permission!
+        @field(resolver: "PermissionMutator@update")
+        @middleware(checks: ["permission:update-permissions"])
+
+    deletePermission(id: ID!): MessageResponse!
+        @field(resolver: "PermissionMutator@delete")
+        @middleware(checks: ["permission:delete-permissions"])
+}
+
+type Permission {
+    id: ID!
+    name: String!
+}
+
+input UpdatePermissionInput {
+    name: String
+}

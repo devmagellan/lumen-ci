@@ -7,14 +7,18 @@ type Profanity {
 extend type Query @middleware(checks: ["auth"]) {
     profanities: [Profanity]!
         @field(resolver: "ProfanityQuery@all")
+        @middleware(checks: ["permission:list-profanities"])
+
     profanity(id: ID): Profanity!
         @field(resolver: "ProfanityQuery@find")
+        @middleware(checks: ["permission:view-profanities"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
     createProfanity(
         word: String @rules(apply: ["required", "unique:profanities", "min:2", "max:255"])
     ): Profanity
+        @middleware(checks: ["permission:create-profanities"])
         @field(resolver: "ProfanityMutator@create")
 
     updateProfanity(
@@ -22,6 +26,7 @@ extend type Mutation @middleware(checks: ["auth"]) {
         word: String
     ): Profanity
         @field(resolver: "ProfanityMutator@update")
+        @middleware(checks: ["permission:update-profanities"])
         @updateProfanityValidation
 
     deleteProfanity(id: ID!): MessageResponse!
