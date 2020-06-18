@@ -119,6 +119,21 @@ extend type Query @middleware(checks: ["auth"]) {
 ```
 
 Role and permission seeds must be fed and run with each new role/permission in the system.
+```php
+    // config/permissions.php
+
+    'permissions' => [
+
+        'roles' => [
+            'list' => 'list-roles',
+            'view' => 'view-roles',
+            'create' => 'create-roles',
+            'update' => 'update-roles',
+            'delete' => 'delete-roles',
+            'give-permission' => 'give-permission-to-roles',
+            'revoke-permission' => 'revoke-permission-to-roles',
+        ],
+```
 
 By default, a `adm@worldgemtrade` user will be created with the `super-admin` role. Only he should have that role.
 
