@@ -22,6 +22,7 @@ class CreateActivityLogTable extends Migration
             $table->unsignedBigInteger('causer_id')->nullable();
             $table->string('causer_type')->nullable();
             $table->json('properties')->nullable();
+            $table->ipAddress('ip')->nullable();
             $table->timestamps();
 
             $table->index('log_name');

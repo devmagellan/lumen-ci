@@ -40,6 +40,14 @@ class LoginMutator
      */
     public function logout(): bool
     {
+        $userAuthenticated = auth()->user();
+
+        activity()
+            ->causedBy($userAuthenticated)
+            ->performedOn($userAuthenticated)
+            ->withProperties(['email' => $userAuthenticated['email']])
+            ->log('Logout');
+
         Auth::logout();
 
         return true;
