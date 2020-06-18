@@ -3,14 +3,15 @@ type ProfanityIgnore {
     profanity: Profanity! @belongsTo
     userIgnored: User @belongsTo
     firmIgnored: Firm @belongsTo
+    network_ignored_id: String
     user: User @belongsTo
 }
 
 extend type Query @middleware(checks: ["auth"]) {
-    profanityIgnore(id: ID! @eq): ProfanityIgnore
-        @find(model: "WGT\\Models\\Profanity\\ProfanityIgnore")
-    profanityIgnores: [ProfanityIgnore!]!
-        @paginate(defaultCount: 10, model: "WGT\\Models\\Profanity\\ProfanityIgnore")
+    profanityIgnores: [ProfanityIgnore]!
+        @field(resolver: "ProfanityIgnoreQuery@all")
+    profanityIgnore(id: ID): ProfanityIgnore!
+        @field(resolver: "ProfanityIgnoreQuery@find")
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
@@ -18,6 +19,7 @@ extend type Mutation @middleware(checks: ["auth"]) {
         profanity_id: ID
         user_ignored_id: ID
         firm_ignored_id: ID
+        network_ignored_id: String
     ): ProfanityIgnore
         @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@create")
         @profanityIgnoreCreateValidation
@@ -27,10 +29,11 @@ extend type Mutation @middleware(checks: ["auth"]) {
         profanity_id: ID
         user_ignored_id: ID
         firm_ignored_id: ID
+        network_ignored_id: String
     ): ProfanityIgnore
         @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@update")
         @profanityIgnoreUpdateValidation
 
-    deleteProfanityIgnore(id: ID!): ProfanityIgnore
-        @delete(model: "WGT\\Models\\Profanity\\ProfanityIgnore")
+    deleteProfanityIgnore(id: ID!): MessageResponse!
+        @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@delete")
 }

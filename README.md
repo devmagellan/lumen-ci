@@ -106,7 +106,6 @@ The response will be:
 composer -o dump-autoload
 ```
 
-
 ### Library Reference
 
 #### Setting log for all activities
@@ -133,3 +132,45 @@ If you want to log changes to all the `$fillable` attributes of the model, you c
 
 More details: [laravel-activitylog](https://docs.spatie.be/laravel-activitylog/v3/introduction/)
 
+
+#### Offensive words
+
+To enable offensive words for a model, use the `WGT\Models\Traits\ProfanityFilter` trait on the model:
+
+```php
+<?php
+
+namespace WGT\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use WGT\Traits\ProfanityFilter;
+
+class MyModel extends Model
+{
+    use ProfanityFilter;
+}
+```
+
+By default, it is checked all fields of your model.
+
+If you wish to use specific fields you must set the public `$profanityFields` property on your model:
+
+```php
+/**
+ * Profanity fields for the model.
+ *
+ * @var array
+ */
+protected $profanityFields = ['title', 'description'];
+```
+
+But if you prefer to ignore some fields, you can add `$ignoreProfanity` property in your model.
+
+```php
+/**
+ * Ignore the profanity fields for the model.
+ *
+ * @var array
+ */
+protected $profanityFields = ['comments'];
+```

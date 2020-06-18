@@ -15,6 +15,7 @@ class CreateProfanityIgnoresTable extends Migration
             $table->foreign('user_ignored_id')->references('id')->on('users');
             $table->unsignedBigInteger('firm_ignored_id')->nullable();
             $table->foreign('firm_ignored_id')->references('id')->on('firms');
+            $table->enum('network_ignored_id', ['retailer', 'wholesaler', 'association', 'administration', 'customer', 'roughseller', 'miner', 'manufacturer', 'farm', 'laboratory', 'enhancer'])->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
