@@ -4,6 +4,7 @@ namespace WGT\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use WGT\Models\Firm;
 use WGT\Models\Profanity;
 use WGT\Models\Profanity\ProfanityLog;
 
@@ -62,21 +63,39 @@ trait ProfanityFilter
             return;
         }
 
-        $fillable = isset($model->ignoreProfanity) && !empty($model->ignoreProfanity)
-            ? array_diff($model->fillable, $model->ignoreProfanity)
-            : $model->fillable;
+        if (isset($model->profanityFields) && !empty($model->profanityFields)) {
+            $fillable = $model->profanityFields;
+        } else {
+            $fillable = isset($model->ignoreProfanity) && !empty($model->ignoreProfanity)
+                ? array_diff($model->fillable, $model->ignoreProfanity)
+                : $model->fillable;
+        }
 
         $tableName = $model->getTable();
         $tableId = isset($model->id) ? $model->id : null;
         $userId = isset(Auth::user()->id) ? Auth::user()->id : null;
+        $network = null;
 
         # Please, update the firmId variable as soon as the company's user implementation is ready
         $firmId = isset($model->firm_id) ? $model->firm_id : null;
+        if (!empty($firmId)) {
+            $firm = Firm::find($firmId);
+            $network = $firm->type;
+        }
 
-        $badwords = Profanity::getProfanitiesIgnored([
-            'userId' => $userId,
-            'firmId' => $firmId
-            ])->get()->toArray();
+        $filterIgnoreOffensiveWords = [
+            ['user_ignored_id' => $userId, 'firm_ignored_id' => null, 'network_ignored_id' => null],
+            ['user_ignored_id' => null, 'firm_ignored_id' => $firmId, 'network_ignored_id' => null],
+            ['user_ignored_id' => null, 'firm_ignored_id' => null, 'network_ignored_id' => $network],
+            ['user_ignored_id' => $userId, 'firm_ignored_id' => $firmId, 'network_ignored_id' => null],
+            ['user_ignored_id' => $userId, 'firm_ignored_id' => null, 'network_ignored_id' => $network],
+            ['user_ignored_id' => null, 'firm_ignored_id' => $firmId, 'network_ignored_id' => $network],
+            ['user_ignored_id' => $userId, 'firm_ignored_id' => $firmId, 'network_ignored_id' => $network]
+        ];
+
+        $badwords = Profanity::getProfanitiesIgnored($filterIgnoreOffensiveWords)
+            ->get()
+            ->toArray();
 
         $badwords = collect($badwords)->pluck('word')->all();
 
