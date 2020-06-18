@@ -108,6 +108,48 @@ composer -o dump-autoload
 
 ### Library Reference
 
+#### Offensive words
+
+To enable offensive words for a model, use the `WGT\Models\Traits\ProfanityFilter` trait on the model:
+
+```php
+<?php
+
+namespace WGT\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use WGT\Traits\ProfanityFilter;
+
+class MyModel extends Model
+{
+    use ProfanityFilter;
+}
+```
+
+By default, it is checked all fields of your model.
+
+If you wish to use specific fields you must set the public `$profanityFields` property on your model:
+
+```php
+/**
+ * Profanity fields for the model.
+ *
+ * @var array
+ */
+protected $profanityFields = ['title', 'description'];
+```
+
+But if you prefer to ignore some fields, you can add `$ignoreProfanity` property in your model.
+
+```php
+/**
+ * Ignore the profanity fields for the model.
+ *
+ * @var array
+ */
+protected $profanityFields = ['comments'];
+```
+
 #### Roles and permissions
 
 To allow access control to each request, we must insert the call `@middleware`, informing the necessary permission to access it.

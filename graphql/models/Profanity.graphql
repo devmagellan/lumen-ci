@@ -5,16 +5,13 @@ type Profanity {
 }
 
 extend type Query @middleware(checks: ["auth"]) {
-    profanity(id: ID! @eq): Profanity @find
-        @middleware(checks: ["permission:view-profanities"])
+    profanities: [Profanity]!
+        @field(resolver: "ProfanityQuery@all")
+        @middleware(checks: ["permission:list-profanities"])
 
-    profanities(
-        id: String @where(operator: "LIKE")
-        word: String @where(operator: "LIKE")
-        trashed: Trashed @trashed
-    ): [Profanity!]!
-    @middleware(checks: ["permission:list-profanities"])
-    @paginate(defaultCount: 10)
+    profanity(id: ID): Profanity!
+        @field(resolver: "ProfanityQuery@find")
+        @middleware(checks: ["permission:view-profanities"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
@@ -32,5 +29,6 @@ extend type Mutation @middleware(checks: ["auth"]) {
         @middleware(checks: ["permission:update-profanities"])
         @updateProfanityValidation
 
-    deleteProfanity(id: ID!): Profanity @delete
+    deleteProfanity(id: ID!): MessageResponse!
+        @field(resolver: "ProfanityMutator@delete")
 }

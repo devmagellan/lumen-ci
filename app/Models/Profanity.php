@@ -38,30 +38,20 @@ class Profanity extends Model
      * @param array $data
      * @return Builder
      */
-    public static function getProfanitiesIgnored(array $data): Builder
+    public static function getProfanitiesIgnored(array $dataFilter): Builder
     {
         return Profanity::whereDoesntHave(
             'profanityIgnores',
-            function (Builder $query) use ($data) {
-                $query->where(function(Builder $subQuery) use ($data) {
-                    $subQuery->where(function(Builder $subQueryFilter) use ($data) {
-                        $subQueryFilter->where([
-                            'firm_ignored_id' => $data['firmId'],
-                            'user_ignored_id' => $data['userId']
-                        ]);
+            function (Builder $query) use ($dataFilter) {
+                $query->where(function(Builder $subQuery) use ($dataFilter) {
+                    $subQuery->where(function(Builder $subQueryFilter) use ($dataFilter) {
+                        $subQueryFilter->where($dataFilter[0]);
                     });
-                    $subQuery->orWhere(function(Builder $subQueryFilter) use ($data) {
-                        $subQueryFilter->where([
-                            'firm_ignored_id' => $data['firmId'],
-                            'user_ignored_id' => null
-                        ]);
-                    });
-                    $subQuery->orWhere(function(Builder $subQueryFilter) use ($data) {
-                        $subQueryFilter->where([
-                            'firm_ignored_id' => null,
-                            'user_ignored_id' => $data['userId']
-                        ]);
-                    });
+                    for($i=1; $i<count($dataFilter); $i++) {
+                        $subQuery->orWhere(function(Builder $subQueryFilter) use ($dataFilter, $i) {
+                            $subQueryFilter->where($dataFilter[$i]);
+                        });
+                    }
                 });
             });
     }
