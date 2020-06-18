@@ -105,3 +105,25 @@ The response will be:
 ```
 composer -o dump-autoload
 ```
+
+### Library Reference
+
+#### Roles and permissions
+
+To allow access control to each request, we must insert the call `@middleware`, informing the necessary permission to access it.
+```graphql
+extend type Query @middleware(checks: ["auth"]) {
+    firms: [Firm]!
+        @field(resolver: "FirmQuery@all")
+        @middleware(checks: ["permission:list-firms"])
+```
+
+Role and permission seeds must be fed and run with each new role/permission in the system.
+
+By default, a `adm@worldgemtrade` user will be created with the `super-admin` role. Only he should have that role.
+
+By default, a `dev@worldgemtrade` user will be created with the `owner-admin` role. However, that user will be created only when the seed is run outside the production environment.
+
+By default, only the `super-admin` can create and edit roles and permissions. However, all users of the `owner-admin` role can give and revoke permissions for other users.
+
+By default, the `owner-admin` have all permissions, except roles and permissions.
