@@ -7,16 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use Spatie\Activitylog\Traits\LogsActivity;
 use WGT\Models\Profanity\ProfanityIgnore;
 
 class Profanity extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['word', 'user_id'];
 
+    /**
+     * @var array
+     */
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * All changed fields are adding to the log
+     *
+     * @var bool
+     */
+    protected static $logFillable = true;
 
     /**
      * @return BelongsTo

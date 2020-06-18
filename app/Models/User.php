@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use WGT\Notifications\ResetPassword;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
 {
-    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, Notifiable, SoftDeletes;
+    use LogsActivity, Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, Notifiable, SoftDeletes;
 
     /**
      * @var array
@@ -48,6 +49,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'secret_phrase',
         'fingerprint_code',
     ];
+
+    /**
+     * all changed fields are adding to the log
+     *
+     * @var bool
+     */
+    protected static $logFillable = true;
 
     /**
      * @var array

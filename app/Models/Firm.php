@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 use WGT\Models\Firm\FirmAddress;
 use WGT\Models\Firm\FirmExtra;
 
 class Firm extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     /**
      * @var array
@@ -39,6 +40,13 @@ class Firm extends Model
         'supplier' => 'string',
         'status' => 'string',
     ];
+
+    /**
+     * All changed fields are adding to the log
+     *
+     * @var bool
+     */
+    protected static $logFillable = true;
 
     /**
      * @return HasOne

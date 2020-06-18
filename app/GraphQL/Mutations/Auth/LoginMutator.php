@@ -5,9 +5,12 @@ namespace WGT\GraphQL\Mutations\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class LoginMutator
 {
+    use LogsActivity;
+
     /**
      * @param null $root
      * @param array $login
@@ -20,6 +23,14 @@ class LoginMutator
         if (!$token = Auth::attempt($credentials)) {
             throw new AuthenticationException(__('auth.unauthenticated'));
         }
+
+        $userAuthenticated = auth()->user();
+
+        activity()
+            ->causedBy($userAuthenticated)
+            ->performedOn($userAuthenticated)
+            ->withProperties(['email' => $credentials['email']])
+            ->log('Authenticated');
 
         return self::format($token);
     }
