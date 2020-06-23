@@ -3,7 +3,6 @@
 namespace WGT\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Position extends Model
@@ -27,11 +26,4 @@ class Position extends Model
         'description' => 'string',
     ];
 
-    /**
-     * @return HasOne
-     */
-    public function firm(): HasOne
-    {
-        return $this->hasOne(Firm::class);
-    }
 }

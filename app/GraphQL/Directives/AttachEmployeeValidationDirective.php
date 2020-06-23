@@ -15,11 +15,15 @@ class AttachEmployeeValidationDirective extends ValidationDirective
         return [
             'id' => ['required', 'numeric'],
             'user_id' => ['required', 'numeric'],
-            'position' => ['required', Rule::unique('firm_user')->where(function ($query) {
-                return $query
-                    ->where('firm_id', $this->args()['id'] ?? 0)
-                    ->where('user_id', $this->args()['user_id'] ?? 0);
-            })],
+            'position_id' => [
+                'required',
+                'numeric',
+                Rule::unique('firm_user')->where(function ($query) {
+                    return $query
+                        ->where('firm_id', $this->args()['id'] ?? 0)
+                        ->where('user_id', $this->args()['user_id'] ?? 0);
+                }),
+            ],
         ];
     }
 

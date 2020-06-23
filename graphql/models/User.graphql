@@ -105,10 +105,6 @@ type User {
     permissions: [Permission]!
 }
 
-type Position {
-  position: String!
-}
-
 type Employment {
     id: ID!
     name: String!
@@ -118,7 +114,7 @@ type Employment {
     type: String!
     supplier: String
     status: String!
-    work: Position!
+    work: Work!
 }
 
 input UpdateUserInput {

@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use WGT\Models\Firm;
+use WGT\Models\FirmUser;
 use WGT\Notifications\ResetPassword;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
@@ -132,9 +134,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * @return BelongsToMany
      */
-    public function employments()
+    public function employments(): BelongsToMany
     {
-        return $this->belongsToMany(Firm::class)->as('work')->withPivot(['id', 'position']);
+        return $this->belongsToMany(Firm::class)
+            ->as('work')
+            ->using(FirmUser::class)
+            ->withPivot('position_id');
     }
 
     /**
@@ -144,4 +149,5 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->belongsTo(Currency::class);
     }
+
 }

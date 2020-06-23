@@ -33,12 +33,12 @@ extend type Mutation @middleware(checks: ["auth"]) {
         @field(resolver: "FirmMutator@delete")
         @middleware(checks: ["permission:delete-firms"])
 
-    attachEmployeeToFirm(id: ID!, user_id: ID!, position: String!): MessageResponse!
+    attachEmployeeToFirm(id: ID!, user_id: ID!, position_id: ID!): MessageResponse!
         @field(resolver: "FirmMutator@attachEmployee")
         @middleware(checks: ["permission:attach-employee-to-firms"])
-        @attachEmployeeValidation
+        # @attachEmployeeValidation
 
-    detachEmployeeToFirm(id: ID!, user_id: ID!, position: String!): MessageResponse!
+    detachEmployeeToFirm(id: ID!, user_id: ID!, position_id: ID!): MessageResponse!
         @field(resolver: "FirmMutator@detachEmployee")
         @middleware(checks: ["permission:detach-employee-to-firms"])
 }
@@ -53,10 +53,7 @@ type Firm {
     supplier: String
     status: String!
     employees: [Employee]!
-}
-
-type Position {
-  position: String!
+    positions: [Position]!
 }
 
 type Employee {
@@ -79,7 +76,7 @@ type Employee {
     state: String
     country: String
     zip_code: String
-    work: Position!
+    work: Work!
 }
 
 input UpdateFirmInput {

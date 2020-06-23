@@ -40,9 +40,9 @@ class FirmRepository extends AbstractRepository
      * @param array $data
      * @return bool
      */
-    public function attachEmployee(int $firmId, int $userId, array $data): bool
+    public function attachEmployee(int $firmId, int $userId, int $positionId): bool
     {
-        $this->model->find($firmId)->employees()->attach($userId, $data);
+        $this->model->find($firmId)->employees()->attach($userId, ['position_id' => $positionId]);
 
         return true;
     }
@@ -50,12 +50,12 @@ class FirmRepository extends AbstractRepository
     /**
      * @param int $firmId
      * @param int $userId
-     * @param string $position
+     * @param int $positionId
      * @return bool
      */
-    public function detachEmployees(int $firmId, int $userId, string $position): bool
+    public function detachEmployees(int $firmId, int $userId, int $positionId): bool
     {
         return $this->model->find($firmId)->employees()
-            ->wherePivot('position', $position)->detach($userId);
+            ->wherePivot('position_id', $positionId)->detach($userId);
     }
 }

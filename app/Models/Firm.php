@@ -4,8 +4,10 @@ namespace WGT\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use WGT\Models\FirmUser;
 use WGT\Models\Firm\FirmAddress;
 use WGT\Models\Firm\FirmExtra;
 
@@ -61,6 +63,17 @@ class Firm extends Model
      */
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->as('work')->withPivot(['id', 'position']);
+        return $this->belongsToMany(User::class)
+            ->as('work')
+            ->using(FirmUser::class)
+            ->withPivot('position_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function positions(): HasMany
+    {
+        return $this->hasMany(Position::class);
     }
 }

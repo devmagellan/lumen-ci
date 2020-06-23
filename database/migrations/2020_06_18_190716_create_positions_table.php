@@ -20,6 +20,7 @@ class CreatePositionsTable extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('firm_id')->references('id')->on('firms');
         });
     }
 
