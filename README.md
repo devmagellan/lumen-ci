@@ -112,7 +112,7 @@ composer -o dump-autoload
 
 You need to do is let your model use the `Spatie\Activitylog\Traits\LogsActivity` trait.
 
-You can log the changed attributes for events such as create, update or delete when setting `$logAttributes` property on the model.
+You can log the changed attributes for events such as create, update or delete when setting `$logAttributes` and `$logOnlyDirty` properties on the model.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -124,11 +124,13 @@ class NewsItem extends Model
 
     protected $fillable = ['name', 'text'];
 
-    protected static $logAttributes = ['name', 'text'];
+    protected static $logFillable = true;
+
+    protected static $logOnlyDirty = true;
 }
 ```
 
-If you want to log changes to all the `$fillable` attributes of the model, you can specify `protected static $logFillable = true;` instead of `$logAttributes`.
+If you want to log changes to specific attributes of the model, you can specify `protected static $logAttributes = ['name', 'text']` instead of `$logFillable`.
 
 More details: [laravel-activitylog](https://docs.spatie.be/laravel-activitylog/v3/introduction/)
 

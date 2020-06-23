@@ -45,6 +45,13 @@ class Currency extends Model
     protected static $logFillable = true;
 
     /**
+     * Only fields changed after the update
+     *
+     * @var bool
+     */
+    protected static $logOnlyDirty = true;
+
+    /**
      * @return BelongsTo
      */
     public function country(): BelongsTo

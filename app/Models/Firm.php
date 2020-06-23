@@ -49,6 +49,13 @@ class Firm extends Model
     protected static $logFillable = true;
 
     /**
+     * Only fields changed after the update
+     *
+     * @var bool
+     */
+    protected static $logOnlyDirty = true;
+
+    /**
      * @return HasOne
      */
     public function address(): HasOne

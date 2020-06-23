@@ -58,6 +58,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected static $logFillable = true;
 
     /**
+     * Only fields changed after the update
+     *
+     * @var bool
+     */
+    protected static $logOnlyDirty = true;
+
+    /**
      * @var array
      */
     protected $hidden = [
