@@ -15,13 +15,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use WGT\Notifications\ResetPassword;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
 {
-    use LogsActivity, Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, Notifiable, SoftDeletes;
+    use LogsActivity, Authenticatable, Authorizable, CanResetPassword, HasRoles, MustVerifyEmail, Notifiable, SoftDeletes;
 
     /**
      * @var array

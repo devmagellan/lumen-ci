@@ -47,7 +47,7 @@ services:
     expose:
       - '3306'
     volumes:
-      - ./docker/tmp/mysql:/var/lib/mysql
+      - "./docker/tmp/mysql:/var/lib/mysql"
     networks:
       - wgtcrm
 

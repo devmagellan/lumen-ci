@@ -8,8 +8,11 @@ type Currency {
 extend type Query @middleware(checks: ["auth"]) {
     currencies: [Currency]!
         @field(resolver: "CurrencyQuery@all")
+        @middleware(checks: ["permission:list-currencies"])
+
     currency(id: ID): Currency!
         @field(resolver: "CurrencyQuery@find")
+        @middleware(checks: ["permission:view-currencies"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
@@ -19,6 +22,7 @@ extend type Mutation @middleware(checks: ["auth"]) {
         country_id: Int
     ): Currency!
         @field(resolver: "CurrencyMutator@create")
+        @middleware(checks: ["permission:create-currencies"])
         @currencyCreateCurrencyValidation
 
     updateCurrency(
@@ -28,8 +32,10 @@ extend type Mutation @middleware(checks: ["auth"]) {
         country_id: Int
     ): Currency!
         @field(resolver: "CurrencyMutator@update")
+        @middleware(checks: ["permission:update-currencies"])
         @currencyUpdateCurrencyValidation
 
     deleteCurrency(id: ID!): MessageResponse!
         @field(resolver: "CurrencyMutator@delete")
+        @middleware(checks: ["permission:delete-currencies"])
 }

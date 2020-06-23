@@ -1,13 +1,14 @@
 extend type Query @middleware(checks: ["auth"]) {
     me: User @auth
-}
+        @middleware(checks: ["permission:view-me-users"])
 
-extend type Mutation @middleware(checks: ["auth"]) {
-    refreshToken: AuthTokenType
-        @field(resolver: "Auth\\LoginMutator@refresh")
+    users: [User]!
+        @field(resolver: "UserQuery@all")
+        @middleware(checks: ["permission:list-users"])
 
-    logout: Boolean
-        @field(resolver: "Auth\\LoginMutator@logout")
+    user(id: ID): User!
+        @field(resolver: "UserQuery@find")
+        @middleware(checks: ["permission:view-users"])
 }
 
 extend type Mutation {
@@ -26,10 +27,6 @@ extend type Mutation {
     login(email: String!, password: String!): AuthTokenType!
         @field(resolver: "Auth\\LoginMutator@login")
 
-    updateMe(user: UpdateUserInput! @spread): User!
-        @field(resolver: "UserMutator@update")
-        @updateUserValidation
-
     forgotPassword(email: String!): MessageResponse!
         @field(resolver: "Auth\\ForgotPasswordMutator@forgotPassword")
 
@@ -42,6 +39,37 @@ extend type Mutation {
     ): MessageResponse
         @field(resolver: "Auth\\ResetPasswordMutator@reset")
         @resetPasswordValidation
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    refreshToken: AuthTokenType
+        @field(resolver: "Auth\\LoginMutator@refresh")
+
+    logout: Boolean
+        @field(resolver: "Auth\\LoginMutator@logout")
+
+    updateMe(user: UpdateUserInput! @spread): User!
+        @field(resolver: "UserMutator@update")
+        @middleware(checks: ["permission:update-me-users"])
+        @updateUserValidation
+
+    assignRoleToUser(id: ID!, role_id: ID!): MessageResponse!
+        @field(resolver: "UserMutator@assignRole")
+        @middleware(checks: ["permission:assign-role-to-users"])
+        @assignRoleValidation
+
+    removeRoleToUser(id: ID!, role_id: ID!): MessageResponse!
+        @field(resolver: "UserMutator@removeRole")
+        @middleware(checks: ["permission:remove-role-to-users"])
+
+    givePermissionToUser(id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "UserMutator@givePermission")
+        @middleware(checks: ["permission:give-permission-to-users"])
+        @givePermissionValidation
+
+    revokePermissionToUser(id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "UserMutator@revokePermission")
+        @middleware(checks: ["permission:revoke-permission-to-users"])
 }
 
 type AuthTokenType {
@@ -73,6 +101,8 @@ type User {
     secret_phrase: String
     fingerprint_code: String
     employments: [Employment]!
+    roles: [Role]!
+    permissions: [Permission]!
 }
 
 type Position {

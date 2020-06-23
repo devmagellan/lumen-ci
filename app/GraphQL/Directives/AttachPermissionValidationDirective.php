@@ -5,7 +5,7 @@ namespace WGT\GraphQL\Directives;
 use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Schema\Directives\ValidationDirective;
 
-class AttachEmployeeValidationDirective extends ValidationDirective
+class AttachPermissionValidationDirective extends ValidationDirective
 {
     /**
      * @return array
@@ -14,11 +14,8 @@ class AttachEmployeeValidationDirective extends ValidationDirective
     {
         return [
             'id' => ['required', 'numeric'],
-            'user_id' => ['required', 'numeric'],
-            'position' => ['required', Rule::unique('firm_user')->where(function ($query) {
-                return $query
-                    ->where('firm_id', $this->args()['id'] ?? 0)
-                    ->where('user_id', $this->args()['user_id'] ?? 0);
+            'permission_id' => ['required', Rule::unique('role_has_permissions')->where(function ($query) {
+                return $query->where('role_id', $this->args()['id'] ?? 0);
             })],
         ];
     }

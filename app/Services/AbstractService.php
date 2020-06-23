@@ -13,12 +13,22 @@ abstract class AbstractService implements ServiceInterface
     protected $repository;
 
     /**
-     * @param string $method
-     * @param array $parameters
+     * @param $method
+     * @param $arguments
      * @return mixed
      */
-    public function __call(string $method, array $parameters)
+    public static function __callStatic($method, $arguments)
     {
-        return $this->repository->{$method}(...$parameters);
+        return call_user_func_array([app(static::class), $method], $arguments);
+    }
+
+    /**
+     * @param string $method
+     * @param array $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        return call_user_func_array([$this->repository, $method], $arguments);
     }
 }

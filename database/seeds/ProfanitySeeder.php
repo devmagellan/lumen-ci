@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
 use WGT\Models\Profanity;
 
 class ProfanitySeeder extends Seeder
@@ -12,9 +11,9 @@ class ProfanitySeeder extends Seeder
         $words = ['fuck', 'fuck you', 'shit', 'bitch'];
 
         foreach ($words as $word) {
-            Profanity::create([
+            Profanity::firstOrCreate([
                 'word' => $word,
-                'user_id' => $userId
+                'user_id' => $userId,
             ]);
         }
     }
