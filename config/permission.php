@@ -207,6 +207,14 @@ return [
             'converter-via-user' => 'converter-via-user-currencies',
         ],
 
+        'templates' => [
+            'list' => 'list-templates',
+            'view' => 'view-templates',
+            'create' => 'create-templates',
+            'update' => 'update-templates',
+            'delete' => 'delete-templates',
+        ],
+
     ],
 
 ];
