@@ -30,9 +30,9 @@ class TemplateQuery extends AbstractQuery
      * @param ResolveInfo $resolveInfo
      * @return Collection
      */
-    public function all($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Collection
+    public function paginate($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Collection
     {
-        return $this->service->all();
+        return $this->service->paginate($limit = null, $columns = ['*']);
     }
 
     /**

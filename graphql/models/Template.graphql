@@ -5,8 +5,11 @@ type Template {
 }
 
 extend type Query @middleware(checks: ["auth"]) {
-    templates: [Template]!
-        @field(resolver: "TemplateQuery@all")
+    templates(
+        id: String @where(operator: "like")
+        name: String @where(operator: "like")
+    ): [Template]!
+        @paginate(resolver: "TemplateQuery@paginate")
         @middleware(checks: ["permission:list-templates"])
 
     template(id: ID): Template!
