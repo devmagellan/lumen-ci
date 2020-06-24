@@ -136,10 +136,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function employments(): BelongsToMany
     {
-        return $this->belongsToMany(Firm::class)
-            ->as('work')
-            ->using(FirmUser::class)
-            ->withPivot('position_id');
+        return $this->belongsToMany(Firm::class)->using(FirmUser::class);
     }
 
     /**
@@ -150,4 +147,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsTo(Currency::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function positions(): BelongsToMany
+    {
+        $relation = $this->belongsToMany(Position::class, 'user_position')->using(UserPosition::class);
+
+        if (!empty($this->pivot->firm_id)) {
+            $relation->where('firm_id', $this->pivot->firm_id);
+        }
+
+        return $relation;
+    }
 }

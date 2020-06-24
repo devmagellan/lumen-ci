@@ -4,7 +4,7 @@ namespace WGT\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class FirmUser extends Pivot
+class UserPosition extends Pivot
 {
     /**
      * @var bool

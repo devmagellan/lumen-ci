@@ -36,7 +36,7 @@ extend type Mutation @middleware(checks: ["auth"]) {
     attachEmployeeToFirm(id: ID!, user_id: ID!, position_id: ID!): MessageResponse!
         @field(resolver: "FirmMutator@attachEmployee")
         @middleware(checks: ["permission:attach-employee-to-firms"])
-        # @attachEmployeeValidation
+        @attachEmployeeValidation
 
     detachEmployeeToFirm(id: ID!, user_id: ID!, position_id: ID!): MessageResponse!
         @field(resolver: "FirmMutator@detachEmployee")
@@ -76,7 +76,7 @@ type Employee {
     state: String
     country: String
     zip_code: String
-    work: Work!
+    positions: [Position]!
 }
 
 input UpdateFirmInput {

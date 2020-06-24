@@ -63,10 +63,7 @@ class Firm extends Model
      */
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)
-            ->as('work')
-            ->using(FirmUser::class)
-            ->withPivot('position_id');
+        return $this->belongsToMany(User::class)->using(FirmUser::class);
     }
 
     /**
@@ -74,6 +71,8 @@ class Firm extends Model
      */
     public function positions(): HasMany
     {
-        return $this->hasMany(Position::class);
+        $relation = $this->hasMany(Position::class);
+
+        return $relation;
     }
 }
