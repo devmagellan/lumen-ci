@@ -18,7 +18,6 @@ use Laravel\Lumen\Auth\Authorizable;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use WGT\Models\Firm;
-use WGT\Models\FirmUser;
 use WGT\Notifications\ResetPassword;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
@@ -136,7 +135,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function employments(): BelongsToMany
     {
-        return $this->belongsToMany(Firm::class)->using(FirmUser::class);
+        return $this->belongsToMany(Firm::class);
     }
 
     /**
@@ -152,8 +151,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function positions(): BelongsToMany
     {
-        $relation = $this->belongsToMany(Position::class, 'user_position')->using(UserPosition::class);
-
+        $relation = $this->belongsToMany(Position::class, 'user_position');
         if (!empty($this->pivot->firm_id)) {
             $relation->where('firm_id', $this->pivot->firm_id);
         }

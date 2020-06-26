@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use WGT\Models\FirmUser;
 use WGT\Models\Firm\FirmAddress;
 use WGT\Models\Firm\FirmExtra;
 
@@ -63,7 +62,7 @@ class Firm extends Model
      */
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->using(FirmUser::class);
+        return $this->belongsToMany(User::class);
     }
 
     /**
@@ -72,6 +71,11 @@ class Firm extends Model
     public function positions(): HasMany
     {
         $relation = $this->hasMany(Position::class);
+        if (!empty($this->pivot->user_id)) {
+            $relation->getQuery()
+                ->join('user_position', 'positions.id', '=', 'user_position.position_id')
+                ->where('user_position.user_id', $this->pivot->user_id);
+        }
 
         return $relation;
     }

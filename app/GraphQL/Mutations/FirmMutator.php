@@ -52,7 +52,7 @@ class FirmMutator
     {
         $this->service->delete($firm['id']);
 
-        return ['message' => trans('messages.deleted', ['entity' => 'Firm'])];
+        return ['message' => __('messages.deleted', ['entity' => 'Firm'])];
     }
 
     /**
@@ -64,7 +64,7 @@ class FirmMutator
     {
         $this->service->attachEmployee($data['id'], $data['user_id'], $data['position_id']);
 
-        return ['message' => trans('messages.attached', ['entity' => 'Firm'])];
+        return ['message' => __('messages.attached', ['entity' => 'Firm'])];
     }
 
     /**
@@ -74,8 +74,8 @@ class FirmMutator
      */
     public function detachEmployee($root, array $data): array
     {
-        $this->service->detachEmployees($data['id'], $data['user_id'], $data['position_id']);
+        $this->service->detachEmployee($data['id'], $data['user_id'], $data['position_id']);
 
-        return ['message' => trans('messages.detached', ['entity' => 'Firm'])];
+        return ['message' => __('messages.detached', ['entity' => 'Firm'])];
     }
 }

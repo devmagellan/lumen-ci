@@ -52,6 +52,6 @@ class PermissionMutator
     {
         $this->service->delete($permission['id']);
 
-        return ['message' => trans('messages.deleted', ['entity' => 'Permission'])];
+        return ['message' => __('messages.deleted', ['entity' => 'Permission'])];
     }
 }

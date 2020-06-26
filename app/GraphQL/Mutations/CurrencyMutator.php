@@ -53,6 +53,6 @@ class CurrencyMutator
     {
         $this->service->delete($currency['id']);
 
-        return ['message' => trans('messages.deleted', ['entity' => 'Currency'])];
+        return ['message' => __('messages.deleted', ['entity' => 'Currency'])];
     }
 }

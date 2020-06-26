@@ -52,6 +52,6 @@ class PositionMutator
     {
         $this->service->delete($position['id']);
 
-        return ['message' => trans('messages.deleted', ['entity' => 'Position'])];
+        return ['message' => __('messages.deleted', ['entity' => 'Position'])];
     }
 }
