@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 use Spatie\Permission\Traits\HasRoles;
@@ -157,5 +158,34 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         }
 
         return $relation;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPermissionsViaPositions(): Collection
+    {
+        return $this->loadMissing('positions', 'positions.permissions')
+            ->positions->flatMap(function ($position) {
+                return $position->permissions;
+            })->sort()->values();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllPermissions(): Collection
+    {
+        $permissions = $this->permissions;
+
+        if ($this->roles) {
+            $permissions = $permissions->merge($this->getPermissionsViaRoles());
+        }
+
+        if ($this->positions) {
+            $permissions = $permissions->merge($this->getPermissionsViaPositions());
+        }
+
+        return $permissions->sort()->values();
     }
 }

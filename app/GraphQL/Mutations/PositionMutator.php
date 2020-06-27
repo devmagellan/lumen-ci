@@ -54,4 +54,28 @@ class PositionMutator
 
         return ['message' => __('messages.deleted', ['entity' => 'Position'])];
     }
+
+    /**
+     * @param null $root
+     * @param array $data
+     * @return array
+     */
+    public function givePermission($root, array $data): array
+    {
+        $this->service->givePermission($data['id'], $data['permission_id']);
+
+        return ['message' => __('messages.attached', ['entity' => 'Position'])];
+    }
+
+    /**
+     * @param null $root
+     * @param array $data
+     * @return array
+     */
+    public function revokePermission($root, array $data): array
+    {
+        $this->service->revokePermission($data['id'], $data['permission_id']);
+
+        return ['message' => __('messages.detached', ['entity' => 'Position'])];
+    }
 }

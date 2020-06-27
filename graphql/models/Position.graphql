@@ -20,6 +20,15 @@ extend type Mutation @middleware(checks: ["auth"]) {
     updatePosition(id: ID!, position: UpdatePositionInput!): Position!
         @field(resolver: "PositionMutator@update")
         @middleware(checks: ["permission:update-positions"])
+
+    givePermissionToPosition(id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "PositionMutator@givePermission")
+        @middleware(checks: ["permission:give-permission-to-positions"])
+        @attachPermissionValidation
+
+    revokePermissionToPosition(id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "PositionMutator@revokePermission")
+        @middleware(checks: ["permission:revoke-permission-to-positions"])
 }
 
 type Position {
@@ -27,10 +36,7 @@ type Position {
     name: String!
     description: String
     firm: Firm
-}
-
-type Work {
-    position: Position!
+    permissions: [Permission]!
 }
 
 input UpdatePositionInput {

@@ -18,6 +18,7 @@ class CreatePositionsTable extends Migration
             $table->unsignedBigInteger('firm_id');
             $table->string('name', 255);
             $table->text('description')->nullable();
+            $table->string('guard_name')->default('web');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('firm_id')->references('id')->on('firms');

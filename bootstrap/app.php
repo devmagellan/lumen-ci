@@ -86,8 +86,7 @@ $app->configure('services');
 
 $app->routeMiddleware([
     'auth' => WGT\Http\Middleware\Authenticate::class,
-    'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
-    'role' => Spatie\Permission\Middlewares\RoleMiddleware::class,
+    'permission' => WGT\Http\Middleware\PermissionMiddleware::class,
 ]);
 
 /*

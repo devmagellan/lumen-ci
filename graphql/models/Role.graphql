@@ -5,7 +5,7 @@ extend type Query @middleware(checks: ["auth"]) {
 
     role(id: ID): Role!
         @field(resolver: "RoleQuery@find")
-        @middleware(checks: ["permission:show-roles"])
+        @middleware(checks: ["permission:view-roles"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
