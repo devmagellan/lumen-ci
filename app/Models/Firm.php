@@ -4,6 +4,7 @@ namespace WGT\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -76,6 +77,21 @@ class Firm extends Model
      */
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->as('work')->withPivot(['id', 'position']);
+        return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function positions(): HasMany
+    {
+        $relation = $this->hasMany(Position::class);
+        if (!empty($this->pivot->user_id)) {
+            $relation->getQuery()
+                ->join('user_position', 'positions.id', '=', 'user_position.position_id')
+                ->where('user_position.user_id', $this->pivot->user_id);
+        }
+
+        return $relation;
     }
 }

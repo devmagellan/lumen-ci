@@ -40,7 +40,7 @@ class UserMutator
     {
         $this->service->assignRole($data['id'], $data['role_id']);
 
-        return ['message' => trans('messages.assigned', ['entity' => 'Role'])];
+        return ['message' => __('messages.assigned', ['entity' => 'Role'])];
     }
 
     /**
@@ -52,7 +52,7 @@ class UserMutator
     {
         $this->service->removeRole($data['id'], $data['role_id']);
 
-        return ['message' => trans('messages.removed', ['entity' => 'Role'])];
+        return ['message' => __('messages.removed', ['entity' => 'Role'])];
     }
 
     /**
@@ -64,7 +64,7 @@ class UserMutator
     {
         $this->service->givePermission($data['id'], $data['permission_id']);
 
-        return ['message' => trans('messages.given', ['entity' => 'Permission'])];
+        return ['message' => __('messages.given', ['entity' => 'Permission'])];
     }
 
     /**
@@ -76,6 +76,6 @@ class UserMutator
     {
         $this->service->revokePermission($data['id'], $data['permission_id']);
 
-        return ['message' => trans('messages.revoked', ['entity' => 'Permission'])];
+        return ['message' => __('messages.revoked', ['entity' => 'Permission'])];
     }
 }

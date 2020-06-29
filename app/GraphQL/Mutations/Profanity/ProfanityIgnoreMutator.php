@@ -60,6 +60,6 @@ class ProfanityIgnoreMutator
     {
         $this->service->delete($args['id']);
 
-        return ['message' => trans('messages.deleted', ['entity' => 'Profanity Ignore'])];
+        return ['message' => __('messages.deleted', ['entity' => 'Profanity Ignore'])];
     }
 }

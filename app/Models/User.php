@@ -13,10 +13,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use WGT\Models\Firm;
 use WGT\Notifications\ResetPassword;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -147,9 +149,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * @return BelongsToMany
      */
-    public function employments()
+    public function employments(): BelongsToMany
     {
-        return $this->belongsToMany(Firm::class)->as('work')->withPivot(['id', 'position']);
+        return $this->belongsToMany(Firm::class);
     }
 
     /**
@@ -158,5 +160,47 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function positions(): BelongsToMany
+    {
+        $relation = $this->belongsToMany(Position::class, 'user_position');
+        if (!empty($this->pivot->firm_id)) {
+            $relation->where('firm_id', $this->pivot->firm_id);
+        }
+
+        return $relation;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPermissionsViaPositions(): Collection
+    {
+        return $this->loadMissing('positions', 'positions.permissions')
+            ->positions->flatMap(function ($position) {
+                return $position->permissions;
+            })->sort()->values();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllPermissions(): Collection
+    {
+        $permissions = $this->permissions;
+
+        if ($this->roles) {
+            $permissions = $permissions->merge($this->getPermissionsViaRoles());
+        }
+
+        if ($this->positions) {
+            $permissions = $permissions->merge($this->getPermissionsViaPositions());
+        }
+
+        return $permissions->sort()->values();
     }
 }
