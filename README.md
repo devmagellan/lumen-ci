@@ -108,6 +108,33 @@ composer -o dump-autoload
 
 ### Library Reference
 
+#### Setting log for all activities
+
+You need to do is let your model use the `Spatie\Activitylog\Traits\LogsActivity` trait.
+
+You can log the changed attributes for events such as create, update or delete when setting `$logAttributes` and `$logOnlyDirty` properties on the model.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+
+class NewsItem extends Model
+{
+    use LogsActivity;
+
+    protected $fillable = ['name', 'text'];
+
+    protected static $logFillable = true;
+
+    protected static $logOnlyDirty = true;
+}
+```
+
+If you want to log changes to specific attributes of the model, you can specify `protected static $logAttributes = ['name', 'text']` instead of `$logFillable`.
+
+More details: [laravel-activitylog](https://docs.spatie.be/laravel-activitylog/v3/introduction/)
+
+
 #### Offensive words
 
 To enable offensive words for a model, use the `WGT\Models\Traits\ProfanityFilter` trait on the model:

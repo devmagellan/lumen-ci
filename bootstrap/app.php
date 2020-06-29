@@ -59,6 +59,7 @@ $app->singleton(
 |
  */
 
+$app->configure('activitylog');
 $app->configure('app');
 $app->configure('auth');
 $app->configure('database');
@@ -100,7 +101,7 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
  */
-
+$app->register(WGT\Providers\AppServiceProvider::class);
 $app->register(WGT\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
@@ -111,6 +112,7 @@ $app->register(Nuwave\Lighthouse\LighthouseServiceProvider::class);
 $app->register(Nuwave\Lighthouse\SoftDeletes\SoftDeletesServiceProvider::class);
 $app->register(WGT\Providers\DbLogProvider::class);
 $app->register(Laravel\Tinker\TinkerServiceProvider::class);
+$app->register(Spatie\Activitylog\ActivitylogServiceProvider::class);
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
 
 /*
@@ -124,11 +126,20 @@ $app->register(Spatie\Permission\PermissionServiceProvider::class);
 |
  */
 
+$app->alias('auth', Illuminate\Auth\AuthManager::class);
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);
 $app->alias('mailer', Illuminate\Mail\Mailer::class);
 $app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
 $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 $app->alias('mail.manager', Illuminate\Mail\MailManager::class);
 $app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
+
+// Active Log
+if (! function_exists('config_path')) {
+    function config_path($path = '')
+    {
+        return app()->basePath() . '/config' . ($path ? '/' . $path : $path);
+    }
+}
 
 return $app;

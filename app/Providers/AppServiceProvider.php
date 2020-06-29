@@ -3,6 +3,7 @@
 namespace WGT\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Spatie\Activitylog\Models\Activity;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,5 +15,15 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * @return void
+     */
+    public function boot()
+    {
+        Activity::saving(function (Activity $activity) {
+            $activity->ip = request()->ip();
+        });
     }
 }
