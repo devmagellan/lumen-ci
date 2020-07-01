@@ -4,22 +4,32 @@ namespace WGT\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Template.
+ * Class TemplateField.
  *
  * @package namespace WGT\Models;
  */
-class Template extends Model
+class TemplateField extends Model
 {
     use SoftDeletes;
 
     /**
      * @var array
      */
-    protected $fillable = ['name', 'user_id'];
+    protected $fillable = [
+        'name',
+        'template_id',
+        'datatype_id',
+        'position',
+        'group_name',
+        'hide_mobile',
+        'hide_tablet',
+        'hide_desktop',
+        'searchable',
+        'user_id'
+    ];
 
     /**
      * @var array
@@ -35,10 +45,10 @@ class Template extends Model
     }
 
     /**
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function fields(): HasMany
+    public function template(): BelongsTo
     {
-        return $this->hasMany(TemplateField::class);
+        return $this->belongsTo(Template::class);
     }
 }

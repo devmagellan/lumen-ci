@@ -3,6 +3,7 @@
 namespace WGT\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use WGT\Models\Template;
 use WGT\Services\TemplateService;
@@ -24,24 +25,26 @@ class TemplateMutator
 
     /**
      * @param null $root
-     * @param array $template
+     * @param array $data
      * @return Template
      */
-    public function create($root, array $template): Template
+    public function create($root, array $data): Template
     {
-        $template['user_id'] = auth()->user()->id;
+        $request = Arr::only($data, ['name']);
+        $request['user_id'] = auth()->user()->id;
         return $this->service->create($template);
     }
 
     /**
      * @param null $root
-     * @param array $template
+     * @param array $data
      * @return Template
      */
-    public function update($root, array $template): Template
+    public function update($root, array $data): Template
     {
-        $template['user_id'] = auth()->user()->id;
-        return $this->service->update($template, $template['id']);
+        $request = Arr::only($data, ['name']);
+        $request['user_id'] = auth()->user()->id;
+        return $this->service->update($request, $request['id']);
     }
 
     /**
@@ -49,10 +52,33 @@ class TemplateMutator
      * @param array $template
      * @return array
      */
-    public function delete($root, array $template): array
+    public function delete($root, array $args): array
     {
-        $this->service->delete($template['id']);
+        $this->service->delete($args['id']);
 
         return ['message' => trans('messages.deleted', ['entity' => 'Template'])];
+    }
+
+    /**
+     * @param null $root
+     * @param array $template
+     * @return array
+     */
+    public function createField($root, array $data): array
+    {
+        $request = Arr::only($data, [
+            'template_id',
+            'name',
+            'position',
+            'group_name',
+            'hide_mobile',
+            'hide_tablet',
+            'hide_desktop',
+            'searchable',
+            'datatype_id'
+        ]);
+        $request['user_id'] = auth()->user()->id;
+        $this->service->createField($request['template_id'], $request);
+        return ['message' => __('messages.attached', ['entity' => 'Template'])];
     }
 }

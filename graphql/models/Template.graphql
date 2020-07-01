@@ -2,6 +2,19 @@ type Template {
     id: ID
     name: String!
     user: User! @belongsTo
+    fields: [TemplateField!]
+}
+
+type TemplateField {
+    name: ID
+    datatype_id: Int
+    position: String
+    group_name: String
+    hide_mobile: String
+    hide_tablet: String
+    hide_desktop: String
+    searchable: String
+    user: User! @belongsTo
 }
 
 extend type Query @middleware(checks: ["auth"]) {
@@ -35,4 +48,14 @@ extend type Mutation @middleware(checks: ["auth"]) {
     deleteTemplate(id: ID!): MessageResponse!
         @field(resolver: "TemplateMutator@delete")
         @middleware(checks: ["permission:delete-templates"])
+
+    createFieldToTemplate(
+        template_id: ID!,
+        name: String,
+        datatype_id: Int!,
+        position: Int,
+        group_name: String
+    ): MessageResponse!
+        @field(resolver: "TemplateMutator@createField")
+        @middleware(checks: ["permission:create-field-to-template"])
 }

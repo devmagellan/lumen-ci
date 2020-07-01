@@ -213,6 +213,7 @@ return [
             'create' => 'create-templates',
             'update' => 'update-templates',
             'delete' => 'delete-templates',
+            'create-field' => 'create-field-to-template',
         ],
 
     ],

@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use WGT\Models\User;
-use WGT\Models\Template;
+use WGT\Models\TemplateField;
 
-class TemplateSeeder extends Seeder
+class TemplateFieldsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +15,12 @@ class TemplateSeeder extends Seeder
     {
         $devUser = User::where('email', 'dev@worldgemtrade.com')->first();
         if (!empty($devUser)) {
-            Template::firstOrCreate([
-                'name' => 'Jewelry',
+            TemplateField::firstOrCreate([
+                'name' => 'Jewelry Type',
+                'template_id' => 1,
+                'datatype_id' => 1,
+                'position' => 1,
+                'group_name' => 'Default',
                 'user_id' => $devUser->id
             ]);
         }
