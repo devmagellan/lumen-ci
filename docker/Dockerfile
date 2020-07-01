@@ -135,6 +135,6 @@ RUN apt autoremove -y \
     && ssh-keyscan bitbucket.org >> /home/docker/.ssh/known_hosts \
     && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
 
-COPY supervisor/local /etc/supervisor/conf.d
+COPY supervisor /etc/supervisor/conf.d
 
 USER docker

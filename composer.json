@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.2.5",
         "ashallendesign/laravel-exchange-rates": "^2.2",
+        "doctrine/dbal": "^2.10",
         "illuminate/mail": "^7.12",
         "illuminate/notifications": "^7.12",
         "laravel/lumen-framework": "^7.0",
@@ -16,6 +17,7 @@
         "nesbot/carbon": "^2.35",
         "nuwave/lighthouse": "^4.13",
         "prettus/l5-repository": "^2.6",
+        "spatie/laravel-activitylog": "^3.14",
         "spatie/laravel-permission": "^3.13",
         "tymon/jwt-auth": "^1.0"
     },

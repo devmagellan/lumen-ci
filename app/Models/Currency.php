@@ -5,8 +5,7 @@ namespace WGT\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 use WGT\Models\Country;
 use WGT\Models\User;
@@ -18,7 +17,7 @@ use WGT\Models\User;
  */
 class Currency extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +32,24 @@ class Currency extends Model
         'user_id'
     ];
 
+    /**
+     * @return array
+     */
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * all changed fields are adding to the log
+     *
+     * @var bool
+     */
+    protected static $logFillable = true;
+
+    /**
+     * Only fields changed after the update
+     *
+     * @var bool
+     */
+    protected static $logOnlyDirty = true;
 
     /**
      * @return BelongsTo

@@ -49,7 +49,7 @@ class ResetPasswordMutator
      */
     protected function sendResetResponse(Request $request, $response): array
     {
-        return ['message' => trans($response)];
+        return ['message' => __($response)];
     }
 
     /**
@@ -59,6 +59,6 @@ class ResetPasswordMutator
      */
     protected function sendResetFailedResponse(Request $request, $response): array
     {
-        return ['message' => trans($response)];
+        return ['message' => __($response)];
     }
 }

@@ -1,0 +1,45 @@
+extend type Query @middleware(checks: ["auth"]) {
+    positions: [Position]!
+        @field(resolver: "PositionQuery@all")
+        @middleware(checks: ["permission:list-positions"])
+
+    position(id: ID): Position!
+        @field(resolver: "PositionQuery@find")
+        @middleware(checks: ["permission:view-positions"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createPosition(
+        firm_id: ID!
+        name: String!
+        description: String
+    ): Position!
+        @field(resolver: "PositionMutator@create")
+        @middleware(checks: ["permission:create-positions"])
+
+    updatePosition(id: ID!, position: UpdatePositionInput!): Position!
+        @field(resolver: "PositionMutator@update")
+        @middleware(checks: ["permission:update-positions"])
+
+    givePermissionToPosition(id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "PositionMutator@givePermission")
+        @middleware(checks: ["permission:give-permission-to-positions"])
+        @attachPermissionValidation
+
+    revokePermissionToPosition(id: ID!, permission_id: ID!): MessageResponse!
+        @field(resolver: "PositionMutator@revokePermission")
+        @middleware(checks: ["permission:revoke-permission-to-positions"])
+}
+
+type Position {
+    id: ID!
+    name: String!
+    description: String
+    firm: Firm
+    permissions: [Permission]!
+}
+
+input UpdatePositionInput {
+    name: String
+    description: String
+}

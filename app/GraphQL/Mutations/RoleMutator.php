@@ -52,7 +52,7 @@ class RoleMutator
     {
         $this->service->delete($role['id']);
 
-        return ['message' => trans('messages.deleted', ['entity' => 'Role'])];
+        return ['message' => __('messages.deleted', ['entity' => 'Role'])];
     }
 
     /**
@@ -64,7 +64,7 @@ class RoleMutator
     {
         $this->service->givePermission($data['id'], $data['permission_id']);
 
-        return ['message' => trans('messages.attached', ['entity' => 'Role'])];
+        return ['message' => __('messages.attached', ['entity' => 'Role'])];
     }
 
     /**
@@ -76,6 +76,6 @@ class RoleMutator
     {
         $this->service->revokePermission($data['id'], $data['permission_id']);
 
-        return ['message' => trans('messages.detached', ['entity' => 'Role'])];
+        return ['message' => __('messages.detached', ['entity' => 'Role'])];
     }
 }

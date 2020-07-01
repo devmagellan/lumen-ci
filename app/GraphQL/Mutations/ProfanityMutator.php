@@ -55,6 +55,6 @@ class ProfanityMutator
     {
         $this->service->delete($args['id']);
 
-        return ['message' => trans('messages.deleted', ['entity' => 'Profanity'])];
+        return ['message' => __('messages.deleted', ['entity' => 'Profanity'])];
     }
 }

@@ -4,14 +4,16 @@ namespace WGT\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 use WGT\Models\Firm\FirmAddress;
 use WGT\Models\Firm\FirmExtra;
 
 class Firm extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     /**
      * @var array
@@ -41,6 +43,20 @@ class Firm extends Model
     ];
 
     /**
+     * All changed fields are adding to the log
+     *
+     * @var bool
+     */
+    protected static $logFillable = true;
+
+    /**
+     * Only fields changed after the update
+     *
+     * @var bool
+     */
+    protected static $logOnlyDirty = true;
+
+    /**
      * @return HasOne
      */
     public function address(): HasOne
@@ -61,6 +77,21 @@ class Firm extends Model
      */
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->as('work')->withPivot(['id', 'position']);
+        return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function positions(): HasMany
+    {
+        $relation = $this->hasMany(Position::class);
+        if (!empty($this->pivot->user_id)) {
+            $relation->getQuery()
+                ->join('user_position', 'positions.id', '=', 'user_position.position_id')
+                ->where('user_position.user_id', $this->pivot->user_id);
+        }
+
+        return $relation;
     }
 }

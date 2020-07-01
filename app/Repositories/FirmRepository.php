@@ -36,26 +36,23 @@ class FirmRepository extends AbstractRepository
 
     /**
      * @param int $firmId
-     * @param int $userId
-     * @param array $data
+     * @param array $users
      * @return bool
      */
-    public function attachEmployee(int $firmId, int $userId, array $data): bool
+    public function attachEmployees(int $firmId, array $users): bool
     {
-        $this->model->find($firmId)->employees()->attach($userId, $data);
+        $this->model->find($firmId)->employees()->syncWithoutDetaching($users);
 
         return true;
     }
 
     /**
      * @param int $firmId
-     * @param int $userId
-     * @param string $position
+     * @param array $users
      * @return bool
      */
-    public function detachEmployees(int $firmId, int $userId, string $position): bool
+    public function detachEmployees(int $firmId, array $users): bool
     {
-        return $this->model->find($firmId)->employees()
-            ->wherePivot('position', $position)->detach($userId);
+        return $this->model->find($firmId)->employees()->detach($users);
     }
 }
