@@ -8,6 +8,7 @@
         "php": "^7.2.5",
         "ashallendesign/laravel-exchange-rates": "^2.2",
         "doctrine/dbal": "^2.10",
+        "fruitcake/laravel-cors": "^2.0",
         "illuminate/mail": "^7.12",
         "illuminate/notifications": "^7.12",
         "laravel/lumen-framework": "^7.0",

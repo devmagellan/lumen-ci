@@ -81,9 +81,9 @@ $app->configure('services');
 |
  */
 
-// $app->middleware([
-//     WGT\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    \Fruitcake\Cors\HandleCors::class
+]);
 
 $app->routeMiddleware([
     'auth' => WGT\Http\Middleware\Authenticate::class,
@@ -113,6 +113,7 @@ $app->register(WGT\Providers\DbLogProvider::class);
 $app->register(Laravel\Tinker\TinkerServiceProvider::class);
 $app->register(Spatie\Activitylog\ActivitylogServiceProvider::class);
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
+$app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
