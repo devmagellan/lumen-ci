@@ -217,6 +217,14 @@ return [
             'converter-via-user' => 'converter-via-user-currencies',
         ],
 
+        'products' => [
+            'list' => 'list-products',
+            'view' => 'view-products',
+            'create' => 'create-products',
+            'update' => 'update-products',
+            'delete' => 'delete-products',
+        ],
+
     ],
 
 ];

@@ -1,0 +1,36 @@
+extend type Query @middleware(checks: ["auth"]) {
+    products: [Product]!
+        @field(resolver: "ProductQuery@all")
+        @middleware(checks: ["permission:list-products"])
+
+    firm(id: ID): Product!
+        @field(resolver: "ProductQuery@find")
+        @middleware(checks: ["permission:view-products"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createProduct(
+        name: String!
+    ): Product!
+        @field(resolver: "ProductMutator@create")
+        @middleware(checks: ["permission:create-products"])
+        @createProductValidation
+
+    updateProduct(id: ID!, firm: UpdateProductInput!): Product!
+        @field(resolver: "ProductMutator@update")
+        @middleware(checks: ["permission:update-products"])
+        @updateProductValidation
+
+    deleteProduct(id: ID!): MessageResponse!
+        @field(resolver: "ProductMutator@delete")
+        @middleware(checks: ["permission:delete-products"])
+}
+
+type Product {
+    id: ID!
+    name: String!
+}
+
+input UpdateProductInput {
+    name: String
+}
