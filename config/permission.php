@@ -216,6 +216,13 @@ return [
             'converter' => 'converter-currencies',
             'converter-via-user' => 'converter-via-user-currencies',
         ],
+        'properties' => [
+            'list' => 'list-properties',
+            'view' => 'view-properties',
+            'create' => 'create-properties',
+            'update' => 'update-properties',
+            'delete' => 'delete-properties',
+        ],
 
     ],
 
