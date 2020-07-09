@@ -14,16 +14,5 @@ class TemplateRepository extends AbstractRepository
     {
         return Template::class;
     }
-
-    /**
-     * @param int $templateId
-     * @param array $templateFieldData
-     * @return bool
-     */
-    public function createField(int $templateId, array $templateFieldData): bool
-    {
-        $this->model->find($templateId)->fields()->create($templateFieldData);
-        return true;
-    }
 }
 

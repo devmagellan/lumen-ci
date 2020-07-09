@@ -30,9 +30,9 @@ class TemplateMutator
      */
     public function create($root, array $data): Template
     {
-        $request = Arr::only($data, ['name']);
+        $request = Arr::only($data, ['name', 'description']);
         $request['user_id'] = auth()->user()->id;
-        return $this->service->create($template);
+        return $this->service->create($request);
     }
 
     /**
@@ -42,7 +42,7 @@ class TemplateMutator
      */
     public function update($root, array $data): Template
     {
-        $request = Arr::only($data, ['name']);
+        $request = Arr::only($data, ['id', 'name', 'description']);
         $request['user_id'] = auth()->user()->id;
         return $this->service->update($request, $request['id']);
     }
@@ -57,28 +57,5 @@ class TemplateMutator
         $this->service->delete($args['id']);
 
         return ['message' => trans('messages.deleted', ['entity' => 'Template'])];
-    }
-
-    /**
-     * @param null $root
-     * @param array $template
-     * @return array
-     */
-    public function createField($root, array $data): array
-    {
-        $request = Arr::only($data, [
-            'template_id',
-            'name',
-            'position',
-            'group_name',
-            'hide_mobile',
-            'hide_tablet',
-            'hide_desktop',
-            'searchable',
-            'datatype_id'
-        ]);
-        $request['user_id'] = auth()->user()->id;
-        $this->service->createField($request['template_id'], $request);
-        return ['message' => __('messages.attached', ['entity' => 'Template'])];
     }
 }

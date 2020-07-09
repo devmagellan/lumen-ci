@@ -19,7 +19,7 @@ class Template extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'user_id'];
+    protected $fillable = ['name', 'description', 'user_id'];
 
     /**
      * @var array
@@ -32,13 +32,5 @@ class Template extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function fields(): HasMany
-    {
-        return $this->hasMany(TemplateField::class);
     }
 }

@@ -212,8 +212,7 @@ return [
             'view' => 'view-templates',
             'create' => 'create-templates',
             'update' => 'update-templates',
-            'delete' => 'delete-templates',
-            'create-field' => 'create-field-to-template',
+            'delete' => 'delete-templates'
         ],
 
     ],
