@@ -54,4 +54,28 @@ class ProductMutator
 
         return ['message' => __('messages.deleted', ['entity' => 'Product'])];
     }
+
+    /**
+     * @param null $root
+     * @param array $data
+     * @return array
+     */
+    public function attachFirm($root, array $data): array
+    {
+        $this->service->attachFirms($data['id'], [$data['firm_id']]);
+
+        return ['message' => __('messages.attached', ['entity' => 'Firm'])];
+    }
+
+    /**
+     * @param null $root
+     * @param array $data
+     * @return array
+     */
+    public function detachFirm($root, array $data): array
+    {
+        $this->service->detachFirms($data['id'], [$data['firm_id']]);
+
+        return ['message' => __('messages.detached', ['entity' => 'Firm'])];
+    }
 }
