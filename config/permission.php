@@ -185,6 +185,16 @@ return [
             'detach-employee' => 'detach-employee-to-firms',
         ],
 
+        'positions' => [
+            'list' => 'list-positions',
+            'view' => 'view-positions',
+            'create' => 'create-positions',
+            'update' => 'update-positions',
+            'delete' => 'delete-positions',
+            'give-permission' => 'give-permission-to-positions',
+            'revoke-permission' => 'revoke-permission-to-positions',
+        ],
+
         'profanities' => [
             'list' => 'list-profanities',
             'view' => 'view-profanities',

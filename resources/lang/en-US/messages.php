@@ -13,4 +13,7 @@ return [
     'assigned' => ':Entity successfully assigned.',
     'removed' => ':Entity successfully removed.',
 
+    'attach_position_firm_invalid' => 'The position cannot be attached to this firm.',
+    'detach_position_firm_invalid' => 'The position cannot be detached to this firm.',
+
 ];

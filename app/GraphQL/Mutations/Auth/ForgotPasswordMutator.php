@@ -29,7 +29,7 @@ class ForgotPasswordMutator
      */
     protected function sendResetLinkResponse(Request $request, $response): array
     {
-        return ['message' => trans($response)];
+        return ['message' => __($response)];
     }
 
     /**
@@ -39,7 +39,7 @@ class ForgotPasswordMutator
      */
     protected function sendResetLinkFailedResponse(Request $request, $response): array
     {
-        return ['message' => trans($response)];
+        return ['message' => __($response)];
     }
 
     /**
