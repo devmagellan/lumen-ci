@@ -30,12 +30,12 @@ extend type Mutation @middleware(checks: ["auth"]) {
     ): Product!
         @field(resolver: "ProductMutator@create")
         @middleware(checks: ["permission:create-products"])
-        # @createProductValidation
+        @createProductValidation
 
     updateProduct(id: ID!, firm: UpdateProductInput!): Product!
         @field(resolver: "ProductMutator@update")
         @middleware(checks: ["permission:update-products"])
-        # @updateProductValidation
+        @updateProductValidation
 
     deleteProduct(id: ID!): MessageResponse!
         @field(resolver: "ProductMutator@delete")
