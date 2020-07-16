@@ -1,0 +1,39 @@
+type Category {
+    id: ID!
+    name: String!
+    type: String!
+    user: User
+}
+
+extend type Query @middleware(checks: ["auth"]) {
+    categories: [Category]!
+        @field(resolver: "CategoryQuery@all")
+        @middleware(checks: ["permission:list-categories"])
+
+    category(id: ID): Category!
+        @field(resolver: "CategoryQuery@find")
+        @middleware(checks: ["permission:view-categories"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createCategory(
+        name: String
+        type: String
+    ): Category!
+        @field(resolver: "CategoryMutator@create")
+        @middleware(checks: ["permission:create-categories"])
+        @CategoryCreateValidation
+
+    updateCategory(
+        id: ID!
+        name: String
+        type: String
+    ): Category!
+        @field(resolver: "CategoryMutator@update")
+        @middleware(checks: ["permission:update-categories"])
+        @CategoryUpdateValidation
+
+    deleteCategory(id: ID!): MessageResponse!
+        @field(resolver: "CategoryMutator@delete")
+        @middleware(checks: ["permission:delete-categories"])
+}

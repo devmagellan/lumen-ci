@@ -217,6 +217,15 @@ return [
             'converter-via-user' => 'converter-via-user-currencies',
         ],
 
+        'categories' => [
+            'list' => 'list-categories',
+            'view' => 'view-categories',
+            'create' => 'create-categories',
+            'update' => 'update-categories',
+            'delete' => 'delete-categories',
+
+        ],
+
     ],
 
 ];
