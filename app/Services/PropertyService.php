@@ -15,13 +15,11 @@ class PropertyService extends AbstractService
 
     /**
      * @param PropertyRepository $repository
-     * @param UserService $userService
      * @return void
      */
-    public function __construct(PropertyRepository $repository, UserService $userService)
+    public function __construct(PropertyRepository $repository)
     {
         $this->repository = $repository;
-        $this->userService = $userService;
     }
 
 
