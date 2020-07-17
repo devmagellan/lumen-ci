@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use WGT\Models\Property;
 use WGT\Services\PropertyService;
 
-class PropertyMutator
+class PropertyItemMutator
 {
     /**
      * @var PropertyService $service
@@ -26,9 +26,9 @@ class PropertyMutator
      * @param array $args
      * @return Property
      */
-    public function create($root, array $args): Property
+    public function create($root, array $args): PropertyItem
     {
-        $request = Arr::only($args, ['name', 'datatype']);
+        $request = Arr::only($args, ['name', 'value', 'position']);
         $request['user_id'] = auth()->user()->id;
         return $this->service->create($request);
     }
@@ -38,9 +38,9 @@ class PropertyMutator
      * @param array $args
      * @return Property
      */
-    public function update($root, array $args): Property
+    public function update($root, array $args): PropertyItem
     {
-        $request = Arr::only($args, ['id', 'name', 'datatype']);
+        $request = Arr::only($args, ['id', 'name', 'value', 'position']);
         $request['user_id'] = auth()->user()->id;
         return $this->service->update($request, $request['id']);
     }

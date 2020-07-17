@@ -223,6 +223,13 @@ return [
             'update' => 'update-properties',
             'delete' => 'delete-properties',
         ],
+        'propertyItems' => [
+            'list' => 'list-propertyItems',
+            'view' => 'view-propertyItems',
+            'create' => 'create-propertyItems',
+            'update' => 'update-propertyItems',
+            'delete' => 'delete-propertyItems',
+        ],
 
     ],
 

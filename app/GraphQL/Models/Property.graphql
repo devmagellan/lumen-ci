@@ -12,11 +12,11 @@ type Property {
 extend type Query @middleware(checks: ["auth"]) {
     properties: [Property]!
         @field(resolver: "PropertyQuery@all")
-        @middleware(checks: ["permission:list-data-types"])
+        @middleware(checks: ["permission:list-properties"])
 
     property(id: ID): Property!
         @field(resolver: "PropertyQuery@find")
-        @middleware(checks: ["permission:view-data-types"])
+        @middleware(checks: ["permission:view-properties"])
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
@@ -30,7 +30,7 @@ extend type Mutation @middleware(checks: ["auth"]) {
         required: Boolean
     ): Property!
         @field(resolver: "PropertyMutator@create")
-        @middleware(checks: ["permission:create-data-types"])
+        @middleware(checks: ["permission:create-properties"])
         @propertyCreateValidation
 
     updateProperty(
@@ -44,10 +44,10 @@ extend type Mutation @middleware(checks: ["auth"]) {
         required: Boolean
     ): Property!
         @field(resolver: "PropertyMutator@update")
-        @middleware(checks: ["permission:update-data-types"])
+        @middleware(checks: ["permission:update-properties"])
         @propertyUpdateValidation
 
     deleteProperty(id: ID!): MessageResponse!
         @field(resolver: "ProperyMutator@delete")
-        @middleware(checks: ["permission:delete-data-types"])
+        @middleware(checks: ["permission:delete-properties"])
 }
