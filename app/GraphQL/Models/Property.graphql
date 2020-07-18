@@ -1,0 +1,53 @@
+type Property {
+    id: ID!
+    name: String!
+    datatype: String!
+    display_name: String!
+    header_name: String!
+    region: String!
+    description: String!
+    required: Boolean!
+}
+
+extend type Query @middleware(checks: ["auth"]) {
+    properties: [Property]!
+        @field(resolver: "PropertyQuery@all")
+        @middleware(checks: ["permission:list-properties"])
+
+    property(id: ID): Property!
+        @field(resolver: "PropertyQuery@find")
+        @middleware(checks: ["permission:view-properties"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createProperty(
+        name: String
+        datatype: String
+        display_name: String
+        header_name: String
+        region: String
+        description: String
+        required: Boolean
+    ): Property!
+        @field(resolver: "PropertyMutator@create")
+        @middleware(checks: ["permission:create-properties"])
+        @propertyCreateValidation
+
+    updateProperty(
+        id: ID!
+        name: String
+        datatype: String
+        display_name: String
+        header_name: String
+        region: String
+        description: String
+        required: Boolean
+    ): Property!
+        @field(resolver: "PropertyMutator@update")
+        @middleware(checks: ["permission:update-properties"])
+        @propertyUpdateValidation
+
+    deleteProperty(id: ID!): MessageResponse!
+        @field(resolver: "ProperyMutator@delete")
+        @middleware(checks: ["permission:delete-properties"])
+}

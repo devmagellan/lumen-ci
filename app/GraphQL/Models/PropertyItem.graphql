@@ -1,0 +1,42 @@
+type PropertyItem {
+    id: ID!
+    name: String!
+    value: String!
+    position: String!
+
+}
+
+extend type Query @middleware(checks: ["auth"]) {
+    propertyItems: [PropertyItem]!
+        @field(resolver: "PropertyItemQuery@all")
+        @middleware(checks: ["permission:list-propertyItems"])
+
+    propertyItem(id: ID): PropertyItem!
+        @field(resolver: "PropertyItemQuery@find")
+        @middleware(checks: ["permission:view-propertyItems"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createPropertyItem(
+        name: String!
+        value: String!
+        position: String!
+    ): PropertyItem!
+        @field(resolver: "PropertyItemMutator@create")
+        @middleware(checks: ["permission:create-propertyItems"])
+        @propertyItemCreateValidation
+
+    updatePropertyItem(
+        id: ID!
+        name: String!
+        value: String!
+        position: String!
+    ): PropertyItem!
+        @field(resolver: "PropertyItemMutator@update")
+        @middleware(checks: ["permission:update-propertyItems"])
+        @propertyItemUpdateValidation
+
+    deletePropertyItem(id: ID!): MessageResponse!
+        @field(resolver: "ProperyItemMutator@delete")
+        @middleware(checks: ["permission:delete-propertyItems"])
+}
