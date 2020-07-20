@@ -191,6 +191,10 @@ Role and permission seeds must be fed and run with each new role/permission in t
 ```php
     // config/permissions.php
 
+    // php artisan db:seed --class=PermissionSeeder
+
+    // php artisan db:seed --class=RoleSeeder
+
     'permissions' => [
 
         'roles' => [

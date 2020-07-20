@@ -1,0 +1,42 @@
+type Template {
+    id: ID
+    name: String!
+    user: User! @belongsTo
+    description: String
+}
+
+extend type Query @middleware(checks: ["auth"]) {
+    templates(
+        id: String @where(operator: "like")
+        name: String @where(operator: "like")
+    ): [Template]!
+        @paginate(resolver: "TemplateQuery@paginate")
+        @middleware(checks: ["permission:list-templates"])
+
+    template(id: ID): Template!
+        @field(resolver: "TemplateQuery@find")
+        @middleware(checks: ["permission:view-templates"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createTemplate(
+        name: String @rules(apply: ["required", "min:2", "max:255"])
+        description: String @rules(apply: ["string", "max:2048"])
+    ): Template
+        @middleware(checks: ["permission:create-templates"])
+        @field(resolver: "TemplateMutator@create")
+
+    updateTemplate(
+        id: ID
+        name: String
+        description: String
+    ): Template
+        @field(resolver: "TemplateMutator@update")
+        @middleware(checks: ["permission:update-templates"])
+        @templateUpdateValidation
+
+    deleteTemplate(id: ID!): MessageResponse!
+        @field(resolver: "TemplateMutator@delete")
+        @middleware(checks: ["permission:delete-templates"])
+
+}
