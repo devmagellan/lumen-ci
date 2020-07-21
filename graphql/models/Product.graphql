@@ -1,0 +1,93 @@
+extend type Query @middleware(checks: ["auth"]) {
+    products: [Product]!
+        @field(resolver: "ProductQuery@all")
+        @middleware(checks: ["permission:list-products"])
+
+    product(id: ID): Product!
+        @field(resolver: "ProductQuery@find")
+        @middleware(checks: ["permission:view-products"])
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+    createProduct(
+        name: String!
+        description: String
+        type: String
+        price: Float!
+        association_discount: Float
+        retail_price: Float
+        report_price: Float
+        cost: Float
+        visible: String
+        status: String
+        active: Boolean
+        vendor_sku: String
+        anonymous: Boolean
+        matching: Int
+        association_product: String
+        matching_sku: String
+        currency_id: ID!
+    ): Product!
+        @field(resolver: "ProductMutator@create")
+        @middleware(checks: ["permission:create-products"])
+        @createProductValidation
+
+    updateProduct(id: ID!, firm: UpdateProductInput!): Product!
+        @field(resolver: "ProductMutator@update")
+        @middleware(checks: ["permission:update-products"])
+        @updateProductValidation
+
+    deleteProduct(id: ID!): MessageResponse!
+        @field(resolver: "ProductMutator@delete")
+        @middleware(checks: ["permission:delete-products"])
+
+    attachFirmToProduct(id: ID!, firm_id: ID!): MessageResponse!
+        @field(resolver: "ProductMutator@attachFirm")
+        @middleware(checks: ["permission:attach-firm-to-products"])
+
+    detachFirmToProduct(id: ID!, firm_id: ID!): MessageResponse!
+        @field(resolver: "ProductMutator@detachFirm")
+        @middleware(checks: ["permission:detach-firm-to-products"])
+}
+
+type Product {
+    id: ID!
+    name: String!
+    description: String
+    type: String
+    price: Float!
+    association_discount: Float
+    retail_price: Float
+    report_price: Float
+    cost: Float
+    visible: String
+    status: String
+    active: Boolean
+    vendor_sku: String
+    anonymous: Boolean
+    matching: Int
+    association_product: String
+    matching_sku: String
+    currency: Currency
+    firms: [Firm]
+}
+
+input UpdateProductInput {
+    name: String
+    description: String
+    type: String
+    price: Float
+    association_discount: Float
+    retail_price: Float
+    report_price: Float
+    cost: Float
+    visible: String
+    status: String
+    active: Boolean
+    vendor_sku: String
+    anonymous: Boolean
+    matching: Int
+    association_product: String
+    matching_sku: String
+    currency_id: ID
+}

@@ -237,7 +237,16 @@ return [
             'create' => 'create-categories',
             'update' => 'update-categories',
             'delete' => 'delete-categories',
+        ],
 
+        'products' => [
+            'list' => 'list-products',
+            'view' => 'view-products',
+            'create' => 'create-products',
+            'update' => 'update-products',
+            'delete' => 'delete-products',
+            'attach-firm' => 'attach-firm-to-products',
+            'detach-firm' => 'detach-firm-to-products',
         ],
 
         'templates' => [
