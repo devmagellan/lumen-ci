@@ -1,4 +1,4 @@
-FROM php:7.2.24-fpm
+FROM php:7.4-fpm
 
 MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
 
@@ -21,7 +21,7 @@ RUN apt install --no-install-recommends -y sudo \
     #
     #
     && apt install --no-install-recommends -yqq apt-utils libzip-dev zip unzip \
-    && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-configure zip \
     && docker-php-ext-install zip \
     && php -m | grep -q 'zip' \
     #
