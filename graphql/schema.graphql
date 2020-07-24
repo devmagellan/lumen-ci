@@ -15,4 +15,4 @@ type MessageResponse {
     message: String
 }
 
-#import models/*.graphql
+#import */*.graphql

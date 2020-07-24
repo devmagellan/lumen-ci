@@ -82,7 +82,7 @@ $app->configure('services');
  */
 
 $app->middleware([
-    \Fruitcake\Cors\HandleCors::class
+    Fruitcake\Cors\HandleCors::class
 ]);
 
 $app->routeMiddleware([
