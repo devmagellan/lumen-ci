@@ -4,31 +4,31 @@ type Profanity {
     user: User! @belongsTo
 }
 
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @guard {
     profanities: [Profanity]!
-        @field(resolver: "ProfanityQuery@all")
-        @middleware(checks: ["permission:list-profanities"])
+    @field(resolver: "ProfanityQuery@all")
+    @can(ability: "list-profanities")
 
     profanity(id: ID): Profanity!
-        @field(resolver: "ProfanityQuery@find")
-        @middleware(checks: ["permission:view-profanities"])
+    @field(resolver: "ProfanityQuery@find")
+    @can(ability: "view-profanities")
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @guard {
     createProfanity(
         word: String @rules(apply: ["required", "unique:profanities", "min:2", "max:255"])
     ): Profanity
-        @middleware(checks: ["permission:create-profanities"])
-        @field(resolver: "ProfanityMutator@create")
+    @can(ability: "create-profanities")
+    @field(resolver: "ProfanityMutator@create")
 
     updateProfanity(
         id: ID!,
         word: String
     ): Profanity
-        @field(resolver: "ProfanityMutator@update")
-        @middleware(checks: ["permission:update-profanities"])
-        @updateProfanityValidation
+    @field(resolver: "ProfanityMutator@update")
+    @can(ability: "update-profanities")
+    @updateProfanityValidation
 
     deleteProfanity(id: ID!): MessageResponse!
-        @field(resolver: "ProfanityMutator@delete")
+    @field(resolver: "ProfanityMutator@delete")
 }

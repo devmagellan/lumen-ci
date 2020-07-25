@@ -1,25 +1,25 @@
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @guard {
     permissions: [Permission]!
-        @field(resolver: "PermissionQuery@all")
-        @middleware(checks: ["permission:list-permissions"])
+    @field(resolver: "PermissionQuery@all")
+    @can(ability: "list-permissions")
 
     permission(id: ID): Permission!
-        @field(resolver: "PermissionQuery@find")
-        @middleware(checks: ["permission:view-permissions"])
+    @field(resolver: "PermissionQuery@find")
+    @can(ability: "view-permissions")
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @guard {
     createPermission(name: String!): Permission!
-        @field(resolver: "PermissionMutator@create")
-        @middleware(checks: ["permission:create-permissions"])
+    @field(resolver: "PermissionMutator@create")
+    @can(ability: "create-permissions")
 
     updatePermission(id: ID!, permission: UpdatePermissionInput): Permission!
-        @field(resolver: "PermissionMutator@update")
-        @middleware(checks: ["permission:update-permissions"])
+    @field(resolver: "PermissionMutator@update")
+    @can(ability: "update-permissions")
 
     deletePermission(id: ID!): MessageResponse!
-        @field(resolver: "PermissionMutator@delete")
-        @middleware(checks: ["permission:delete-permissions"])
+    @field(resolver: "PermissionMutator@delete")
+    @can(ability: "delete-permissions")
 }
 
 type Permission {

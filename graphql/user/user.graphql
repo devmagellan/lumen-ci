@@ -1,39 +1,39 @@
 extend type Query @guard {
     me: User @auth
-        @middleware(checks: ["permission:view-me-users"])
+    @can(ability: "view-me-users")
 
     users: [User]!
-        @field(resolver: "UserQuery@all")
-        @middleware(checks: ["permission:list-users"])
+    @field(resolver: "UserQuery@all")
+    @can(ability: "list-users")
 
     user(id: ID): User!
-        @field(resolver: "UserQuery@find")
-        @middleware(checks: ["permission:view-users"])
+    @field(resolver: "UserQuery@find")
+    @can(ability: "view-users")
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @guard {
     updateMe(user: UpdateUserInput! @spread): User!
-        @field(resolver: "UserMutator@update")
-        @middleware(checks: ["permission:update-me-users"])
-        @updateUserValidation
+    @field(resolver: "UserMutator@update")
+    @can(ability: "update-me-users")
+    @updateUserValidation
 
     assignRoleToUser(id: ID!, role_id: ID!): MessageResponse!
-        @field(resolver: "UserMutator@assignRole")
-        @middleware(checks: ["permission:assign-role-to-users"])
-        @assignRoleValidation
+    @field(resolver: "UserMutator@assignRole")
+    @can(ability: "assign-role-to-users")
+    @assignRoleValidation
 
     removeRoleToUser(id: ID!, role_id: ID!): MessageResponse!
-        @field(resolver: "UserMutator@removeRole")
-        @middleware(checks: ["permission:remove-role-to-users"])
+    @field(resolver: "UserMutator@removeRole")
+    @can(ability: "remove-role-to-users")
 
     givePermissionToUser(id: ID!, permission_id: ID!): MessageResponse!
-        @field(resolver: "UserMutator@givePermission")
-        @middleware(checks: ["permission:give-permission-to-users"])
-        @givePermissionValidation
+    @field(resolver: "UserMutator@givePermission")
+    @can(ability: "give-permission-to-users")
+    @givePermissionValidation
 
     revokePermissionToUser(id: ID!, permission_id: ID!): MessageResponse!
-        @field(resolver: "UserMutator@revokePermission")
-        @middleware(checks: ["permission:revoke-permission-to-users"])
+    @field(resolver: "UserMutator@revokePermission")
+    @can(ability: "revoke-permission-to-users")
 }
 
 type User {

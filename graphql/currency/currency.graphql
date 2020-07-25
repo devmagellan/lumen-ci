@@ -5,25 +5,25 @@ type Currency {
     country: Country!
 }
 
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @guard {
     currencies: [Currency]!
-        @field(resolver: "CurrencyQuery@all")
-        @middleware(checks: ["permission:list-currencies"])
+    @field(resolver: "CurrencyQuery@all")
+    @can(ability: "list-currencies")
 
     currency(id: ID): Currency!
-        @field(resolver: "CurrencyQuery@find")
-        @middleware(checks: ["permission:view-currencies"])
+    @field(resolver: "CurrencyQuery@find")
+    @can(ability: "view-currencies")
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @guard {
     createCurrency(
         name: String
         code: String
         country_id: Int
     ): Currency!
-        @field(resolver: "CurrencyMutator@create")
-        @middleware(checks: ["permission:create-currencies"])
-        @currencyCreateCurrencyValidation
+    @field(resolver: "CurrencyMutator@create")
+    @can(ability: "create-currencies")
+    @currencyCreateCurrencyValidation
 
     updateCurrency(
         id: ID!
@@ -31,11 +31,11 @@ extend type Mutation @middleware(checks: ["auth"]) {
         code: String
         country_id: Int
     ): Currency!
-        @field(resolver: "CurrencyMutator@update")
-        @middleware(checks: ["permission:update-currencies"])
-        @currencyUpdateCurrencyValidation
+    @field(resolver: "CurrencyMutator@update")
+    @can(ability: "update-currencies")
+    @currencyUpdateCurrencyValidation
 
     deleteCurrency(id: ID!): MessageResponse!
-        @field(resolver: "CurrencyMutator@delete")
-        @middleware(checks: ["permission:delete-currencies"])
+    @field(resolver: "CurrencyMutator@delete")
+    @can(ability: "delete-currencies")
 }

@@ -1,34 +1,34 @@
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @guard {
     positions: [Position]!
-        @field(resolver: "PositionQuery@all")
-        @middleware(checks: ["permission:list-positions"])
+    @field(resolver: "PositionQuery@all")
+    @can(ability: "list-positions")
 
     position(id: ID): Position!
-        @field(resolver: "PositionQuery@find")
-        @middleware(checks: ["permission:view-positions"])
+    @field(resolver: "PositionQuery@find")
+    @can(ability: "view-positions")
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @guard {
     createPosition(
         firm_id: ID!
         name: String!
         description: String
     ): Position!
-        @field(resolver: "PositionMutator@create")
-        @middleware(checks: ["permission:create-positions"])
+    @field(resolver: "PositionMutator@create")
+    @can(ability: "create-positions")
 
     updatePosition(id: ID!, position: UpdatePositionInput!): Position!
-        @field(resolver: "PositionMutator@update")
-        @middleware(checks: ["permission:update-positions"])
+    @field(resolver: "PositionMutator@update")
+    @can(ability: "update-positions")
 
     givePermissionToPosition(id: ID!, permission_id: ID!): MessageResponse!
-        @field(resolver: "PositionMutator@givePermission")
-        @middleware(checks: ["permission:give-permission-to-positions"])
-        @attachPermissionValidation
+    @field(resolver: "PositionMutator@givePermission")
+    @can(ability: "give-permission-to-positions")
+    @attachPermissionValidation
 
     revokePermissionToPosition(id: ID!, permission_id: ID!): MessageResponse!
-        @field(resolver: "PositionMutator@revokePermission")
-        @middleware(checks: ["permission:revoke-permission-to-positions"])
+    @field(resolver: "PositionMutator@revokePermission")
+    @can(ability: "revoke-permission-to-positions")
 }
 
 type Position {

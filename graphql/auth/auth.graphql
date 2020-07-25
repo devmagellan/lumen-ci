@@ -8,14 +8,14 @@ extend type Mutation {
         password: String!
         password_confirmation: String!
     ): User!
-        @field(resolver: "Auth\\RegisterMutator@register")
-        @createUserValidation
+    @field(resolver: "Auth\\RegisterMutator@register")
+    @createUserValidation
 
     login(email: String!, password: String!): AuthTokenType!
-        @field(resolver: "Auth\\LoginMutator@login")
+    @field(resolver: "Auth\\LoginMutator@login")
 
     forgotPassword(email: String!): MessageResponse!
-        @field(resolver: "Auth\\ForgotPasswordMutator@forgotPassword")
+    @field(resolver: "Auth\\ForgotPasswordMutator@forgotPassword")
 
     resetPassword(
         token: String!
@@ -24,16 +24,16 @@ extend type Mutation {
         password: String!
         password_confirmation: String!
     ): MessageResponse
-        @field(resolver: "Auth\\ResetPasswordMutator@reset")
-        @resetPasswordValidation
+    @field(resolver: "Auth\\ResetPasswordMutator@reset")
+    @resetPasswordValidation
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @guard {
     refreshToken: AuthTokenType
-        @field(resolver: "Auth\\LoginMutator@refresh")
+    @field(resolver: "Auth\\LoginMutator@refresh")
 
     logout: Boolean
-        @field(resolver: "Auth\\LoginMutator@logout")
+    @field(resolver: "Auth\\LoginMutator@logout")
 }
 
 type AuthTokenType {
