@@ -98,6 +98,8 @@ The response will be:
 }
 ```
 
+If you choose to use [Insomnia](https://insomnia.rest/) as a Graphql Client, you can import a `.json` file ([docs/insomnia](https://github.com/world-gem-trade/wgtcrm-backend/tree/develop/docs/insomnia)) contains a lot of requests.
+
 ### Extra commands
 
 #### Regenerate Composer's autoloader:
