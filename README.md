@@ -179,12 +179,12 @@ protected $profanityFields = ['comments'];
 
 #### Roles and permissions
 
-To allow access control to each request, we must insert the call `@middleware`, informing the necessary permission to access it.
+To allow access control to each request, we must insert the call `@can`, informing the necessary permission to access it.
 ```graphql
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @guard {
     firms: [Firm]!
         @field(resolver: "FirmQuery@all")
-        @middleware(checks: ["permission:list-firms"])
+        @can(ability: "list-firms")
 ```
 
 Role and permission seeds must be fed and run with each new role/permission in the system.
