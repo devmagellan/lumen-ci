@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.2-fpm
 
 MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
 
