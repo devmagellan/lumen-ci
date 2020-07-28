@@ -81,7 +81,11 @@ php artisan db:seed --class=ProfanitySeeder
 
 ### 8. Usage
 
-Open your GraphQL client and run the following query:
+You can open GraphQL browser via the following link:
+
+[http://localhost:4300/](http://localhost:4300/)
+
+And run the following query:
 
 ```
 {
