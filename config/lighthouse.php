@@ -55,7 +55,7 @@ return [
     |
      */
 
-    'guard' => null,
+    'guard' => 'web',
 
     /*
     |--------------------------------------------------------------------------
@@ -202,8 +202,8 @@ return [
      */
 
     'error_handlers' => [
-        \Nuwave\Lighthouse\Execution\ExtensionErrorHandler::class,
-        \Nuwave\Lighthouse\Execution\ReportingErrorHandler::class,
+        Nuwave\Lighthouse\Execution\ExtensionErrorHandler::class,
+        Nuwave\Lighthouse\Execution\ReportingErrorHandler::class,
     ],
 
     /*

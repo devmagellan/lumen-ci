@@ -1,14 +1,14 @@
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @guard {
     products: [Product]!
-        @field(resolver: "ProductQuery@all")
-        @middleware(checks: ["permission:list-products"])
+    @field(resolver: "ProductQuery@all")
+    @can(ability: "list-products")
 
     product(id: ID): Product!
-        @field(resolver: "ProductQuery@find")
-        @middleware(checks: ["permission:view-products"])
+    @field(resolver: "ProductQuery@find")
+    @can(ability: "view-products")
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @guard {
     createProduct(
         name: String!
         description: String
@@ -28,26 +28,26 @@ extend type Mutation @middleware(checks: ["auth"]) {
         matching_sku: String
         currency_id: ID!
     ): Product!
-        @field(resolver: "ProductMutator@create")
-        @middleware(checks: ["permission:create-products"])
-        @createProductValidation
+    @field(resolver: "ProductMutator@create")
+    @can(ability: "create-products")
+    @createProductValidation
 
     updateProduct(id: ID!, firm: UpdateProductInput!): Product!
-        @field(resolver: "ProductMutator@update")
-        @middleware(checks: ["permission:update-products"])
-        @updateProductValidation
+    @field(resolver: "ProductMutator@update")
+    @can(ability: "update-products")
+    @updateProductValidation
 
     deleteProduct(id: ID!): MessageResponse!
-        @field(resolver: "ProductMutator@delete")
-        @middleware(checks: ["permission:delete-products"])
+    @field(resolver: "ProductMutator@delete")
+    @can(ability: "delete-products")
 
     attachFirmToProduct(id: ID!, firm_id: ID!): MessageResponse!
-        @field(resolver: "ProductMutator@attachFirm")
-        @middleware(checks: ["permission:attach-firm-to-products"])
+    @field(resolver: "ProductMutator@attachFirm")
+    @can(ability: "attach-firm-to-products")
 
     detachFirmToProduct(id: ID!, firm_id: ID!): MessageResponse!
-        @field(resolver: "ProductMutator@detachFirm")
-        @middleware(checks: ["permission:detach-firm-to-products"])
+    @field(resolver: "ProductMutator@detachFirm")
+    @can(ability: "detach-firm-to-products")
 }
 
 type Product {

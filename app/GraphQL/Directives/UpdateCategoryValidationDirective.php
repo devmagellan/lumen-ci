@@ -5,7 +5,7 @@ namespace WGT\GraphQL\Directives;
 use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Schema\Directives\ValidationDirective;
 
-class UpdateCutegoryValidationDirective extends ValidationDirective
+class UpdateCategoryValidationDirective extends ValidationDirective
 {
     /**
      * @return array

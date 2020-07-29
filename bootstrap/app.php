@@ -82,12 +82,7 @@ $app->configure('services');
  */
 
 $app->middleware([
-    \Fruitcake\Cors\HandleCors::class
-]);
-
-$app->routeMiddleware([
-    'auth' => WGT\Http\Middleware\Authenticate::class,
-    'permission' => WGT\Http\Middleware\PermissionMiddleware::class,
+    Fruitcake\Cors\HandleCors::class
 ]);
 
 /*

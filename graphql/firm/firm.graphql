@@ -1,14 +1,14 @@
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @guard {
     firms: [Firm]!
-        @field(resolver: "FirmQuery@all")
-        @middleware(checks: ["permission:list-firms"])
+    @field(resolver: "FirmQuery@all")
+    @can(ability: "list-firms")
 
     firm(id: ID): Firm!
-        @field(resolver: "FirmQuery@find")
-        @middleware(checks: ["permission:view-firms"])
+    @field(resolver: "FirmQuery@find")
+    @can(ability: "view-firms")
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @guard {
     createFirm(
         name: String!
         description: String
@@ -20,27 +20,27 @@ extend type Mutation @middleware(checks: ["auth"]) {
         address: FirmAddressInput
         extra: FirmExtraInput
     ): Firm!
-        @field(resolver: "FirmMutator@create")
-        @middleware(checks: ["permission:create-firms"])
-        @createFirmValidation
+    @field(resolver: "FirmMutator@create")
+    @can(ability: "create-firms")
+    @createFirmValidation
 
     updateFirm(id: ID!, firm: UpdateFirmInput!): Firm!
-        @field(resolver: "FirmMutator@update")
-        @middleware(checks: ["permission:update-firms"])
-        @updateFirmValidation
+    @field(resolver: "FirmMutator@update")
+    @can(ability: "update-firms")
+    @updateFirmValidation
 
     deleteFirm(id: ID!): MessageResponse!
-        @field(resolver: "FirmMutator@delete")
-        @middleware(checks: ["permission:delete-firms"])
+    @field(resolver: "FirmMutator@delete")
+    @can(ability: "delete-firms")
 
     attachEmployeeToFirm(id: ID!, user_id: ID!, position_id: ID!): MessageResponse!
-        @field(resolver: "FirmMutator@attachEmployee")
-        @middleware(checks: ["permission:attach-employee-to-firms"])
-        @attachEmployeeValidation
+    @field(resolver: "FirmMutator@attachEmployee")
+    @can(ability: "attach-employee-to-firms")
+    @attachEmployeeValidation
 
     detachEmployeeToFirm(id: ID!, user_id: ID!, position_id: ID!): MessageResponse!
-        @field(resolver: "FirmMutator@detachEmployee")
-        @middleware(checks: ["permission:detach-employee-to-firms"])
+    @field(resolver: "FirmMutator@detachEmployee")
+    @can(ability: "detach-employee-to-firms")
 }
 
 type Firm {
