@@ -26,12 +26,11 @@ class ForgotPasswordMutator
     /**
      * @param Request $request
      * @param string $response
-     * @return void
-     * @throws CustomException
+     * @return array
      */
-    protected function sendResetLinkResponse(Request $request, $response): void
+    protected function sendResetLinkResponse(Request $request, $response): array
     {
-        throw new CustomException(__($response));
+        return ['message' => __($response)];
     }
 
     /**
