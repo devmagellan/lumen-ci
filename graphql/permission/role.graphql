@@ -1,0 +1,43 @@
+extend type Query @guard {
+    roles: [Role]!
+    @field(resolver: "RoleQuery@all")
+    @can(ability: "list-roles")
+
+    role(id: ID): Role!
+    @field(resolver: "RoleQuery@find")
+    @can(ability: "view-roles")
+}
+
+extend type Mutation @guard {
+    createRole(name: String!): Role!
+    @field(resolver: "RoleMutator@create")
+    @can(ability: "create-roles")
+
+    updateRole(id: ID!, role: UpdateRoleInput!): Role!
+    @field(resolver: "RoleMutator@update")
+    @can(ability: "update-roles")
+
+    deleteRole(id: ID!): MessageResponse!
+    @field(resolver: "RoleMutator@delete")
+    @can(ability: "delete-roles")
+
+    givePermissionToRole(id: ID!, permission_id: ID!): MessageResponse!
+    @field(resolver: "RoleMutator@givePermission")
+    @can(ability: "give-permission-to-roles")
+    @attachPermissionValidation
+
+    revokePermissionToRole(id: ID!, permission_id: ID!): MessageResponse!
+    @field(resolver: "RoleMutator@revokePermission")
+    @can(ability: "revoke-permission-to-roles")
+}
+
+type Role {
+    id: ID!
+    name: String!
+    permissions: [Permission]!
+    users: [User]!
+}
+
+input UpdateRoleInput {
+    name: String
+}
