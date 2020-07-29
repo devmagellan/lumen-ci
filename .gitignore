@@ -6,4 +6,5 @@ Homestead.yaml
 .phpunit.result.cache
 _lighthouse_ide_helper.php
 schema-directives.graphql
+programmatic-types.graphql
 graphql-browser/node_modules
