@@ -81,7 +81,11 @@ php artisan db:seed --class=ProfanitySeeder
 
 ### 8. Usage
 
-Open your GraphQL client and run the following query:
+You can open GraphQL browser via the following link:
+
+[http://localhost:4300/](http://localhost:4300/)
+
+And run the following query:
 
 ```
 {
@@ -97,6 +101,8 @@ The response will be:
     }
 }
 ```
+
+If you choose to use [Insomnia](https://insomnia.rest/) as a Graphql Client, you can import a `.json` file ([docs/insomnia](https://github.com/world-gem-trade/wgtcrm-backend/tree/develop/docs/insomnia)) contains a lot of requests.
 
 ### Extra commands
 
