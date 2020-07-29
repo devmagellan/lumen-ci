@@ -47,20 +47,19 @@ class ResetPasswordMutator
      * @param Request $request
      * @param string $response
      * @return array
-     * @throws CustomException
      */
     protected function sendResetResponse(Request $request, $response): array
     {
-        throw new CustomException(__($response));
+        return ['message' => __($response)];
     }
 
     /**
      * @param Request $request
      * @param string $response
-     * @return array
+     * @return void
      * @throws CustomException
      */
-    protected function sendResetFailedResponse(Request $request, $response): array
+    protected function sendResetFailedResponse(Request $request, $response): void
     {
         throw new CustomException(__($response));
     }
