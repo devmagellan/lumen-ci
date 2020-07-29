@@ -1,0 +1,34 @@
+type Profanity {
+    id: ID
+    word: String!
+    user: User! @belongsTo
+}
+
+extend type Query @guard {
+    profanities: [Profanity]!
+    @field(resolver: "ProfanityQuery@all")
+    @can(ability: "list-profanities")
+
+    profanity(id: ID): Profanity!
+    @field(resolver: "ProfanityQuery@find")
+    @can(ability: "view-profanities")
+}
+
+extend type Mutation @guard {
+    createProfanity(
+        word: String @rules(apply: ["required", "unique:profanities", "min:2", "max:255"])
+    ): Profanity
+    @can(ability: "create-profanities")
+    @field(resolver: "ProfanityMutator@create")
+
+    updateProfanity(
+        id: ID!,
+        word: String
+    ): Profanity
+    @field(resolver: "ProfanityMutator@update")
+    @can(ability: "update-profanities")
+    @updateProfanityValidation
+
+    deleteProfanity(id: ID!): MessageResponse!
+    @field(resolver: "ProfanityMutator@delete")
+}

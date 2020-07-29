@@ -8,11 +8,11 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
 
 type Query {
-  hello: String!
+    hello: String!
 }
 
 type MessageResponse {
     message: String
 }
 
-#import models/*.graphql
+#import */*.graphql
