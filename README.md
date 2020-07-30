@@ -188,6 +188,9 @@ protected $profanityFields = ['comments'];
 To allow access control to each request, we must insert the call `@can`, informing the necessary permission to access it.
 ```graphql
 extend type Query @guard {
+    """
+    needs permission: list-firms
+    """
     firms: [Firm]!
         @field(resolver: "FirmQuery@all")
         @can(ability: "list-firms")
