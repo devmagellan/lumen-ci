@@ -6,6 +6,9 @@ type Currency {
 }
 
 extend type Query @guard {
+    """
+    Currency list
+    """
     currencies: [Currency]!
     @field(resolver: "CurrencyQuery@all")
     @can(ability: "list-currencies")
