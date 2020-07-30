@@ -8,16 +8,25 @@ type ProfanityIgnore {
 }
 
 extend type Query @guard {
+    """
+    needs permission: list-ignore-profanities
+    """
     profanityIgnores: [ProfanityIgnore]!
     @field(resolver: "ProfanityIgnoreQuery@all")
     @can(ability: "list-ignore-profanities")
 
+    """
+    needs permission: view-ignore-profanities
+    """
     profanityIgnore(id: ID): ProfanityIgnore!
     @field(resolver: "ProfanityIgnoreQuery@find")
     @can(ability: "view-ignore-profanities")
 }
 
 extend type Mutation @guard {
+    """
+    needs permission: create-ignore-profanities
+    """
     createProfanityIgnore(
         profanity_id: ID
         user_ignored_id: ID
@@ -28,6 +37,9 @@ extend type Mutation @guard {
     @can(ability: "create-ignore-profanities")
     @profanityIgnoreCreateValidation
 
+    """
+    needs permission: update-ignore-profanities
+    """
     updateProfanityIgnore(
         id: ID!,
         profanity_id: ID
@@ -39,6 +51,9 @@ extend type Mutation @guard {
     @can(ability: "update-ignore-profanities")
     @profanityIgnoreUpdateValidation
 
+    """
+    needs permission: delete-ignore-profanities
+    """
     deleteProfanityIgnore(id: ID!): MessageResponse!
     @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@delete")
     @can(ability: "delete-ignore-profanities")

@@ -6,16 +6,25 @@ type Currency {
 }
 
 extend type Query @guard {
+    """
+    needs permission: list-currencies
+    """
     currencies: [Currency]!
     @field(resolver: "CurrencyQuery@all")
     @can(ability: "list-currencies")
 
+    """
+    needs permission: view-currencies
+    """
     currency(id: ID): Currency!
     @field(resolver: "CurrencyQuery@find")
     @can(ability: "view-currencies")
 }
 
 extend type Mutation @guard {
+    """
+    needs permission: create-currencies
+    """
     createCurrency(
         name: String
         code: String
@@ -25,6 +34,9 @@ extend type Mutation @guard {
     @can(ability: "create-currencies")
     @currencyCreateCurrencyValidation
 
+    """
+    needs permission: update-currencies
+    """
     updateCurrency(
         id: ID!
         name: String
@@ -35,6 +47,9 @@ extend type Mutation @guard {
     @can(ability: "update-currencies")
     @currencyUpdateCurrencyValidation
 
+    """
+    needs permission: delete-currencies
+    """
     deleteCurrency(id: ID!): MessageResponse!
     @field(resolver: "CurrencyMutator@delete")
     @can(ability: "delete-currencies")

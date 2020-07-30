@@ -13,6 +13,9 @@ type ProfanityLog {
 }
 
 extend type Query @guard {
+    """
+    needs permission: list-log-profanities
+    """
     profanityLogs: [ProfanityLog!]!
     @paginate(defaultCount: 10, model: "WGT\\Models\\Profanity\\ProfanityLog")
     @can(ability: "list-log-profanities")

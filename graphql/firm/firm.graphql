@@ -1,14 +1,23 @@
 extend type Query @guard {
+    """
+    needs permission: list-firms
+    """
     firms: [Firm]!
     @field(resolver: "FirmQuery@all")
     @can(ability: "list-firms")
 
+    """
+    needs permission: view-firms
+    """
     firm(id: ID): Firm!
     @field(resolver: "FirmQuery@find")
     @can(ability: "view-firms")
 }
 
 extend type Mutation @guard {
+    """
+    needs permission: create-firms
+    """
     createFirm(
         name: String!
         description: String
@@ -24,20 +33,32 @@ extend type Mutation @guard {
     @can(ability: "create-firms")
     @createFirmValidation
 
+    """
+    needs permission: update-firms
+    """
     updateFirm(id: ID!, firm: UpdateFirmInput!): Firm!
     @field(resolver: "FirmMutator@update")
     @can(ability: "update-firms")
     @updateFirmValidation
 
+    """
+    needs permission: delete-firms
+    """
     deleteFirm(id: ID!): MessageResponse!
     @field(resolver: "FirmMutator@delete")
     @can(ability: "delete-firms")
 
+    """
+    needs permission: attach-employee-to-firms
+    """
     attachEmployeeToFirm(id: ID!, user_id: ID!, position_id: ID!): MessageResponse!
     @field(resolver: "FirmMutator@attachEmployee")
     @can(ability: "attach-employee-to-firms")
     @attachEmployeeValidation
 
+    """
+    needs permission: detach-employee-to-firms
+    """
     detachEmployeeToFirm(id: ID!, user_id: ID!, position_id: ID!): MessageResponse!
     @field(resolver: "FirmMutator@detachEmployee")
     @can(ability: "detach-employee-to-firms")

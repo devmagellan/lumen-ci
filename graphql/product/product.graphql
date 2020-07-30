@@ -1,14 +1,23 @@
 extend type Query @guard {
+    """
+    needs permission: list-products
+    """
     products: [Product]!
     @field(resolver: "ProductQuery@all")
     @can(ability: "list-products")
 
+    """
+    needs permission: view-products
+    """
     product(id: ID): Product!
     @field(resolver: "ProductQuery@find")
     @can(ability: "view-products")
 }
 
 extend type Mutation @guard {
+    """
+    needs permission: create-products
+    """
     createProduct(
         name: String!
         description: String
@@ -32,19 +41,31 @@ extend type Mutation @guard {
     @can(ability: "create-products")
     @createProductValidation
 
+    """
+    needs permission: update-products
+    """
     updateProduct(id: ID!, firm: UpdateProductInput!): Product!
     @field(resolver: "ProductMutator@update")
     @can(ability: "update-products")
     @updateProductValidation
 
+    """
+    needs permission: delete-products
+    """
     deleteProduct(id: ID!): MessageResponse!
     @field(resolver: "ProductMutator@delete")
     @can(ability: "delete-products")
 
+    """
+    needs permission: attach-firm-to-products
+    """
     attachFirmToProduct(id: ID!, firm_id: ID!): MessageResponse!
     @field(resolver: "ProductMutator@attachFirm")
     @can(ability: "attach-firm-to-products")
 
+    """
+    needs permission: detach-firm-to-products
+    """
     detachFirmToProduct(id: ID!, firm_id: ID!): MessageResponse!
     @field(resolver: "ProductMutator@detachFirm")
     @can(ability: "detach-firm-to-products")

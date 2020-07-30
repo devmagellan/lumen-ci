@@ -6,6 +6,9 @@ type ExchangeRate {
 }
 
 extend type Query @guard {
+    """
+    needs permission: converter-currencies
+    """
     currencyConverter(
         amount: Float @rules(apply: ["nullable", "numeric", "gt:0"])
         from: String @rules(apply: ["required", "string", "size:3", "exists:currencies,code"])
@@ -15,6 +18,9 @@ extend type Query @guard {
     @field(resolver: "ExchangeRateQuery@convert")
     @can(ability: "converter-currencies")
 
+    """
+    needs permission: converter-via-user-currencies
+    """
     currencyConverterViaUser(
         conversionType: String
         amount: Float
