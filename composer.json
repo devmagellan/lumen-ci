@@ -39,9 +39,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
+        "psr-4": {
+            "Tests\\WGT\\": "tests/"
+        }
     },
     "config": {
         "preferred-install": "dist",
