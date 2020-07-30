@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use WGT\Models\Firm;
+use WGT\Models\Category;
 
 class CategorySeeder extends Seeder
 {
@@ -10,9 +10,8 @@ class CategorySeeder extends Seeder
         Category::firstOrCreate(
             [
                 'name' => 'Some aditional category',
-                'type'=>'stone',
+                'type'=> 'stone',
                 'user_id' => 1,
-
             ]
         );
     }

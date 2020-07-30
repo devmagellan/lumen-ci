@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 
 class CreateProfanityTable extends Migration
@@ -16,6 +17,10 @@ class CreateProfanityTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Artisan::call('db:seed', [
+            '--class' => ProfanitySeeder::class,
+        ]);
     }
 
     public function down()

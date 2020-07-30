@@ -13,11 +13,12 @@ class CreateFirmUserTable extends Migration
     {
         Schema::create('firm_user', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('firm_id');
-            $table->unsignedInteger('user_id');
-            $table->string('position', 128);
+            $table->unsignedBigInteger('firm_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('firm_id')->references('id')->on('firms');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
-            $table->unique(['firm_id', 'user_id', 'position']);
+            $table->unique(['firm_id', 'user_id']);
         });
     }
 

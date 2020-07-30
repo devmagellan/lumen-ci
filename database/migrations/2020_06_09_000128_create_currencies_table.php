@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Class CreateCurrenciesTable.
@@ -26,7 +28,11 @@ class CreateCurrenciesTable extends Migration
             $table->foreign('country_id')->references('id')->on('countries');
             $table->timestamps();
             $table->softDeletes();
-		});
+        });
+
+        Artisan::call('db:seed', [
+            '--class' => CurrencySeeder::class,
+        ]);
 	}
 
 	/**

@@ -17,6 +17,7 @@ class TemplateSeeder extends Seeder
         if (!empty($devUser)) {
             Template::firstOrCreate([
                 'name' => 'Jewelry',
+                'description' => 'Some description',
                 'user_id' => $devUser->id
             ]);
         }
