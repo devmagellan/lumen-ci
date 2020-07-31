@@ -2,6 +2,7 @@
 
 namespace Tests\WGT\UT\Services;
 
+use Exception;
 use Mockery;
 use Tests\WGT\UT\TestCase;
 use WGT\Models\Position;
@@ -50,11 +51,12 @@ class UserServiceTest extends TestCase
     }
 
     /**
-     * @covers ::detachPosition
+     * @covers ::attachPosition
      */
-    public function testDetachPosition(): void
+    public function testAttachPositionDifferentFirmId(): void
     {
         $firmId = 111;
+        $firmId2 = 110;
         $userId = 222;
         $positionId = 333;
 
@@ -64,18 +66,18 @@ class UserServiceTest extends TestCase
         $userRepository = Mockery::mock(UserRepository::class);
         $this->accessProperty('repository')->setValue($this->testedClass, $userRepository);
 
-        $position = factory(Position::class)->make(['id' => $positionId, 'firm_id' => $firmId]);
+        $position = factory(Position::class)->make(['id' => $positionId, 'firm_id' => $firmId2]);
 
         $positionService->shouldReceive('find')
             ->with($positionId)
             ->once()
             ->andReturn($position);
 
-        $userRepository->shouldReceive('detachPositions')
-            ->with($userId, [$positionId])
-            ->once()
-            ->andReturn(true);
+        $userRepository->shouldReceive('attachPositions')->never();
 
-        self::assertTrue($this->testedClass->detachPosition($firmId, $userId, $positionId));
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(__('messages.attach_position_firm_invalid'));
+
+        $this->testedClass->attachPosition($firmId, $userId, $positionId);
     }
 }
