@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePermissionTables extends Migration
@@ -86,6 +87,13 @@ class CreatePermissionTables extends Migration
         app('cache')
             ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
             ->forget(config('permission.cache.key'));
+
+        Artisan::call('db:seed', [
+            '--class' => PermissionSeeder::class,
+        ]);
+        Artisan::call('db:seed', [
+            '--class' => RoleSeeder::class,
+        ]);
     }
 
     /**

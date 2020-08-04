@@ -61,23 +61,26 @@ php artisan migrate
 6.1. Refresh the database and run all database seeds
 
 ```
-php artisan migrate:refresh --seed
+php artisan migrate:refresh
 ```
 
 ### 7. Preloading data (optional)
 
-7.1. Executing All Seeders
-
+Some data is preloading via Migrations, but you can run seeder via the following command:
 ```
 php artisan db:seed
 ```
 
-7.2. Executing Individual Seeder
+7.1. Run individually
+
+You can run individual Seeder through the following command:
 
 ```
 php artisan db:seed --class=UsersSeeder
 php artisan db:seed --class=ProfanitySeeder
 ```
+
+Please, check `database/seeds` to see all seeders.
 
 ### 8. Usage
 

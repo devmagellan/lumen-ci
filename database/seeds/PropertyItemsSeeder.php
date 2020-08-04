@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\App;
-use WGT\Models\User;
+use WGT\Models\PropertyItem;
 
 class PropertyItemsSeeder extends Seeder
 {

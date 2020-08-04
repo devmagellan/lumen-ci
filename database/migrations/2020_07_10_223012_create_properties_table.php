@@ -19,9 +19,9 @@ class CreatePropertiesTable extends Migration
             $table->enum('datatype', ['text', 'number', 'date', 'single_select', 'multi_select'])->default('text');
             $table->string('display_name') ;
             $table->string('header_name');
-             $table->string('region');
-             $table->string('description');
-             $table->boolean('required');
+            $table->string('region');
+            $table->string('description');
+            $table->boolean('required');
             $table->timestamps();
             $table->softDeletes();
         });

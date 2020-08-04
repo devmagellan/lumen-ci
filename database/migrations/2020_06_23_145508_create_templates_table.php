@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Class CreateTemplatesTable.
@@ -23,7 +24,7 @@ class CreateTemplatesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
-		});
+        });
 	}
 
 	/**

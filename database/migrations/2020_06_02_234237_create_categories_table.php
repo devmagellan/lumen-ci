@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 128);
-            $table->enum('type', ['stone','finished_product','parcel']);
+            $table->enum('type', ['stone', 'finished_product', 'parcel']);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
