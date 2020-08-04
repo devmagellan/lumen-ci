@@ -23,10 +23,6 @@ class CreateProfanityIgnoresTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        Artisan::call('db:seed', [
-            '--class' => ProfanityIgnoreSeeder::class,
-        ]);
 	}
 
 	public function down()

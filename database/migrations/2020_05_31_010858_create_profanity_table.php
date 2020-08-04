@@ -17,10 +17,6 @@ class CreateProfanityTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        Artisan::call('db:seed', [
-            '--class' => ProfanitySeeder::class,
-        ]);
     }
 
     public function down()

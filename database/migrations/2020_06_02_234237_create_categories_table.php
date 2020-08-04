@@ -23,10 +23,6 @@ class CreateCategoriesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        Artisan::call('db:seed', [
-            '--class' => CategorySeeder::class,
-        ]);
     }
 
     /**

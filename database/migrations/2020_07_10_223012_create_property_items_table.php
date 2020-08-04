@@ -22,10 +22,6 @@ class CreatePropertyItemsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        Artisan::call('db:seed', [
-            '--class' => PropertyItemsSeeder::class,
-        ]);
     }
 
     /**

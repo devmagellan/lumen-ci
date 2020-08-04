@@ -66,14 +66,21 @@ php artisan migrate:refresh
 
 ### 7. Preloading data (optional)
 
-The data are preloading into Migrations, but you can run it, individuals.
+Some data is preloading via Migrations, but you can run seeder via the following command:
+```
+php artisan db:seed
+```
 
-You must run individual Seeder:
+7.1. Run individually
+
+You can run individual Seeder through the following command:
 
 ```
 php artisan db:seed --class=UsersSeeder
 php artisan db:seed --class=ProfanitySeeder
 ```
+
+Please, check `database/seeds` to see all seeders.
 
 ### 8. Usage
 
