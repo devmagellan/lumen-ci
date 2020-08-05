@@ -1,7 +1,11 @@
 {
     "name": "WGT-hq/wgtcrm-backend",
     "description": "World Gem Trade CRM",
-    "keywords": ["wgt", "crm", "backend"],
+    "keywords": [
+        "wgt",
+        "crm",
+        "backend"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -14,6 +18,7 @@
         "laravel/lumen-framework": "^7.0",
         "laravel/tinker": "^2.4",
         "laravel/ui": "^2.0",
+        "league/flysystem": "^1.0",
         "league/fractal": "^0.19.2",
         "nesbot/carbon": "^2.35",
         "nuwave/lighthouse": "^4.13",
@@ -39,9 +44,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
+        "psr-4": {
+            "Tests\\WGT\\": "tests/"
+        }
     },
     "config": {
         "preferred-install": "dist",
@@ -53,12 +58,24 @@
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ]
     },
     "repositories": {
         "packagist": {
             "type": "composer",
             "url": "https://packagist.org"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "barryvdh/laravel-ide-helper"
+            ]
         }
     }
 }
