@@ -61,27 +61,34 @@ php artisan migrate
 6.1. Refresh the database and run all database seeds
 
 ```
-php artisan migrate:refresh --seed
+php artisan migrate:refresh
 ```
 
 ### 7. Preloading data (optional)
 
-7.1. Executing All Seeders
-
+Some data is preloading via Migrations, but you can run seeder via the following command:
 ```
 php artisan db:seed
 ```
 
-7.2. Executing Individual Seeder
+7.1. Run individually
+
+You can run individual Seeder through the following command:
 
 ```
 php artisan db:seed --class=UsersSeeder
 php artisan db:seed --class=ProfanitySeeder
 ```
 
+Please, check `database/seeds` to see all seeders.
+
 ### 8. Usage
 
-Open your GraphQL client and run the following query:
+You can open GraphQL browser via the following link:
+
+[http://localhost:4300/](http://localhost:4300/)
+
+And run the following query:
 
 ```
 {
@@ -97,6 +104,8 @@ The response will be:
     }
 }
 ```
+
+If you choose to use [Insomnia](https://insomnia.rest/) as a Graphql Client, you can import a `.json` file ([docs/insomnia](https://github.com/world-gem-trade/wgtcrm-backend/tree/develop/docs/insomnia)) contains a lot of requests.
 
 ### Extra commands
 
@@ -179,17 +188,24 @@ protected $profanityFields = ['comments'];
 
 #### Roles and permissions
 
-To allow access control to each request, we must insert the call `@middleware`, informing the necessary permission to access it.
+To allow access control to each request, we must insert the call `@can`, informing the necessary permission to access it.
 ```graphql
-extend type Query @middleware(checks: ["auth"]) {
+extend type Query @guard {
+    """
+    needs permission: list-firms
+    """
     firms: [Firm]!
         @field(resolver: "FirmQuery@all")
-        @middleware(checks: ["permission:list-firms"])
+        @can(ability: "list-firms")
 ```
 
 Role and permission seeds must be fed and run with each new role/permission in the system.
 ```php
     // config/permissions.php
+
+    // php artisan db:seed --class=PermissionSeeder
+
+    // php artisan db:seed --class=RoleSeeder
 
     'permissions' => [
 

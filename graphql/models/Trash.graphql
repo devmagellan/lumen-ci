@@ -1,5 +1,0 @@
-enum Trash {
-  ONLY @enum(value: "only")
-  WITH @enum(value: "with")
-  WITHOUT @enum(value: "without")
-}

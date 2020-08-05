@@ -1,4 +1,4 @@
-FROM php:7.2.24-fpm
+FROM php:7.2-fpm
 
 MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
 
@@ -21,7 +21,7 @@ RUN apt install --no-install-recommends -y sudo \
     #
     #
     && apt install --no-install-recommends -yqq apt-utils libzip-dev zip unzip \
-    && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-configure zip \
     && docker-php-ext-install zip \
     && php -m | grep -q 'zip' \
     #
@@ -135,6 +135,6 @@ RUN apt autoremove -y \
     && ssh-keyscan bitbucket.org >> /home/docker/.ssh/known_hosts \
     && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
 
-COPY supervisor /etc/supervisor/conf.d
+COPY supervisor/local /etc/supervisor/conf.d
 
 USER docker

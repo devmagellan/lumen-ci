@@ -1,0 +1,22 @@
+type ProfanityLog {
+    user: User
+    firm: Firm
+    original_content: String
+    updated_content: String
+    replaced_words: String
+    class_name: String
+    method: String
+    table_name: String
+    table_field: String
+    table_id: String
+    created_at: String
+}
+
+extend type Query @guard {
+    """
+    needs permission: list-log-profanities
+    """
+    profanityLogs: [ProfanityLog!]!
+    @paginate(defaultCount: 10, model: "WGT\\Models\\Profanity\\ProfanityLog")
+    @can(ability: "list-log-profanities")
+}

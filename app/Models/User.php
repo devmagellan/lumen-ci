@@ -132,7 +132,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * @return string
      */
-    public function getFullNameAttribute()
+    public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->middle_name} {$this->last_name}";
     }
@@ -143,7 +143,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function sendPasswordResetNotification($token): void
     {
-        $this->notify(new ResetPassword($token));
+        $this->notify(new ResetPassword($token, $this->first_name));
     }
 
     /**

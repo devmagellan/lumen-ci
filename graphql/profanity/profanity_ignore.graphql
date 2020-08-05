@@ -1,0 +1,60 @@
+type ProfanityIgnore {
+    id: ID
+    profanity: Profanity! @belongsTo
+    userIgnored: User @belongsTo
+    firmIgnored: Firm @belongsTo
+    network_ignored_id: String
+    user: User @belongsTo
+}
+
+extend type Query @guard {
+    """
+    needs permission: list-ignore-profanities
+    """
+    profanityIgnores: [ProfanityIgnore]!
+    @field(resolver: "ProfanityIgnoreQuery@all")
+    @can(ability: "list-ignore-profanities")
+
+    """
+    needs permission: view-ignore-profanities
+    """
+    profanityIgnore(id: ID): ProfanityIgnore!
+    @field(resolver: "ProfanityIgnoreQuery@find")
+    @can(ability: "view-ignore-profanities")
+}
+
+extend type Mutation @guard {
+    """
+    needs permission: create-ignore-profanities
+    """
+    createProfanityIgnore(
+        profanity_id: ID
+        user_ignored_id: ID
+        firm_ignored_id: ID
+        network_ignored_id: String
+    ): ProfanityIgnore
+    @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@create")
+    @can(ability: "create-ignore-profanities")
+    @profanityIgnoreCreateValidation
+
+    """
+    needs permission: update-ignore-profanities
+    """
+    updateProfanityIgnore(
+        id: ID!,
+        profanity_id: ID
+        user_ignored_id: ID
+        firm_ignored_id: ID
+        network_ignored_id: String
+    ): ProfanityIgnore
+    @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@update")
+    @can(ability: "update-ignore-profanities")
+    @profanityIgnoreUpdateValidation
+
+    """
+    needs permission: delete-ignore-profanities
+    """
+    deleteProfanityIgnore(id: ID!): MessageResponse!
+    @field(resolver: "WGT\\GraphQL\\Mutations\\Profanity\\ProfanityIgnoreMutator@delete")
+    @can(ability: "delete-ignore-profanities")
+}

@@ -1,0 +1,32 @@
+type ExchangeRate {
+    amountConverted: Float!
+    from: String!
+    to: String!
+    date: DateTime
+}
+
+extend type Query @guard {
+    """
+    needs permission: converter-currencies
+    """
+    currencyConverter(
+        amount: Float @rules(apply: ["nullable", "numeric", "gt:0"])
+        from: String @rules(apply: ["required", "string", "size:3", "exists:currencies,code"])
+        to: String @rules(apply: ["required", "string", "size:3", "exists:currencies,code"])
+        date: DateTime @rules(apply: ["nullable", "date"])
+    ): ExchangeRate!
+    @field(resolver: "ExchangeRateQuery@convert")
+    @can(ability: "converter-currencies")
+
+    """
+    needs permission: converter-via-user-currencies
+    """
+    currencyConverterViaUser(
+        conversionType: String
+        amount: Float
+        currency: String
+    ): ExchangeRate!
+    @field(resolver: "ExchangeRateQuery@convertViaUser")
+    @can(ability: "converter-via-user-currencies")
+    @currencyConverterViaUserValidation
+}

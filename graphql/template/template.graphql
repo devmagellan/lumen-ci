@@ -1,0 +1,56 @@
+type Template {
+    id: ID
+    name: String!
+    user: User! @belongsTo
+    description: String
+}
+
+extend type Query @guard {
+    """
+    needs permission: list-templates
+    """
+    templates(
+        id: String @where(operator: "like")
+        name: String @where(operator: "like")
+    ): [Template]!
+    @paginate(resolver: "TemplateQuery@paginate")
+    @can(ability: "list-templates")
+
+    """
+    needs permission: view-templates
+    """
+    template(id: ID): Template!
+    @field(resolver: "TemplateQuery@find")
+    @can(ability: "view-templates")
+}
+
+extend type Mutation @guard {
+    """
+    needs permission: create-templates
+    """
+    createTemplate(
+        name: String @rules(apply: ["required", "min:2", "max:255"])
+        description: String @rules(apply: ["string", "max:2048"])
+    ): Template
+    @can(ability: "create-templates")
+    @field(resolver: "TemplateMutator@create")
+
+    """
+    needs permission: update-templates
+    """
+    updateTemplate(
+        id: ID
+        name: String
+        description: String
+    ): Template
+    @field(resolver: "TemplateMutator@update")
+    @can(ability: "update-templates")
+    @templateUpdateValidation
+
+    """
+    needs permission: delete-templates
+    """
+    deleteTemplate(id: ID!): MessageResponse!
+    @field(resolver: "TemplateMutator@delete")
+    @can(ability: "delete-templates")
+}

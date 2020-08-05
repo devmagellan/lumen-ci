@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Request as RequestFacades;
+use WGT\GraphQL\Exceptions\CustomException;
 
 class ResetPasswordMutator
 {
@@ -13,7 +14,7 @@ class ResetPasswordMutator
 
     /**
      * @param null $root
-     * @param array $user
+     * @param array $data
      * @return array
      */
     public function reset($root, array $data): array
@@ -22,13 +23,13 @@ class ResetPasswordMutator
 
         $response = $this->broker()->reset(
             $this->credentials($request), function ($user, $password) {
-                $this->resetPassword($user, $password);
-            }
+            $this->resetPassword($user, $password);
+        }
         );
 
         return $response == Password::PASSWORD_RESET
-        ? $this->sendResetResponse($request, $response)
-        : $this->sendResetFailedResponse($request, $response);
+            ? $this->sendResetResponse($request, $response)
+            : $this->sendResetFailedResponse($request, $response);
     }
 
     /**
@@ -55,10 +56,11 @@ class ResetPasswordMutator
     /**
      * @param Request $request
      * @param string $response
-     * @return array
+     * @return void
+     * @throws CustomException
      */
-    protected function sendResetFailedResponse(Request $request, $response): array
+    protected function sendResetFailedResponse(Request $request, $response): void
     {
-        return ['message' => __($response)];
+        throw new CustomException(__($response));
     }
 }
