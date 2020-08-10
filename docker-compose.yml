@@ -2,14 +2,17 @@ version: "3.7"
 
 services:
   wgtcrm-web:
-    image: nginx:1.10.3
+    image: devmagellan/wgt-web:latest #nginx:1.10.3
+    build:
+      context: ./
+      dockerfile: ./docker/nginx/Dockerfile
     container_name: wgtcrm-web
     ports:
       - "10080:80"
       - "10430:443"
     restart: always
     volumes:
-      - "./docker/nginx:/etc/nginx/conf.d:ro"
+      - "./docker/nginx/conf.d:/etc/nginx/conf.d:ro"
       - ".:/var/www/wgtcrm"
     depends_on:
       - "wgtcrm-php"
@@ -18,7 +21,10 @@ services:
       - wgtcrm
 
   wgtcrm-php:
-    build: ./docker
+    image: devmagellan/wgt-php:latest
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
     container_name: wgtcrm-php
     environment:
       APP_ENV: local
@@ -34,7 +40,10 @@ services:
         target: /home/docker/.ssh/id_rsa
 
   wgtcrm-mysql:
-    image: mysql:5.7.30
+    build:
+      context: ./
+      dockerfile: ./docker/mysql/Dockerfile
+    image: devmagellan/wgt-mysql:latest #mysql:5.7.30
     container_name: wgtcrm-mysql
     restart: always
     environment:

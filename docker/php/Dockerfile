@@ -1,8 +1,8 @@
 FROM php:7.2-fpm
 
 MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+MAINTAINER Andrey Lopushansky <dev.magellan@gmail.com>
+#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN apt update -yqq \
     && apt full-upgrade -y \
@@ -135,6 +135,21 @@ RUN apt autoremove -y \
     && ssh-keyscan bitbucket.org >> /home/docker/.ssh/known_hosts \
     && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
 
-COPY supervisor/local /etc/supervisor/conf.d
+COPY ./docker/supervisor/local /etc/supervisor/conf.d
 
-USER docker
+# Install Composer.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && ln -s $(composer config --global home) /root/composer
+ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_VERSION 1.7.2
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_MEMORY_LIMIT -1
+ENV COMPOSER_HOME /tmp
+
+
+# Install prestissimo (composer plugin). Plugin that downloads packages in parallel to speed up the installation process
+# After release of Composer 2.x, remove prestissimo, because parallelism already merged into Composer 2.x branch:
+# https://github.com/composer/composer/pull/7904
+RUN composer global require hirak/prestissimo
+
+#USER docker
