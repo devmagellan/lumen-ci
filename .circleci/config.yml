@@ -1,0 +1,39 @@
+version: 2.17
+jobs:
+  build:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run: sudo apt update
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run: sudo apt install gnupg2 pass
+      - run: docker login --username=devmagellan --password=Sunimedia@1l
+      - run: docker-compose build
+      - run: docker-compose push
+
+        ## ###
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run: sudo apt update
+      - run: sudo apt-get install sshpass
+      - run:
+          name: Deploy over SSH
+          command: sshpass -p 'sunimedia' scp ./docker-destroy-all.sh root@142.93.239.248:/var/www/production; sshpass -p 'sunimedia' ssh -A -p 22 root@142.93.239.248  "cd /var/www/production; chmod +x docker-destroy-all.sh ;./docker-destroy-all.sh;git pull;docker-compose pull;docker-compose down;docker-compose up -d;docker-compose exec -T wgtcrm-php composer update ;docker-compose exec -T wgtcrm-php php /var/www/html/artisan migrate --force ";
+####
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
