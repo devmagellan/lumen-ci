@@ -20,7 +20,7 @@ jobs:
       - run: docker-compose build
       - run: docker-compose push
 
-        ## ###
+        ## ####
   deploy:
     branches:
       only:
