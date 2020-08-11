@@ -1,5 +1,23 @@
 version: 2.17
 jobs:
+
+
+  build:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run: sudo apt update
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run: sudo apt install gnupg2 pass
+      - run: docker login --username=devmagellan --password=Sunimedia@1l
+      - run: docker-compose build
+      - run: docker-compose push
   test:
     docker:
       # Specify the version you desire here
@@ -44,24 +62,6 @@ jobs:
       - run:
           name: "Run Unit Tests"
           command: ./vendor/bin/phpunit tests
-
-  build:
-    machine:
-      enabled: true
-    steps:
-      - checkout
-      - run: sudo apt update
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      - run: sudo apt install gnupg2 pass
-      - run: docker login --username=devmagellan --password=Sunimedia@1l
-      - run: docker-compose build
-      - run: docker-compose push
-
         ## ######
   deploy:
     machine:
@@ -76,12 +76,17 @@ jobs:
 ####
 workflows:
   version: 2
-  build-and-deploy:
+  build_and_test:
     jobs:
-      - test
-      - build:
-        requires:
-          - test
-      - deploy:
+      - build
+      - test:
           requires:
             - build
+      - hold:
+          type: approval
+          requires:
+            - build
+            - test
+      - deploy:
+          requires:
+            - hold
