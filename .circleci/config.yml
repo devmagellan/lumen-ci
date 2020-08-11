@@ -79,7 +79,7 @@ workflows:
   build-and-deploy:
     jobs:
       - test
-      - build
+      - build:
         requires:
           - test
       - deploy:
