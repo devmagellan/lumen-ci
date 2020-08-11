@@ -37,6 +37,7 @@ services:
         target: /home/docker/.ssh/id_rsa
 
   wgtcrm-mysql:
+    build: docker-build-contexts/mysql
     image: mysql:5.7.30
     container_name: wgtcrm-mysql
     restart: always
@@ -67,7 +68,7 @@ services:
 networks:
   wgtcrm:
     name: wgtcrm
-
+    driver: bridge
 secrets:
   ssh_key:
     file: ~/.ssh/id_rsa
