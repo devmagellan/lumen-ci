@@ -3,7 +3,7 @@ jobs:
   build:
     branches:
       only:
-        - feature/master-ci
+        - feature/master-ci-setup
     machine:
       enabled: true
     steps:
