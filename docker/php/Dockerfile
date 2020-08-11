@@ -146,10 +146,11 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
 ENV COMPOSER_HOME /tmp
 
-
+WORKDIR /var/www/wgtcrm
+COPY ./composer.json /var/www/wgtcrm
 # Install prestissimo (composer plugin). Plugin that downloads packages in parallel to speed up the installation process
 # After release of Composer 2.x, remove prestissimo, because parallelism already merged into Composer 2.x branch:
 # https://github.com/composer/composer/pull/7904
 RUN composer global require hirak/prestissimo
-
+RUN composer install
 #USER docker
