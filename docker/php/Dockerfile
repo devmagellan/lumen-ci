@@ -14,7 +14,7 @@ RUN apt install --no-install-recommends -y sudo \
     && echo 'docker:docker' | chpasswd \
     #
     #
-#    && apt install --no-install-recommends -y git ssh-client python-setuptools python-pip \
+    && apt install --no-install-recommends -y git ssh-client python-setuptools python-pip
 #    && pip install supervisor \
 #    && mkdir /etc/supervisor \
 #    && echo_supervisord_conf > /etc/supervisor/supervisord.conf \
