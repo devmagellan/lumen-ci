@@ -7,35 +7,57 @@ jobs:
       enabled: true
     steps:
       - checkout
-      - run: sudo apt update
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      - run: sudo apt install gnupg2 pass
-      - run: docker login --username=devmagellan --password=Sunimedia@1l
-      - run: docker-compose build
-      - run: docker-compose push
+#      - run: sudo apt update
+#      - run:
+#          name: Install Docker Compose
+#          command: |
+#            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+#            chmod +x ~/docker-compose
+#            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+#      - run: sudo apt install gnupg2 pass
+#      - run: docker login --username=devmagellan --password=Sunimedia@1l
+#      - run: docker-compose build
+#      - run: docker-compose push
   test:
+    working_directory: ~/user/repo
+
+      environment:
+        BASH_ENV: ~/.bashrc
     docker:
-      # Specify the version you desire here
-      - image: circleci/php:7.4-node-browsers
+      - image: circleci/php:7.2-node-browsers
+          environment:
+            APP_ENV: testing
+            DB_CONNECTION: mysql
+            DB_DATABASE: wgtdev
+            DB_USERNAME: wgtdev
+            DB_PASSWORD: wgtdev
+            SESSION_DRIVER: database
+            CACHE_DRIVER: file
+
+            - image: circleci/mysql:5.7
+              environment:
+                - MYSQL_ALLOW_EMPTY_PASSWORD=true
+                - MYSQL_ROOT_PASSWORD=wgtdev
+                - MYSQL_USER=wgtdev
+                - MYSQL_PASSWORD=wgtdev
+                - MYSQL_DATABASE=wgtdev
 
     steps:
       - checkout
 
-      - run:
-          name: "Prepare Environment"
-          command: |
-            sudo apt update
-            sudo docker-php-ext-install zip
+#      - run:
+#          name: "Prepare Environment"
+#          command: |
+#            sudo apt update
+#            sudo docker-php-ext-install zip
 
       - run:
-          name: "Create Environment file"
+          name: Setup Environment
           command: |
-            mv ./.env .env
+            cp .env.testing .env
+            php artisan key:generate
+            php artisan passport:keys
+            touch ./storage/logs/laravel.log
 
       # Download and cache dependencies
       - restore_cache:
@@ -57,7 +79,9 @@ jobs:
       - run:
           name: "Generate App key"
           command: php artisan key:generate
-
+      - run:
+          name: Migrate Database
+          command: php artisan migrate --force
       # run tests with phpunit
       - run:
           name: "Run Unit Tests"
