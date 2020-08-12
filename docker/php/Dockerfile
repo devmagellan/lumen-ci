@@ -14,16 +14,17 @@ RUN apt install --no-install-recommends -y sudo \
     && echo 'docker:docker' | chpasswd \
     #
     #
-    && apt install --no-install-recommends -y git ssh-client python-setuptools python-pip \
+    && apt install --no-install-recommends -y git ssh-client \
+    ## python-setuptools python-pip \
 #    && pip install supervisor \
 #    && mkdir /etc/supervisor \
 #    && echo_supervisord_conf > /etc/supervisor/supervisord.conf \
     #
     #
-#    && apt install --no-install-recommends -yqq apt-utils libzip-dev zip unzip \
-#    && docker-php-ext-configure zip \
-#    && docker-php-ext-install zip \
-#    && php -m | grep -q 'zip' \
+    && apt install --no-install-recommends -yqq apt-utils libzip-dev zip unzip \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install zip \
+    && php -m | grep -q 'zip' \
 #    #
 #    #
 #    && apt install --no-install-recommends -y libbz2-dev \
