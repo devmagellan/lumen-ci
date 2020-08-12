@@ -73,8 +73,6 @@ jobs:
           name: Setup Environment
           command: |
             cp .env.testing .env
-            php artisan key:generate
-            php artisan passport:keys
             touch ./storage/logs/laravel.log
       - run:
           name: Migrate Database
