@@ -90,7 +90,7 @@ jobs:
           name: "Run Unit Tests"
           command: |
              ./vendor/bin/phpunit tests
-        ## ######
+        ## #######
   deploy:
     machine:
       enabled: true
