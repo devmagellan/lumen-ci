@@ -81,14 +81,17 @@ jobs:
 
       - run:
           name: "Generate App key"
-          command: php artisan key:generate
+          command: |
+            php artisan key:generate
       - run:
           name: Migrate Database
-          command: php artisan migrate --force
+          command: |
+            php artisan migrate --force
       # run tests with phpunit
       - run:
           name: "Run Unit Tests"
-          command: ./vendor/bin/phpunit tests
+          command: |
+             ./vendor/bin/phpunit tests
         ## ######
   deploy:
     machine:
