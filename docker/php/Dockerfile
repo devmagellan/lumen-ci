@@ -88,7 +88,7 @@ RUN apt install --no-install-recommends -y sudo \
     #
     && apt install --no-install-recommends -y zlib1g-dev libicu-dev g++ \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl \
+    && docker-php-ext-install intl
     #
     #
 #    && apt install --no-install-recommends -y libldap2-dev \
