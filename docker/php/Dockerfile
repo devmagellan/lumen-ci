@@ -137,7 +137,7 @@ RUN apt install --no-install-recommends -y sudo \
 #    && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
 
 #COPY ./docker/supervisor/local /etc/supervisor/conf.d
-
+#
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && ln -s $(composer config --global home) /root/composer
