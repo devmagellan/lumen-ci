@@ -76,13 +76,6 @@ jobs:
             php artisan key:generate
             php artisan passport:keys
             touch ./storage/logs/laravel.log
-
-
-
-      - run:
-          name: "Generate App key"
-          command: |
-            php artisan key:generate
       - run:
           name: Migrate Database
           command: |
