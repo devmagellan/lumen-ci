@@ -54,15 +54,15 @@ services:
     networks:
       - wgtcrm
 
-  wgtcrm-graphql-browser:
-    build: ./docker/graphql-browser
-    container_name: wgtcrm-graphql-browser
-    restart: always
-    command: npm run start
-    ports:
-      - '4300:3000'
-    networks:
-      - wgtcrm
+#  wgtcrm-graphql-browser:
+#    build: ./docker/graphql-browser
+#    container_name: wgtcrm-graphql-browser
+#    restart: always
+#    command: npm run start
+#    ports:
+#      - '4300:3000'
+#    networks:
+#      - wgtcrm
 
 networks:
   wgtcrm:
