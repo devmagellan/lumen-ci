@@ -145,6 +145,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
 COPY ./ /var/www/wgtcrm
 WORKDIR /var/www/wgtcrm
-
+RUN composer self-update
 RUN php -d memory_limit=-1 /usr/local/bin/composer install --no-interaction --ansi --no-suggest --prefer-source
+RUN composer dump-autoload --no-scripts
 USER docker
