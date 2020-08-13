@@ -136,11 +136,10 @@ RUN apt autoremove -y \
     && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
 
 COPY ./docker/supervisor/local /etc/supervisor/conf.d
-
+#
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && ln -s $(composer config --global home) /root/composer
-ENV COMPOSER_VERSION 1.7.2
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
 COPY ./ /var/www/wgtcrm
