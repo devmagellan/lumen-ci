@@ -147,4 +147,4 @@ COPY ./ /var/www/wgtcrm
 WORKDIR /var/www/wgtcrm
 
 RUN composer install
-USER docker
+#USER docker
