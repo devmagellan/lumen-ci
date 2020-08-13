@@ -143,8 +143,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ENV COMPOSER_VERSION 1.7.2
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
-
-WORKDIR /var/www/wgtcrm
 COPY ./ /var/www/wgtcrm
+WORKDIR /var/www/wgtcrm
+
 RUN composer install
 USER docker
