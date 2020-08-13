@@ -2,7 +2,7 @@ FROM php:7.3-fpm
 
 MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
 MAINTAINER Andrey Lopushansky <dev.magellan@gmail.com>
-#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN apt update -yqq \
     && apt full-upgrade -y \
@@ -139,20 +139,20 @@ COPY ./docker/supervisor/local /etc/supervisor/conf.d
 COPY ./ /var/www/wgtcrm/
 RUN chmod +x /var/www/wgtcrm/
 # Install Composer.
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && ln -s $(composer config --global home) /root/composer
-ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
-ENV COMPOSER_VERSION 1.10.10
-ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_MEMORY_LIMIT -1
-ENV COMPOSER_HOME /var/www/wgtcrm/
+#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+#    && ln -s $(composer config --global home) /root/composer
+#ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
+#ENV COMPOSER_VERSION 1.10.10
+#ENV COMPOSER_ALLOW_SUPERUSER 1
+#ENV COMPOSER_MEMORY_LIMIT -1
+#ENV COMPOSER_HOME /var/www/wgtcrm/
 WORKDIR /var/www/wgtcrm/
 
 # Install prestissimo (composer plugin). Plugin that downloads packages in parallel to speed up the installation process
 # After release of Composer 2.x, remove prestissimo, because parallelism already merged into Composer 2.x branch:
 # https://github.com/composer/composer/pull/7904
-RUN composer global require hirak/prestissimo
+#RUN composer global require hirak/prestissimo
 RUN set -xe \
- && php -d memory_limit=-1 /usr/local/bin/composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
+ && php -d memory_limit=-1 /usr/bin/composer update --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
 #USER docker
 CMD ["php-fpm", "--nodaemonize"]
