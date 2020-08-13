@@ -1,8 +1,23 @@
+FROM composer:1.10.10 as composer
+
+# Copy composer files from project root into composer container's working dir
+COPY . /app/
+# Run composer to build dependencies in vendor folder
+RUN set -xe \
+ && php -d memory_limit=-1 /usr/bin/composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
+
+# Copy everything from project root into composer container's working dir
+COPY . /app
+
+# Generated optimized autoload files containing all classes from vendor folder and project itself
+RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
+
+
 FROM php:7.2.5-fpm
 
 MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
 MAINTAINER Andrey Lopushansky <dev.magellan@gmail.com>
-#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN apt update -yqq \
     && apt full-upgrade -y \
@@ -136,15 +151,10 @@ RUN apt autoremove -y \
     && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
 
 COPY ./docker/supervisor/local /etc/supervisor/conf.d
-#
-# Install Composer.
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && ln -s $(composer config --global home) /root/composer
-ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_MEMORY_LIMIT -1
-COPY ./ /var/www/wgtcrm
-WORKDIR /var/www/wgtcrm
-RUN composer self-update
-RUN php -d memory_limit=-1 /usr/local/bin/composer install --no-interaction --ansi --no-suggest --prefer-source
-RUN composer dump-autoload --no-scripts
+COPY ./ /var/www/wgtcrm/
+# Copy vendor folder from composer container into php container
+COPY --from=composer /app/vendor /var/www/wgtcrm/vendor
+
 USER docker
+
+CMD ["php-fpm", "--nodaemonize"]
