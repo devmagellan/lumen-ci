@@ -2,22 +2,7 @@ version: 2.17
 jobs:
 
 
-  build:
-    machine:
-      enabled: true
-    steps:
-      - checkout
-      - run: sudo apt update
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      - run: sudo apt install gnupg2 pass
-      - run: docker login --username=devmagellan --password=Sunimedia@1l
-      - run: docker-compose build
-      - run: docker-compose push
+
   test:
     working_directory: ~/user/repo
 
@@ -91,6 +76,23 @@ jobs:
           command: |
              ./vendor/bin/phpunit tests
         ## ######
+
+  build:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run: sudo apt update
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run: sudo apt install gnupg2 pass
+      - run: docker login --username=devmagellan --password=Sunimedia@1l
+      - run: docker-compose build
+      - run: docker-compose push
   deploy:
     machine:
       enabled: true
@@ -100,21 +102,22 @@ jobs:
       - run: sudo apt-get install sshpass
       - run:
           name: Deploy over SSH
-          command: sshpass -p 'sunimedia' scp ./docker-destroy-all.sh imediasun@18.218.173.145:/var/www/wgtcrm;sshpass -p 'sunimedia' ssh -A -p 22 imediasun@18.218.173.145  "cd /var/www/wgtcrm; chmod +x docker-destroy-all.sh ;./docker-destroy-all.sh;git pull;docker-compose pull;docker-compose down;docker-compose up -d;docker-compose exec -T wgtcrm-php composer update;docker-compose exec -T wgtcrm-php php /var/www/wgtcrm/artisan migrate --force; ";
+          command: sshpass -p 'sunimedia' scp ./docker-destroy-all.sh imediasun@18.218.173.145:/var/www/wgtcrm;sshpass -p 'sunimedia' ssh -A -p 22 imediasun@18.218.173.145  "cd /var/www/wgtcrm; chmod +x docker-destroy-all.sh ;./docker-destroy-all.sh;git pull;docker-compose pull;docker-compose down;docker-compose up -d;docker-compose exec -T wgtcrm-php php /var/www/wgtcrm/artisan migrate --force; ";
 ####
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
+
       - test:
           requires:
-            - build
+            - test
+      - build
       - hold:
           type: approval
           requires:
-            - build
             - test
+            - build
       - deploy:
           requires:
             - hold
