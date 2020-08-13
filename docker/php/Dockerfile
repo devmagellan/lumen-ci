@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.2.5-fpm
 
 MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
 MAINTAINER Andrey Lopushansky <dev.magellan@gmail.com>
