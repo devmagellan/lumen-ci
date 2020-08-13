@@ -2,90 +2,94 @@ version: 2.17
 jobs:
 
 
-#  build:
-#    machine:
-#      enabled: true
-#    steps:
-#      - checkout
-#      - run: sudo apt update
-#      - run:
-#          name: Install Docker Compose
-#          command: |
-#            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-#            chmod +x ~/docker-compose
-#            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-#      - run: sudo apt install gnupg2 pass
-#      - run: docker login --username=devmagellan --password=Sunimedia@1l
-#      - run: docker-compose build
-#      - run: docker-compose push
-#  test:
-#    working_directory: ~/user/repo
-#
-#    environment:
-#      - DB_HOST: 127.0.0.1
-#    docker:
-#      - image: circleci/php:7.2-node-browsers
-#        environment:
-#            APP_ENV: testing
-#            DB_CONNECTION: mysql
-#            DB_DATABASE: wgtdev
-#            DB_USERNAME: wgtdev
-#            DB_PASSWORD: wgtdev
-#            SESSION_DRIVER: database
-#            CACHE_DRIVER: file
-#
-#      - image: circleci/mysql:5.7
-#        environment:
-#           - MYSQL_ALLOW_EMPTY_PASSWORD=true
-#           - MYSQL_ROOT_PASSWORD=wgtdev
-#           - MYSQL_USER=wgtdev
-#           - MYSQL_PASSWORD=wgtdev
-#           - MYSQL_DATABASE=wgtdev
-#
-#    steps:
-#      - run:
-#          name: Install System Dependencies
-#          command: |
-#            sudo apt-get update
-#            sudo apt-get install -y libmcrypt-dev libsqlite3-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev zlib1g-dev
-#      - run:
-#          name: Install PHP Extensions
-#          command: |
-#            sudo docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-#            sudo docker-php-ext-install -j$(nproc) iconv gd zip pdo_mysql pdo_sqlite
-#      - run:
-#          name: Update Composer
-#          command: sudo composer self-update
-#      - checkout
+  build:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run: sudo apt update
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run: sudo apt install gnupg2 pass
+      - run: docker login --username=devmagellan --password=Sunimedia@1l
+      - run: docker-compose build
+      - run: docker-compose push
+  test:
+    working_directory: ~/user/repo
+
+    environment:
+      #BASH_ENV: ~/.bashrc
+      - DB_HOST: 127.0.0.1
+    docker:
+      - image: circleci/php:7.2-node-browsers
+        environment:
+            APP_ENV: testing
+            DB_CONNECTION: mysql
+            DB_DATABASE: wgtdev
+            DB_USERNAME: wgtdev
+            DB_PASSWORD: wgtdev
+            SESSION_DRIVER: database
+            CACHE_DRIVER: file
+
+      - image: circleci/mysql:5.7
+        environment:
+           - MYSQL_ALLOW_EMPTY_PASSWORD=true
+           - MYSQL_ROOT_PASSWORD=wgtdev
+           - MYSQL_USER=wgtdev
+           - MYSQL_PASSWORD=wgtdev
+           - MYSQL_DATABASE=wgtdev
+
+    steps:
+      - run:
+          name: Install System Dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y libmcrypt-dev libsqlite3-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev zlib1g-dev
+      - run:
+          name: Install PHP Extensions
+          command: |
+            sudo docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+            sudo docker-php-ext-install -j$(nproc) iconv gd zip pdo_mysql pdo_sqlite
+      - run:
+          name: Update Composer
+          command: sudo composer self-update
+      - checkout
 
 
       # Download and cache dependencies
-#      - restore_cache:
-#          keys:
-#            - v1-dependencies-{{ checksum "composer.json" }}
-#            - v1-dependencies-
-#
-#      - run:
-#          name: "Install Dependencies"
-#          command: composer install -n --prefer-dist --ignore-platform-reqs
-#
-#      - save_cache:
-#          key: v1-dependencies-{{ checksum "composer.json" }}
-#          paths:
-#            - ./vendor
-#      - run:
-#          name: Setup Environment
-#          command: |
-#            cp .env.testing .env
-#            touch ./storage/logs/laravel.log
-#      - run:
-#          name: Migrate Database
-#          command: |
-#            php artisan migrate --force
-#      - run:
-#          name: "Run Unit Tests"
-#          command: |
-#             ./vendor/bin/phpunit tests
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: "Install Dependencies"
+          command: composer install -n --prefer-dist --ignore-platform-reqs
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - run:
+          name: Setup Environment
+          command: |
+            cp .env.testing .env
+            touch ./storage/logs/laravel.log
+      - run:
+          name: Migrate Database
+          command: |
+            php artisan migrate --force
+      # run tests with phpunit
+      - run:
+          name: "Run Unit Tests"
+          command: |
+             ./vendor/bin/phpunit tests
         ## ######
   deploy:
     machine:
@@ -100,18 +104,17 @@ jobs:
 ####
 workflows:
   version: 2
-  #build_and_test:
-   deploy:
+  build_and_test:
     jobs:
-      #- build
-      #- test:
-          #requires:
-            #- build
-      #- hold:
-          #type: approval
-          #requires:
-            #- build
-            #- test
+      - build
+      - test:
+          requires:
+            - build
+      - hold:
+          type: approval
+          requires:
+            - build
+            - test
       - deploy:
-          #requires:
-            #- hold
+          requires:
+            - hold
