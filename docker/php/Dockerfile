@@ -1,16 +1,15 @@
-FROM composer:1.10.10 as composer
-
-# Copy composer files from project root into composer container's working dir
-COPY . /app/
-# Run composer to build dependencies in vendor folder
-RUN set -xe \
- && php -d memory_limit=-1 /usr/bin/composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
-
-# Copy everything from project root into composer container's working dir
-COPY . /app
-
-# Generated optimized autoload files containing all classes from vendor folder and project itself
-RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
+#FROM composer:1.10.10 as composer
+##
+### Copy composer files from project root into composer container's working dir
+#COPY . /app/
+### Run composer to build dependencies in vendor folder
+#
+##
+### Copy everything from project root into composer container's working dir
+##COPY . /app
+##
+### Generated optimized autoload files containing all classes from vendor folder and project itself
+#
 
 
 FROM php:7.2.5-fpm
@@ -151,10 +150,13 @@ RUN apt autoremove -y \
     && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
 
 COPY ./docker/supervisor/local /etc/supervisor/conf.d
-COPY ./ /var/www/wgtcrm/
+COPY --chown=docker:docker ./ /var/www/wgtcrm/
 # Copy vendor folder from composer container into php container
-COPY --from=composer /app/vendor /var/www/wgtcrm/vendor
-
+COPY ./composer.json /var/www/wgtcrm/
+RUN chmod +x /var/www/wgtcrm/
+WORKDIR /var/www/wgtcrm/
+RUN set -xe \
+ && php -d memory_limit=-1 /usr/bin/composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
+RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 USER docker
-
 CMD ["php-fpm", "--nodaemonize"]
