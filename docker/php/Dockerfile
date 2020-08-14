@@ -152,7 +152,14 @@ WORKDIR /var/www/wgtcrm/
 # After release of Composer 2.x, remove prestissimo, because parallelism already merged into Composer 2.x branch:
 # https://github.com/composer/composer/pull/7904
 #RUN composer global require hirak/prestissimo
-RUN set -xe \
- && php -d memory_limit=-1 /usr/bin/composer update --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
+
+# RUN set -xe \
+#  && php -d memory_limit=-1 /usr/bin/composer update --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
 #USER docker
-CMD ["php-fpm", "--nodaemonize"]
+
+# CMD ["php-fpm", "--nodaemonize"]
+# Start php-fpm server
+ENTRYPOINT ["sh", "/usr/local/etc/php/entrypoint.sh"]
