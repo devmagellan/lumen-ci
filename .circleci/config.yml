@@ -100,7 +100,7 @@ jobs:
       - run:
           name: Deploy over SSH
           command: sshpass -p 'sunimedia' scp ./docker-destroy-all.sh imediasun@18.218.173.145:/var/www/wgtcrm;sshpass -p 'sunimedia' ssh -A -p 22 imediasun@18.218.173.145  "cd /var/www/wgtcrm; chmod +x docker-destroy-all.sh ;./docker-destroy-all.sh;git pull origin setup-master-ci;docker-compose pull;docker-compose down;docker-compose up -d;docker-compose exec -T wgtcrm-php php /var/www/wgtcrm/artisan migrate --force; ";
-####
+#####
 workflows:
   version: 2
   build_and_test:
