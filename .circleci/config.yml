@@ -80,7 +80,16 @@ jobs:
     steps:
       - checkout
       - run: sudo apt update
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.26.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run: sudo apt install gnupg2 pass
+      - run: docker login --username=devmagellan --password=Sunimedia@1l
       - run: docker-compose build
+      - run: docker-compose push
   deploy:
     machine:
       enabled: true
