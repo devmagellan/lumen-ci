@@ -159,7 +159,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # RUN set -xe \
 #  && php -d memory_limit=-1 /usr/bin/composer update --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
 #USER docker
-
+RUN php -d memory_limit=-1 /usr/local/bin/composer install -d /var/www/wgtcrm
 # CMD ["php-fpm", "--nodaemonize"]
 # Start php-fpm server
 ENTRYPOINT ["sh", "/usr/local/etc/php/entrypoint.sh"]
