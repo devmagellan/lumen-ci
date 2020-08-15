@@ -57,7 +57,7 @@
     "prefer-stable": true,
     "scripts": {
         "post-install-cmd": [
-            "chmod -R ug+rwx storage bootstrap/cache"
+            "chmod -R ug+rwx storage bootstrap"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
