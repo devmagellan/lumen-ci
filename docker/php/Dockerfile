@@ -160,7 +160,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #  && php -d memory_limit=-1 /usr/bin/composer update --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
 USER docker
 RUN php -d memory_limit=-1 /usr/local/bin/composer install -d /var/www/wgtcrm
-COPY ./ /var/www/wgtcrm/
+COPY ./composer.json /var/www/wgtcrm/composer.json
 RUN chmod -R ug+rwx storage bootstrap/cache
 RUN sudo chown -R docker:docker storage bootstrap/cache
 CMD ["php-fpm", "--nodaemonize"]
