@@ -57,7 +57,7 @@
     "prefer-stable": true,
     "scripts": {
         "post-install-cmd": [
-            "chgrp -R www-data storage bootstrap/cache",
+            "chown -R www-data storage bootstrap/cache",
             "chmod -R ug+rwx storage bootstrap/cache"
         ],
         "post-root-package-install": [
